@@ -30,7 +30,8 @@ server <- function(input, output, session) {
       inputId = "textInput",
       data = data_df,
       individual_id_options = c("a", "b", "c"),
-      population_id_options = c("x", "y", "z")
+      population_id_options = c("x", "y", "z"),
+      sheet_name = "Global"
     )
   })
 

@@ -10,7 +10,8 @@ scenario_table_Input <- function(
     inputId,
     data_,
     individual_id_options,
-    population_id_options
+    population_id_options,
+    sheet_name
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -25,7 +26,8 @@ scenario_table_Input <- function(
     default = data_,
     list(
       individual_id_dropdown = individual_id_options,
-      population_id_dropdown = population_id_options
+      population_id_dropdown = population_id_options,
+      sheet                  = sheet_name
     ),
     htmltools::tags$div
   )
