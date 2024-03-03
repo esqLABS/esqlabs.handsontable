@@ -37,7 +37,7 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
         onClose={onCloseModal}
       >
         <DialogTitle>Enter Simulation Time</DialogTitle>
-        <DialogContent style={{height: '10vh'}}>
+        <DialogContent style={{height: '25vh'}}>
 
         <div>
             <HotTable
