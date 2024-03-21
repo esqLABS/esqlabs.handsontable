@@ -74,6 +74,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           data_scenarios={JSON.parse(value)}
           individual_ids_options={configuration.individual_id_dropdown}
           population_ids_options={configuration.population_id_dropdown}
+          shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
       break;

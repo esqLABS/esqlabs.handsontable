@@ -27,7 +27,8 @@ scenario_table_Input <- function(
     list(
       individual_id_dropdown = individual_id_options,
       population_id_dropdown = population_id_options,
-      sheet                  = sheet_name
+      sheet                  = sheet_name,
+      shiny_el_id_name       = inputId
     ),
     htmltools::tags$div
   )

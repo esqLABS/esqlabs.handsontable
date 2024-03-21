@@ -15,10 +15,10 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
 
-  observeEvent(input$scenario_table_edit, {
+  observeEvent(input$table_info_edited, {
     # browser()
     print(
-      jsonlite::fromJSON(input$scenario_table_edit)
+      jsonlite::fromJSON(input$table_info_edited)
     )
   })
 
@@ -27,11 +27,11 @@ server <- function(input, output, session) {
 
     data_df <- jsonlite::toJSON(x = read.csv(input$file1$datapath), pretty = TRUE, na = 'null')
     scenario_table_Input(
-      inputId = "textInput",
+      inputId = "table_info",
       data = data_df,
       individual_id_options = c("a", "b", "c"),
       population_id_options = c("x", "y", "z"),
-      sheet_name = "Global"
+      sheet_name = "Scenarios"
     )
   })
 

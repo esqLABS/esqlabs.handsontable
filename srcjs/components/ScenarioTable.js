@@ -37,7 +37,7 @@ const ScenarioTable = (props) => {
     if (oldCellValue === data) return;
     console.log(prepareShinyData(dataR));
     // Send data to Shiny with the edited data
-    Shiny.setInputValue('scenario_table_edit', JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+    Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
   };
 
   const hotTableComponentRef = useRef(null);
@@ -54,7 +54,7 @@ const ScenarioTable = (props) => {
         setTimeout(() => {
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue('scenario_table_edit', JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
         }, 500)
     }
   };
@@ -89,12 +89,12 @@ const ScenarioTable = (props) => {
         afterRemoveRow={(index, amount, physicalRows) => {
             //console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue('scenario_table_edit', JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
         }}
         afterCreateRow={(index, amount) => {
             //console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue('scenario_table_edit', JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
         }}
         contextMenu={{
           callback(key, selection, clickEvent) {},
