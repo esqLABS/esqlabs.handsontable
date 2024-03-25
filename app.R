@@ -31,7 +31,7 @@ server <- function(input, output, session) {
       data = data_df,
       individual_id_options = c("a", "b", "c"),
       population_id_options = c("x", "y", "z"),
-      sheet_name = "Scenarios"
+      sheet_name = "Global"
     )
   })
 

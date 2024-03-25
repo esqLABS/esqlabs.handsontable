@@ -9,6 +9,22 @@ function HandsOnTableTemp(props) {
   const [dataR, updateDataR] = useState(props.data_scenarios);
   const col_names = Object.keys(dataR[0]);
 
+    const onBeforeHotChange = (changes) => {
+    if (changes === undefined) return;
+    if (changes === null) return;
+    if (!changes.length) return;
+    if (dataR[changes[0][0]][changes[0][1]] === changes[0][3]) {
+        // console.log("no change");
+        return;
+    } else {
+        setTimeout(() => {
+            // console.log(prepareShinyData(dataR));
+            // Send data to Shiny with the edited data
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+        }, 500)
+    }
+  };
+
   return (
     <HotTable
       data={dataR}
@@ -18,6 +34,15 @@ function HandsOnTableTemp(props) {
       autoWrapCol={true}
       licenseKey="non-commercial-and-evaluation"
       contextMenu={true}
+      beforeChange={onBeforeHotChange}
+      afterRemoveRow={(index, amount, physicalRows) => {
+        // Send data to Shiny with the edited data
+        Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+      }}
+      afterCreateRow={(index, amount) => {
+        // Send data to Shiny with the edited data
+        Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+      }}
     />
   );
 }

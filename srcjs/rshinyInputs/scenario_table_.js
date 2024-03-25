@@ -80,7 +80,10 @@ const TableInput = ({ configuration, value, setValue }) => {
       break;
     default:
       componentToRender = (
-        <HandsOnTableTemp data_scenarios={JSON.parse(value)} />
+        <HandsOnTableTemp
+          data_scenarios={JSON.parse(value)}
+          shiny_el_id_name={configuration.shiny_el_id_name}
+        />
       );
   }
 
