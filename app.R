@@ -46,8 +46,8 @@ server <- function(input, output, session) {
     scenario_table_Input(
       inputId = "table_info",
       data = data_df,
-      individual_id_options = individuals(),
-      population_id_options = pops(),
+      individual_id_options = c(),
+      population_id_options = 'TestInd',
       sheet_name = "Scenarios"
     )
   })

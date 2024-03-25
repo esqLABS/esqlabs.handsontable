@@ -41,8 +41,6 @@ export function prepareShinyData(data) {
         const cleanedEntry = {};
         for (const key in entry) {
             if (Object.prototype.hasOwnProperty.call(entry, key)) {
-                console.log(entry[key] === null)
-                console.log(entry[key])
                 if (key === "IndividualId") {
                     if ((Array.isArray(entry[key]) && entry[key].length === 0)) {
                         cleanedEntry[key] = null;
