@@ -10,6 +10,20 @@ ui <- fluidPage(
                      "text/comma-separated-values,text/plain",
                      ".csv")
   ),
+  selectInput(
+    inputId = 'options',
+    multiple = TRUE,
+    label = 'Options',
+    choices = c('a', 'b', 'c'),
+    # selected = c('a', 'b')
+  ),
+  selectInput(
+    inputId = 'options2',
+    multiple = TRUE,
+    label = 'Options 2',
+    choices = c('x', 'y', 'z'),
+    # selected = c('x', 'y')
+  ),
   uiOutput("scenario_table")
 )
 
@@ -22,6 +36,9 @@ server <- function(input, output, session) {
     )
   })
 
+  individuals <- reactive({input$options})
+  pops <- reactive({input$options2})
+
   output$scenario_table <- renderUI({
     req(input$file1)
 
@@ -29,9 +46,9 @@ server <- function(input, output, session) {
     scenario_table_Input(
       inputId = "table_info",
       data = data_df,
-      individual_id_options = c("a", "b", "c"),
-      population_id_options = c("x", "y", "z"),
-      sheet_name = "Global"
+      individual_id_options = individuals(),
+      population_id_options = pops(),
+      sheet_name = "Scenarios"
     )
   })
 

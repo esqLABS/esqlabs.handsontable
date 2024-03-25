@@ -2,6 +2,8 @@ import { reactShinyInput } from "reactR";
 import { useState } from "react";
 import ScenarioTable from "../components/ScenarioTable.js";
 import HandsOnTableTemp from "../components/HandsOnTableTemp.js";
+// Utils
+import { validateVectorInputR } from '../utils/utils.js';
 
 // const TextInput = ({ configuration, value, setValue }) => {
 //   return <input type='text' value={value} onChange={e => setValue(e.target.value)}/>;
@@ -72,8 +74,12 @@ const TableInput = ({ configuration, value, setValue }) => {
       componentToRender = (
         <ScenarioTable
           data_scenarios={JSON.parse(value)}
-          individual_ids_options={configuration.individual_id_dropdown}
-          population_ids_options={configuration.population_id_dropdown}
+          individual_ids_options={
+            validateVectorInputR(configuration.individual_id_dropdown)
+          }
+          population_ids_options={
+            validateVectorInputR(configuration.population_id_dropdown)
+          }
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );

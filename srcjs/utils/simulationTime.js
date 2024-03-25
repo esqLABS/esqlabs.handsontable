@@ -36,18 +36,20 @@ export function processShinyData(data) {
 export function prepareShinyData(data) {
     if (data === undefined) return;
     if (data === null) return;
-    
+
     return data.map(entry => {
         const cleanedEntry = {};
         for (const key in entry) {
             if (Object.prototype.hasOwnProperty.call(entry, key)) {
+                console.log(entry[key] === null)
+                console.log(entry[key])
                 if (key === "IndividualId") {
-                    if (Array.isArray(entry[key]) && entry[key].length === 0) {
+                    if ((Array.isArray(entry[key]) && entry[key].length === 0)) {
                         cleanedEntry[key] = null;
                     } else if (entry[key] === null) {
                         cleanedEntry[key] = null;
                     } else {
-                        cleanedEntry[key] = entry[key].join(", ");
+                        cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");;
                     }
                 } else {
                     cleanedEntry[key] = entry[key] === "" ? null : entry[key];
