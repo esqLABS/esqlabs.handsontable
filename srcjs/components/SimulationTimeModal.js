@@ -63,7 +63,7 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                             }
                         }
                     }
-                }} 
+                }}
                 licenseKey="non-commercial-and-evaluation"
             />
         </div>

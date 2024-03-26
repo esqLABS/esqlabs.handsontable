@@ -33,7 +33,17 @@ function HandsOnTableTemp(props) {
       autoWrapRow={true}
       autoWrapCol={true}
       licenseKey="non-commercial-and-evaluation"
-      contextMenu={true}
+      contextMenu={{
+        items: {
+          'row_below': {},
+          'remove_row': {
+            disabled() {
+            // Disable option when first row was clicked
+            return this.getSelectedLast()[0] === 0; // `this` === hot
+            }
+          }
+        }
+      }}
       beforeChange={onBeforeHotChange}
       afterRemoveRow={(index, amount, physicalRows) => {
         // Send data to Shiny with the edited data

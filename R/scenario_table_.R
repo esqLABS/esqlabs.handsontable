@@ -13,6 +13,9 @@ scenario_table_Input <- function(
     population_id_options,
     outputpath_id_options,
     steatystatetime_unit_options,
+    species_options,
+    population_options,
+    gender_options,
     sheet_name
   ) {
   reactR::createReactShinyInput(
@@ -27,12 +30,15 @@ scenario_table_Input <- function(
     ),
     default = data_,
     list(
-      individual_id_dropdown = individual_id_options,
-      population_id_dropdown = population_id_options,
-      outputpath_id_dropdown = outputpath_id_options,
+      individual_id_dropdown        = individual_id_options,
+      population_id_dropdown        = population_id_options,
+      outputpath_id_dropdown        = outputpath_id_options,
       steatystatetime_unit_dropdown = steatystatetime_unit_options,
-      sheet                  = sheet_name,
-      shiny_el_id_name       = inputId
+      species_option_dropdown       = species_options,
+      population_option_dropdown    = population_options,
+      gender_option_dropdown.       = gender_options,
+      sheet                         = sheet_name,
+      shiny_el_id_name              = inputId
 
     ),
     htmltools::tags$div

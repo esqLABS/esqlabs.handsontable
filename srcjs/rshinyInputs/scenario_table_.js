@@ -2,6 +2,8 @@ import { reactShinyInput } from "reactR";
 import { useState } from "react";
 import ScenarioTable from "../components/ScenarioTable.js";
 import HandsOnTableTemp from "../components/HandsOnTableTemp.js";
+import OutputPathsTable from "../components/OutputPathsTable.js";
+import IndividualBiometricsTable from "../components/IndividualBiometricsTable.js";
 // Utils
 import { validateVectorInputR } from '../utils/utils.js';
 
@@ -87,6 +89,29 @@ const TableInput = ({ configuration, value, setValue }) => {
             validateVectorInputR(configuration.steatystatetime_unit_dropdown)
           }
           shiny_el_id_name={configuration.shiny_el_id_name}
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "OutputPaths".toLowerCase():
+      componentToRender = (
+        <OutputPathsTable
+          data_scenarios={JSON.parse(value)}
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "IndividualBiometrics".toLowerCase():
+      componentToRender = (
+        <IndividualBiometricsTable
+          data_scenarios={JSON.parse(value)}
+          species_options={
+            validateVectorInputR(configuration.species_option_dropdown)
+          }
+          population_options={
+            validateVectorInputR(configuration.population_option_dropdown)
+          }
+          gender_options={
+            validateVectorInputR(configuration.gender_option_dropdown)
+          }
         />
       );
       break;

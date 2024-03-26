@@ -11,6 +11,9 @@ scenario_table_Input(
   population_id_options,
   outputpath_id_options,
   steatystatetime_unit_options,
+  species_options,
+  population_options,
+  gender_options,
   sheet_name
 )
 }
