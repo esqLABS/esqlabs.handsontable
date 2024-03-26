@@ -36,7 +36,7 @@ scenario_table_Input <- function(
       steatystatetime_unit_dropdown = steatystatetime_unit_options,
       species_option_dropdown       = species_options,
       population_option_dropdown    = population_options,
-      gender_option_dropdown.       = gender_options,
+      gender_option_dropdown        = gender_options,
       sheet                         = sheet_name,
       shiny_el_id_name              = inputId
 

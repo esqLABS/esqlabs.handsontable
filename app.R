@@ -52,7 +52,7 @@ server <- function(input, output, session) {
       steatystatetime_unit_options = 'Test',
       species_options = 'Test',
       population_options = 'Test',
-      gender_options = 'Test',
+      gender_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       sheet_name = "IndividualBiometrics"
     )
   })
