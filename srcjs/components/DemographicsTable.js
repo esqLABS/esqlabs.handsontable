@@ -61,16 +61,15 @@ function DemographicsTable(props) {
       <HotColumn settings={{ data: col_names[4], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[5], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[6], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[7], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[8], type: "dropdown", source: props.weight_unit_options }} />
+      <HotColumn settings={{ data: col_names[7], type: "dropdown", source: props.weight_unit_options }} />
+      <HotColumn settings={{ data: col_names[8], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[9], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[10], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[11], type: "dropdown", source: props.height_unit_options }} />
+      <HotColumn settings={{ data: col_names[10], type: "dropdown", source: props.height_unit_options }} />
+      <HotColumn settings={{ data: col_names[11], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[12], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[13], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[14], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[15], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[11], type: "dropdown", source: props.bmi_unit_options }} />
+      <HotColumn settings={{ data: col_names[15], type: "dropdown", source: props.bmi_unit_options }} />
     </HotTable>
   );
 }
