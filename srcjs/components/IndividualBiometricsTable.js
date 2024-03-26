@@ -54,16 +54,13 @@ function IndividualBiometricsTable(props) {
         Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
       }}
     >
-      <HotColumn settings={{ data: "IndividualId", type: "text" }} />
-      <HotColumn settings={{ data: "Species", type: "dropdown", source: props.species_options }} />
-      <HotColumn settings={{ data: "Population", type: "dropdown", source: props.population_options }} />
-      <HotColumn settings={{ data: "Gender", type: "dropdown", source: props.gender_options }} />
-      <HotColumn settings={{ data: "Weight", type: "numeric" }} />
-      <HotColumn settings={{ data: "Height", type: "numeric" }} />
-      <HotColumn settings={{ data: "Age", type: "numeric" }} />
-      <HotColumn settings={{ data: "Protein", type: "text" }} />
-      <HotColumn settings={{ data: "Ontogeny", type: "text" }} />
-      <HotColumn settings={{ data: "IndividualParameterSheets", type: "text" }} />
+      <HotColumn settings={{ data: col_names[0], type: "text" }} />
+      <HotColumn settings={{ data: col_names[1], type: "dropdown", source: props.species_options }} />
+      <HotColumn settings={{ data: col_names[2], type: "dropdown", source: props.population_options }} />
+      <HotColumn settings={{ data: col_names[3], type: "dropdown", source: props.gender_options }} />
+      <HotColumn settings={{ data: col_names[4], type: "numeric" }} />
+      <HotColumn settings={{ data: col_names[5], type: "numeric" }} />
+      <HotColumn settings={{ data: col_names[6], type: "numeric" }} />
     </HotTable>
   );
 }

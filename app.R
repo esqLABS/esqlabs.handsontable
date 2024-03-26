@@ -49,8 +49,11 @@ server <- function(input, output, session) {
       individual_id_options = c(),
       population_id_options = 'TestInd',
       outputpath_id_options = 'TestInd',
-      c("h", "m", "s"),
-      sheet_name = "Scenarios"
+      steatystatetime_unit_options = 'Test',
+      species_options = 'Test',
+      population_options = 'Test',
+      gender_options = 'Test',
+      sheet_name = "IndividualBiometrics"
     )
   })
 
