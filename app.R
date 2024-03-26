@@ -53,10 +53,13 @@ server <- function(input, output, session) {
       species_options = 'Test',
       population_options = 'Test',
       gender_options = c('MALE', 'FEMALE', 'UNKNOWN'),
+      weight_unit_options = 'Test',
+      height_unit_options = 'Test',
+      bmi_unit_options = 'Test',
       datatype_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       scenario_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       path_options = c('MALE', 'FEMALE', 'UNKNOWN'),
-      sheet_name = "IndividualBiometrics"
+      sheet_name = "DataCombined"
     )
   })
 

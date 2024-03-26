@@ -8,6 +8,7 @@ function DataCombinedTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   const col_names = Object.keys(dataR[0]);
+  console.log(col_names);
 
   const onBeforeHotChange = (changes) => {
     if (changes === undefined) return;

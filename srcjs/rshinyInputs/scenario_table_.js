@@ -141,7 +141,7 @@ const TableInput = ({ configuration, value, setValue }) => {
       break;
     case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
       componentToRender = (
-        <DemographicsTable
+        <DataCombinedTable
           data_scenarios={JSON.parse(value)}
           datatype_options={
             validateVectorInputR(configuration.datatype_option_dropdown)
