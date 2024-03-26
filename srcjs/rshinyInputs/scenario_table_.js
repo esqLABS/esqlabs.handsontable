@@ -5,6 +5,7 @@ import HandsOnTableTemp from "../components/HandsOnTableTemp.js";
 import OutputPathsTable from "../components/OutputPathsTable.js";
 import IndividualBiometricsTable from "../components/IndividualBiometricsTable.js";
 import DemographicsTable from "../components/DemographicsTable.js";
+import DataCombinedTable from "../components/DataCombinedTable.js";
 // Utils
 import { validateVectorInputR } from '../utils/utils.js';
 
@@ -134,6 +135,22 @@ const TableInput = ({ configuration, value, setValue }) => {
           }
           bmi_unit_options={
             validateVectorInputR(configuration.bmi_unit_dropdown)
+          }
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
+      componentToRender = (
+        <DemographicsTable
+          data_scenarios={JSON.parse(value)}
+          datatype_options={
+            validateVectorInputR(configuration.datatype_option_dropdown)
+          }
+          scenario_options={
+            validateVectorInputR(configuration.scenario_option_dropdown)
+          }
+          path_options={
+            validateVectorInputR(configuration.path_option_dropdown)
           }
         />
       );

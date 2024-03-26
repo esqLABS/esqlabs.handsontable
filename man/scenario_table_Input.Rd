@@ -17,6 +17,9 @@ scenario_table_Input(
   weight_unit_options,
   height_unit_options,
   bmi_unit_options,
+  datatype_options,
+  scenario_options,
+  path_options,
   sheet_name
 )
 }

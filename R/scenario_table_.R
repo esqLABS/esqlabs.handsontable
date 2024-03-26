@@ -19,6 +19,9 @@ scenario_table_Input <- function(
     weight_unit_options,
     height_unit_options,
     bmi_unit_options,
+    datatype_options,
+    scenario_options,
+    path_options,
     sheet_name
   ) {
   reactR::createReactShinyInput(
@@ -43,6 +46,9 @@ scenario_table_Input <- function(
       weight_unit_dropdown          = weight_unit_options,
       height_unit_dropdown          = height_unit_options,
       bmi_unit_dropdown             = bmi_unit_options,
+      datatype_option_dropdown      = datatype_options,
+      scenario_option_dropdown      = scenario_options,
+      path_option_dropdown          = path_options,
       sheet                         = sheet_name,
       shiny_el_id_name              = inputId
     ),
