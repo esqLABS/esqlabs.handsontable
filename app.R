@@ -48,6 +48,8 @@ server <- function(input, output, session) {
       data = data_df,
       individual_id_options = c(),
       population_id_options = 'TestInd',
+      outputpath_id_options = 'TestInd',
+      steatystatetime_unit_options = c("h", "m", "s"),
       sheet_name = "Scenarios"
     )
   })

@@ -19,8 +19,8 @@ export function processShinyData(data) {
     if (data === null) return;
 
     return data.map(item => {
-      if (typeof item.IndividualId === "string") {
-        item.IndividualId = item.IndividualId.trim() !== "" ? item.IndividualId.split(", ") : null;
+      if (typeof item.OutputPathsIds === "string") {
+        item.OutputPathsIds = item.OutputPathsIds.trim() !== "" ? item.OutputPathsIds.split(", ") : null;
       }
       // Convert "TRUE" and "FALSE" strings to boolean values
       if (item.SteadyState === "TRUE") {
@@ -41,7 +41,7 @@ export function prepareShinyData(data) {
         const cleanedEntry = {};
         for (const key in entry) {
             if (Object.prototype.hasOwnProperty.call(entry, key)) {
-                if (key === "IndividualId") {
+                if (key === "OutputPathsIds") {
                     if ((Array.isArray(entry[key]) && entry[key].length === 0)) {
                         cleanedEntry[key] = null;
                     } else if (entry[key] === null) {

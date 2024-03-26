@@ -80,6 +80,12 @@ const TableInput = ({ configuration, value, setValue }) => {
           population_ids_options={
             validateVectorInputR(configuration.population_id_dropdown)
           }
+          outputpath_ids_options={
+            validateVectorInputR(configuration.outputpath_id_dropdown)
+          }
+          steatystatetime_unit_options={
+            validateVectorInputR(configuration.steatystatetime_unit_dropdown)
+          }
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );

@@ -9,6 +9,8 @@ scenario_table_Input(
   data_,
   individual_id_options,
   population_id_options,
+  outputpath_id_options,
+  steatystatetime_unit_options,
   sheet_name
 )
 }

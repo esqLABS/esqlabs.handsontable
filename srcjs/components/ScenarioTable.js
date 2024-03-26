@@ -65,21 +65,6 @@ const ScenarioTable = (props) => {
         data={dataR}
         colHeaders={col_names}
         ref={hotTableComponentRef}
-        //   columns={[
-        //     { data: "Scenario_name", type: 'text' },
-        //     { data: "IndividualId" },
-        //     { data: "PopulationId", type: 'dropdown', source: ['pop1', 'pop2', 'pop3'] },
-        //     { data: "ReadPopulationFromCSV", type: 'text' },
-        //     { data: "ModelParameterSheets", type: 'text' },
-        //     { data: "ApplicationProtocol", type: 'text' },
-        //     { data: "SimulationTime", type: 'text' },
-        //     { data: "SimulationTimeUnit", type: 'dropdown', source: ['h', 'm', 's'] },
-        //     { data: "SteadyState", type: 'checkbox' },
-        //     { data: "SteadyStateTime", type: 'text' },
-        //     { data: "SteadyStateTimeUnit", type: 'text' },
-        //     { data: "ModelFile", type: 'text' },
-        //     { data: "OutputPathsIds", type: 'text' }
-        //   ]}
         fixedColumnsStart={1}
         rowHeaders={true}
         autoWrapRow={true}
@@ -145,17 +130,13 @@ const ScenarioTable = (props) => {
           }}
         />
         <HotColumn
-          // width={75}
           settings={{
-            data: "IndividualId"
+            data: "IndividualId",
+            type: "dropdown",
+            source: props.individual_ids_options,
+            //source: ["pop1", "pop2", "pop3"],
           }}
-        >
-          <DropDownEditor
-            hot-editor
-            titleName="Select value"
-            dropdownOptions={props.individual_ids_options}
-          />
-        </HotColumn>
+        />
         <HotColumn
           settings={{
             data: "PopulationId",
@@ -164,7 +145,7 @@ const ScenarioTable = (props) => {
             //source: ["pop1", "pop2", "pop3"],
           }}
         />
-        <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "text" }} />
+        <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "checkbox" }} />
         <HotColumn settings={{ data: "ModelParameterSheets", type: "text" }} />
         <HotColumn settings={{ data: "ApplicationProtocol", type: "text" }} />
         <HotColumn settings={{ data: "SimulationTime", type: "text" }} />
@@ -176,10 +157,26 @@ const ScenarioTable = (props) => {
           }}
         />
         <HotColumn settings={{ data: "SteadyState", type: "checkbox" }} />
-        <HotColumn settings={{ data: "SteadyStateTime", type: "text" }} />
-        <HotColumn settings={{ data: "SteadyStateTimeUnit", type: "text" }} />
+        <HotColumn settings={{ data: "SteadyStateTime", type: "numeric" }} />
+        <HotColumn
+          settings={{
+            data: "SteadyStateTimeUnit",
+            type: "dropdown",
+            source: props.steatystatetime_unit_options
+          }} />
         <HotColumn settings={{ data: "ModelFile", type: "text" }} />
-        <HotColumn settings={{ data: "OutputPathsIds", type: "text" }} />
+        <HotColumn
+          // width={75}
+          settings={{
+            data: "OutputPathsIds"
+          }}
+        >
+          <DropDownEditor
+            hot-editor
+            titleName="Select path"
+            dropdownOptions={props.outputpath_ids_options}
+          />
+        </HotColumn>
       </HotTable>
       <SimulationTimeModal
         showModal={simulationTimeModalVisible}
