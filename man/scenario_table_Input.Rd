@@ -14,6 +14,9 @@ scenario_table_Input(
   species_options,
   population_options,
   gender_options,
+  weight_unit_options,
+  height_unit_options,
+  bmi_unit_options,
   sheet_name
 )
 }

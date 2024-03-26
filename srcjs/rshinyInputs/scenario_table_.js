@@ -4,6 +4,7 @@ import ScenarioTable from "../components/ScenarioTable.js";
 import HandsOnTableTemp from "../components/HandsOnTableTemp.js";
 import OutputPathsTable from "../components/OutputPathsTable.js";
 import IndividualBiometricsTable from "../components/IndividualBiometricsTable.js";
+import DemographicsTable from "../components/DemographicsTable.js";
 // Utils
 import { validateVectorInputR } from '../utils/utils.js';
 
@@ -111,6 +112,28 @@ const TableInput = ({ configuration, value, setValue }) => {
           }
           gender_options={
             validateVectorInputR(configuration.gender_option_dropdown)
+          }
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "Demographics".toLowerCase():
+      componentToRender = (
+        <DemographicsTable
+          data_scenarios={JSON.parse(value)}
+          species_options={
+            validateVectorInputR(configuration.species_option_dropdown)
+          }
+          population_options={
+            validateVectorInputR(configuration.population_option_dropdown)
+          }
+          weight_unit_options={
+            validateVectorInputR(configuration.weight_unit_dropdown)
+          }
+          height_unit_options={
+            validateVectorInputR(configuration.height_unit_dropdown)
+          }
+          bmi_unit_options={
+            validateVectorInputR(configuration.bmi_unit_dropdown)
           }
         />
       );

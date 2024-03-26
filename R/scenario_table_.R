@@ -16,6 +16,9 @@ scenario_table_Input <- function(
     species_options,
     population_options,
     gender_options,
+    weight_unit_options,
+    height_unit_options,
+    bmi_unit_options,
     sheet_name
   ) {
   reactR::createReactShinyInput(
@@ -37,6 +40,9 @@ scenario_table_Input <- function(
       species_option_dropdown       = species_options,
       population_option_dropdown    = population_options,
       gender_option_dropdown        = gender_options,
+      weight_unit_dropdown          = weight_unit_options,
+      height_unit_dropdown          = height_unit_options,
+      bmi_unit_dropdown             = bmi_unit_options,
       sheet                         = sheet_name,
       shiny_el_id_name              = inputId
     ),
