@@ -39,7 +39,6 @@ scenario_table_Input <- function(
       gender_option_dropdown        = gender_options,
       sheet                         = sheet_name,
       shiny_el_id_name              = inputId
-
     ),
     htmltools::tags$div
   )
