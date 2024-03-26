@@ -6,6 +6,7 @@ import OutputPathsTable from "../components/OutputPathsTable.js";
 import IndividualBiometricsTable from "../components/IndividualBiometricsTable.js";
 import DemographicsTable from "../components/DemographicsTable.js";
 import DataCombinedTable from "../components/DataCombinedTable.js";
+import PlotConfigurationTable from "../components/PlotConfigurationTable.js";
 // Utils
 import { validateVectorInputR } from '../utils/utils.js';
 
@@ -154,6 +155,26 @@ const TableInput = ({ configuration, value, setValue }) => {
           }
           path_options={
             validateVectorInputR(configuration.path_option_dropdown)
+          }
+          shiny_el_id_name={configuration.shiny_el_id_name}
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "plotConfiguration".toLowerCase():
+      componentToRender = (
+        <PlotConfigurationTable
+          data_scenarios={JSON.parse(value)}
+          datacombinedname_options={
+            validateVectorInputR(configuration.datacombinedname_option_dropdown)
+          }
+          plottype_options={
+            validateVectorInputR(configuration.plottype_option_dropdown)
+          }
+          axisscale_options={
+            validateVectorInputR(configuration.axisscale_option_dropdown)
+          }
+          aggregation_options={
+            validateVectorInputR(configuration.aggregation_option_dropdown)
           }
           shiny_el_id_name={configuration.shiny_el_id_name}
         />

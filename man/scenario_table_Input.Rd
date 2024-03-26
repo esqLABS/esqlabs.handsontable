@@ -20,6 +20,10 @@ scenario_table_Input(
   datatype_options,
   scenario_options,
   path_options,
+  datacombinedname_options,
+  plottype_options,
+  axisscale_options,
+  aggregation_options,
   sheet_name
 )
 }

@@ -22,6 +22,10 @@ scenario_table_Input <- function(
     datatype_options,
     scenario_options,
     path_options,
+    datacombinedname_options,
+    plottype_options,
+    axisscale_options,
+    aggregation_options,
     sheet_name
   ) {
   reactR::createReactShinyInput(
@@ -49,6 +53,10 @@ scenario_table_Input <- function(
       datatype_option_dropdown      = datatype_options,
       scenario_option_dropdown      = scenario_options,
       path_option_dropdown          = path_options,
+      datacombinedname_option_dropdown = datacombinedname_options,
+      plottype_option_dropdown = plottype_options,
+      axisscale_option_dropdown = axisscale_options,
+      aggregation_option_dropdown = aggregation_options,
       sheet                         = sheet_name,
       shiny_el_id_name              = inputId
     ),
