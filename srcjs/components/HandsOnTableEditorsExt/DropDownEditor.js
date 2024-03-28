@@ -68,7 +68,8 @@ class DropDownEditor extends BaseEditorComponent {
     const tdPosition = td.getBoundingClientRect();
 
     this.editorRef.current.style.left =
-      tdPosition.left + window.pageXOffset + "px";
+    //  tdPosition.left + window.pageXOffset + "px";
+      tdPosition.left + "px";
     this.editorRef.current.style.top =
       tdPosition.top + window.pageYOffset + "px";
   }
@@ -144,7 +145,7 @@ class DropDownEditor extends BaseEditorComponent {
               Apply
             </Button>
           </Stack>
-          {/* 
+          {/*
           <button
             style={{ width: "100%", height: "33px", marginTop: "10px" }}
             onClick={this.applyColor.bind(this)}
