@@ -192,7 +192,7 @@ const TableInput = ({ configuration, value, setValue }) => {
   return (
     <div>
       <div>
-        <div>
+        <div className="esqlabs-handsontable-container">
           {componentToRender}
         </div>
       </div>
