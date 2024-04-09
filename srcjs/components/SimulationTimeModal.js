@@ -55,6 +55,9 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                 ]}
                 contextMenu={{
                     items: {
+                        'cut': {
+                          name: 'Clear'
+                        },
                         'row_below': {},
                         'remove_row': {
                             disabled() {

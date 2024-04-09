@@ -63,7 +63,7 @@ server <- function(input, output, session) {
       plottype_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       axisscale_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       aggregation_options = c('MALE', 'FEMALE', 'UNKNOWN'),
-      sheet_name = "Scenarios"
+      sheet_name = "plotConfiguration"
     )
   })
 

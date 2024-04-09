@@ -68,7 +68,7 @@ class DropDownEditor extends BaseEditorComponent {
     const tdPosition = td.getBoundingClientRect();
 
     this.editorRef.current.style.left =
-    //  tdPosition.left + window.pageXOffset + "px";
+      tdPosition.left + window.pageXOffset + "px";
       tdPosition.left + "px";
     this.editorRef.current.style.top =
       tdPosition.top + window.pageYOffset + "px";

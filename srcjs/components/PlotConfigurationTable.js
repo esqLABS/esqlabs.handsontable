@@ -39,6 +39,9 @@ function PlotConfigurationTable(props) {
         licenseKey="non-commercial-and-evaluation"
         contextMenu={{
           items: {
+            'cut': {
+              name: 'Clear'
+            },
             'row_below': {},
             'remove_row': {
               disabled() {

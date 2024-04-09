@@ -93,6 +93,7 @@ const ScenarioTable = (props) => {
                 },
             },
             row_below: {},
+            cut: {name: 'Clear'},
             sp1: "---------",
             remove_row: {
                 disabled() {
