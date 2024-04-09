@@ -32,6 +32,8 @@ function HandsOnTableTemp(props) {
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
+      width="100%"
+      height="100%"
       licenseKey="non-commercial-and-evaluation"
       contextMenu={{
         items: {

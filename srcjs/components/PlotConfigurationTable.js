@@ -32,6 +32,8 @@ function PlotConfigurationTable(props) {
       colHeaders={col_names}
       rowHeaders={true}
       autoWrapRow={true}
+      width="100%"
+      height="100%"
       autoWrapCol={true}
       licenseKey="non-commercial-and-evaluation"
       contextMenu={{

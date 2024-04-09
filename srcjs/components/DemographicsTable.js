@@ -30,6 +30,8 @@ function DemographicsTable(props) {
       data={dataR}
       colHeaders={col_names}
       rowHeaders={true}
+      width="100%"
+      height="100%"
       autoWrapRow={true}
       autoWrapCol={true}
       licenseKey="non-commercial-and-evaluation"
