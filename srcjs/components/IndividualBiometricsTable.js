@@ -32,6 +32,8 @@ function IndividualBiometricsTable(props) {
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
+      height="100%"
+      width="100%"
       licenseKey="non-commercial-and-evaluation"
       contextMenu={{
         items: {

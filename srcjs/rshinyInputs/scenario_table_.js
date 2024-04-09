@@ -189,7 +189,15 @@ const TableInput = ({ configuration, value, setValue }) => {
       );
   }
 
-  return <>{componentToRender}</>;
+  return (
+    <div>
+      <div>
+        <div>
+          {componentToRender}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default function initScenarioTable() {

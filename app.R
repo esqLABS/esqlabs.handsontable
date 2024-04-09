@@ -59,7 +59,11 @@ server <- function(input, output, session) {
       datatype_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       scenario_options = c('MALE', 'FEMALE', 'UNKNOWN'),
       path_options = c('MALE', 'FEMALE', 'UNKNOWN'),
-      sheet_name = "DataCombined"
+      datacombinedname_options= c('MALE', 'FEMALE', 'UNKNOWN'),
+      plottype_options = c('MALE', 'FEMALE', 'UNKNOWN'),
+      axisscale_options = c('MALE', 'FEMALE', 'UNKNOWN'),
+      aggregation_options = c('MALE', 'FEMALE', 'UNKNOWN'),
+      sheet_name = "Scenarios"
     )
   })
 

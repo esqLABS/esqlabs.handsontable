@@ -66,6 +66,8 @@ const ScenarioTable = (props) => {
         colHeaders={col_names}
         ref={hotTableComponentRef}
         fixedColumnsStart={1}
+        width="100%"
+        height="100%"
         rowHeaders={true}
         autoWrapRow={true}
         autoWrapCol={true}
