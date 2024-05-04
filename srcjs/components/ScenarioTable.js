@@ -30,9 +30,11 @@ const ScenarioTable = (props) => {
     setSimulationTimeModalVisible(false);
   };
 
-  const handleSimulationTimeModalDataSubmit = (data, columName, rowNumber, oldCellValue) => {
+  const handleSimulationTimeModalDataSubmit = (data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) => {
     // Do something with the submitted data
     dataR[rowNumber][columName] = data;
+    // Change value in the time unit column (next column)
+    dataR[rowNumber][timeUnitColName] = timeUnitValue;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
     console.log(prepareShinyData(dataR));
