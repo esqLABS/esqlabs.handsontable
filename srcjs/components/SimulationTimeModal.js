@@ -49,6 +49,13 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
         jsonSchema: jsonSimulationTimeGenerate(tableData),
         timeUnit: selectedConversionUnit
       });
+
+      Shiny.setInputValue('simulationtime_logic-simulationtime_module_server-process_simulation_time_conversion', 
+        JSON.stringify({
+          jsonSchema: jsonSimulationTimeGenerate(tableData),
+          timeUnit: selectedConversionUnit
+        }), {priority: "event"}
+      );
   
       const hot = hotRef.current.props.data;
       // setFormData(simulationTimeToString(hot));

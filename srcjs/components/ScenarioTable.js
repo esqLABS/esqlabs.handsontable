@@ -44,7 +44,6 @@ const ScenarioTable = (props) => {
 
   const hotTableComponentRef = useRef(null);
 
-
   const onBeforeHotChange = (changes) => {
     if (changes === undefined) return;
     if (changes === null) return;
