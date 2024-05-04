@@ -1,13 +1,17 @@
 // retrieve simulation time vlue
 export function getSimulationTimeValue(dataSet, cellCoordinates, colNames) {
     const col_name = colNames[cellCoordinates[0].start.col];
+    const right_col_name = colNames[cellCoordinates[0].start.col + 1];
     const row_num = cellCoordinates[0].start.row;
     const cell_value = dataSet[row_num][col_name];
+    const right_cell_value = dataSet[row_num][right_col_name]
 
     const result = {
         col_name: col_name,
         row_num: row_num,
-        cell_value: cell_value
+        cell_value: cell_value,
+        simulation_time_unit: right_cell_value,
+        simulation_time_unit_col_name: right_col_name
     };
 
     return result;

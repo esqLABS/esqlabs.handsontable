@@ -1,27 +1,83 @@
-export function splitSimulationTimeToArray(inputString, chunkSize) {
-    if (!inputString) {
-        return [[null, null, null]];
+export function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
+  if (!inputString) {
+    return [[null, null, null]];
+  }
+
+  // !dev - write logic if next cell with the Time Unit is empty (null)
+
+  const numbersArray = inputString.split(";").map((chunk) => {
+    let start_end_resolution_number = chunk.trim().split(",").map(Number);
+    // Add time unit (next column value) between each number
+    for (let i = 1; start_end_resolution_number.length < 6; i += 2) {
+      start_end_resolution_number.splice(i, 0, timeUnit);
     }
 
-    const numbersArray = inputString.split(';').map(chunk => {
-        return chunk.trim().split(',').map(Number);
-    });
+    return start_end_resolution_number;
+  });
 
-    return numbersArray;
-    // Check if any conversion resulted in NaN
-    // if (numbersArray.some(chunk => chunk.some(isNaN))) {
-    //    return [[NaN, NaN, NaN]];
-    // }
+  return numbersArray;
+  // Check if any conversion resulted in NaN
+  // if (numbersArray.some(chunk => chunk.some(isNaN))) {
+  //    return [[NaN, NaN, NaN]];
+  // }
 
-    // const resultArray = [];
-    // for (let i = 0; i < numbersArray.length; i += chunkSize) {
-    //     const chunk = numbersArray.slice(i, i + chunkSize);
-    //     resultArray.push(chunk);
-    // }
+  // const resultArray = [];
+  // for (let i = 0; i < numbersArray.length; i += chunkSize) {
+  //     const chunk = numbersArray.slice(i, i + chunkSize);
+  //     resultArray.push(chunk);
+  // }
 
-    // return resultArray;
+  // return resultArray;
 }
 
 export function simulationTimeToString(array) {
-    return array.map(subarray => subarray.join(', ')).join('; ');
+  /*
+    1. Iterate over each subarray: 
+      [
+        [10, 'unit', 50, 'unit', 100, 'unit'], 
+        [10, 'unit', 50, 'unit', 100, 'unit'], 
+        [10, 'unit', 50, 'unit', 100, 'unit']
+      ]
+    2. Filter out the time unit values
+    3. Join the numbers with a comma and a space
+  */
+  return array
+    .map((subarray) =>
+      subarray.filter((element, index) => index % 2 === 0).join(", ")
+    )
+    .join("; ");
+}
+
+export function jsonSimulationTimeGenerate(array) {
+  let json = [];
+
+  // Iterate over each inner array representing an interval
+  for (let i = 0; i < array.length; i++) {
+    let interval = array[i];
+    let parameters = [];
+
+    // Create parameters for each interval
+    parameters.push({
+      Name: "Start time",
+      Value: interval[0],
+      Unit: interval[1],
+    });
+
+    parameters.push({
+      Name: "End time",
+      Value: interval[2],
+      Unit: interval[3],
+    });
+
+    parameters.push({
+      Name: "Resolution",
+      Value: interval[4],
+      Unit: interval[5],
+    });
+
+    // Push parameters to the JSON array
+    json.push({ Parameters: parameters });
+  }
+
+  return json;
 }

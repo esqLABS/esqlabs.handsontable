@@ -116,6 +116,13 @@ const ScenarioTable = (props) => {
                 //   return this.getSelectedLast()[1] == 0; // `this` === hot
               },
               callback(key, selection, clickEvent) {
+                /*
+                  `selection` is an array of selected cell coordinates.
+                  [{
+                    end: {row: 2, col: 6},
+                    start: {row: 2, col: 6}
+                  }]
+                */
                 // Callback the function to open the modal
                 handleSimulationTimeModalOpen(
                   getSimulationTimeValue(dataR, selection, col_names)
@@ -155,7 +162,8 @@ const ScenarioTable = (props) => {
         <HotColumn
           settings={{
             data: "SimulationTimeUnit",
-            type: "text"
+            type: "text",
+            readOnly: true
             // source: ["h", "m", "s"],
           }}
         />
