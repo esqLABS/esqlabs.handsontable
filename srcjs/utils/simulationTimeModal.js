@@ -96,3 +96,22 @@ export function sendSimulationTimeModalDataToShinyAndAwaitResponse(dataToSend) {
       Shiny.setInputValue("simulationtime_logic-process_simulation_time_conversion", dataToSend, {priority: "event"});
   });
 }
+
+
+export async function convertSimulationTimeToString(jsonSchema) {
+  try {
+      // Send data to Shiny and wait for response
+      const response = await sendSimulationTimeModalDataToShinyAndAwaitResponse(jsonSchema);
+      
+      // Process the response from Shiny
+      return(response);
+      
+      // Continue with your logic here
+  } catch (error) {
+      // Handle any errors that occur during the process
+      console.log(jsonSchema);
+      console.error(error);
+      return null;
+      // throw new Error("Handling error in the sending data to Shiny and waiting for response process.");
+  }
+}
