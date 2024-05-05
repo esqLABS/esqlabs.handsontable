@@ -81,3 +81,18 @@ export function jsonSimulationTimeGenerate(array) {
 
   return json;
 }
+
+// Function to send data to Shiny and wait for response
+export function sendSimulationTimeModalDataToShinyAndAwaitResponse(dataToSend) {
+  return new Promise(function(resolve, reject) {
+      // Add custom message handler to listen for response from Shiny
+      Shiny.addCustomMessageHandler("shinyResponse", function(response) {
+          console.log('response: ', response);
+          // Once response is received, resolve the Promise with the response
+          resolve(response);
+      });
+
+      // Send data to Shiny
+      Shiny.setInputValue("simulationtime_logic-process_simulation_time_conversion", dataToSend, {priority: "event"});
+  });
+}

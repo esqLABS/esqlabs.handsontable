@@ -15,7 +15,7 @@ import { HotTable } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
-import { splitSimulationTimeToArray, simulationTimeToString, jsonSimulationTimeGenerate } from '../utils/simulationTimeModal';
+import { splitSimulationTimeToArray, simulationTimeToString, jsonSimulationTimeGenerate, sendSimulationTimeModalDataToShinyAndAwaitResponse } from '../utils/simulationTimeModal';
 import { height } from "@mui/system";
 
 // register Handsontable's modules
@@ -50,12 +50,34 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
         timeUnit: selectedConversionUnit
       });
 
-      Shiny.setInputValue('simulationtime_logic-process_simulation_time_conversion', 
-        JSON.stringify({
-          jsonSchema: jsonSimulationTimeGenerate(tableData),
-          timeUnit: selectedConversionUnit
-        }), {priority: "event"}
-      );
+            // Usage
+      async function exampleUsage() {
+        try {
+            // Send data to Shiny and wait for response
+            const response = await sendSimulationTimeModalDataToShinyAndAwaitResponse(JSON.stringify({
+              jsonSchema: jsonSimulationTimeGenerate(tableData),
+              timeUnit: selectedConversionUnit
+            }));
+            
+            // Process the response from Shiny
+            console.log(response);
+            
+            // Continue with your logic here
+        } catch (error) {
+            // Handle any errors that occur during the process
+            console.error(error);
+        }
+      }
+
+      // Call the example usage function
+      exampleUsage();
+
+      // Shiny.setInputValue('simulationtime_logic-process_simulation_time_conversion', 
+      //   JSON.stringify({
+      //     jsonSchema: jsonSimulationTimeGenerate(tableData),
+      //     timeUnit: selectedConversionUnit
+      //   }), {priority: "event"}
+      // );
   
       const hot = hotRef.current.props.data;
       // setFormData(simulationTimeToString(hot));
