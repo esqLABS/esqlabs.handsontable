@@ -51,11 +51,32 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
       });
 
 
-      // Call the example usage function
-      const simulationVal = convertSimulationTimeToString(JSON.stringify({
+      // Execute async function
+      // const simulationVal = convertSimulationTimeToString(JSON.stringify({
+      //   jsonSchema: jsonSimulationTimeGenerate(tableData),
+      //   timeUnit: selectedConversionUnit
+      // }));
+
+      convertSimulationTimeToString(JSON.stringify({
         jsonSchema: jsonSimulationTimeGenerate(tableData),
         timeUnit: selectedConversionUnit
-      }));
+      })).then((result) => {
+        console.log("Result:", result);
+
+        onDataSubmit(
+          result,
+          cellData.col_name,
+          cellData.row_num,
+          cellData.cell_value,
+          selectedConversionUnit,
+          cellData.simulation_time_unit_col_name
+        );
+
+        onCloseModal(); // close modal window
+      }).catch((error) => {
+        console.error("Error caught outside:", error);
+        onCloseModal(); // close modal window
+      });
 
       // Shiny.setInputValue('simulationtime_logic-process_simulation_time_conversion', 
       //   JSON.stringify({
@@ -68,15 +89,15 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
       // setFormData(simulationTimeToString(hot));
       // const simulationVal = simulationTimeToString(tableData);
   
-      onDataSubmit(
-        simulationVal,
-        cellData.col_name,
-        cellData.row_num,
-        cellData.cell_value,
-        selectedConversionUnit,
-        cellData.simulation_time_unit_col_name
-      );
-      onCloseModal();
+      // onDataSubmit(
+      //   simulationVal,
+      //   cellData.col_name,
+      //   cellData.row_num,
+      //   cellData.cell_value,
+      //   selectedConversionUnit,
+      //   cellData.simulation_time_unit_col_name
+      // );
+      // onCloseModal();
     };
 
   return (
