@@ -136,6 +136,10 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "min",
                       "h",
                       "day(s)",
+                      "week(s)",
+                      "month(s)",
+                      "year(s)",
+                      "ks",
                     ],
                   },
                   { type: "numeric" },
@@ -146,6 +150,10 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "min",
                       "h",
                       "day(s)",
+                      "week(s)",
+                      "month(s)",
+                      "year(s)",
+                      "ks",
                     ],
                   },
                   { type: "numeric" },
@@ -155,7 +163,7 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "s",
                       "min",
                       "h",
-                      "day(s)",
+                      "day",
                     ],
                   },
                 ]}
@@ -201,7 +209,6 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                 "s",
                 "min",
                 "h",
-                "day(s)",
               ].map((unit) => {
                 return (
                   <FormControlLabel
