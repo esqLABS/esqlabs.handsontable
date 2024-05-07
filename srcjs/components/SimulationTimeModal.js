@@ -123,7 +123,7 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                   "End",
                   "Time Unit",
                   "Points",
-                  "Time Unit",
+                  "Resolution",
                 ]}
                 autoWrapRow={true}
                 autoWrapCol={true}
@@ -136,10 +136,6 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "min",
                       "h",
                       "day(s)",
-                      "week(s)",
-                      "month(s)",
-                      "year(s)",
-                      "ks",
                     ],
                   },
                   { type: "numeric" },
@@ -150,10 +146,6 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "min",
                       "h",
                       "day(s)",
-                      "week(s)",
-                      "month(s)",
-                      "year(s)",
-                      "ks",
                     ],
                   },
                   { type: "numeric" },
@@ -164,10 +156,6 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                       "min",
                       "h",
                       "day(s)",
-                      "week(s)",
-                      "month(s)",
-                      "year(s)",
-                      "ks",
                     ],
                   },
                 ]}
@@ -214,10 +202,6 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
                 "min",
                 "h",
                 "day(s)",
-                "week(s)",
-                "month(s)",
-                "year(s)",
-                "ks",
               ].map((unit) => {
                 return (
                   <FormControlLabel
