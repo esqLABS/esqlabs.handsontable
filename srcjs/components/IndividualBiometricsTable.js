@@ -20,7 +20,7 @@ function IndividualBiometricsTable(props) {
         const cellProperties = {};
 
         // Check if the column is "population"
-        if (col === col_names.indexOf(col_names[1])) {
+        if (col === col_names.indexOf('Population')) {
           if (
             hot.getData()[row][col - 1].toLowerCase() === "Human".toLowerCase()
           ) {
@@ -43,10 +43,10 @@ function IndividualBiometricsTable(props) {
   const updateNeighbourReadOnly = (changes, dataR) => {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
     if (
-      changes[0][1] === col_names[1] &&
+      changes[0][1] === 'Species' &&
       changes[0][3].toLowerCase() === "Human".toLowerCase()
     ) {
-      dataR[changes[0][0]][col_names[2]] = null;
+      dataR[changes[0][0]]['Population'] = null;
     }
   };
 
