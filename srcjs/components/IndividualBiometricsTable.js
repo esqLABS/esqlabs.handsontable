@@ -44,7 +44,7 @@ function IndividualBiometricsTable(props) {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
     if (
       changes[0][1] === 'Species' &&
-      changes[0][3].toLowerCase() === "Human".toLowerCase()
+      changes[0][3].toLowerCase() !== "Human".toLowerCase()
     ) {
       dataR[changes[0][0]]['Population'] = null;
     }
