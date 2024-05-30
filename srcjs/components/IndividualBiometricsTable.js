@@ -22,7 +22,7 @@ function IndividualBiometricsTable(props) {
         // Check if the column is "population"
         if (col === col_names.indexOf('Population')) {
           if (
-            hot.getData()[row][col - 1].toLowerCase() === "Human".toLowerCase()
+            hot.getData()[row][col - 1].toLowerCase() !== "Human".toLowerCase()
           ) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
