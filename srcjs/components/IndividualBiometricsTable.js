@@ -22,7 +22,7 @@ function IndividualBiometricsTable(props) {
         // Check if the column is "population"
         if (col === col_names.indexOf('Population')) {
           if (
-            hot.getData()[row][col - 1].toLowerCase() !== "Human".toLowerCase()
+            hot.getData()[row][col - 1] && (hot.getData()[row][col - 1].toLowerCase() !== "Human".toLowerCase())
           ) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
@@ -44,7 +44,7 @@ function IndividualBiometricsTable(props) {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
     if (
       changes[0][1] === 'Species' &&
-      changes[0][3].toLowerCase() !== "Human".toLowerCase()
+      (changes[0][3] && (changes[0][3].toLowerCase() !== "Human".toLowerCase()))
     ) {
       dataR[changes[0][0]]['Population'] = null;
     }
