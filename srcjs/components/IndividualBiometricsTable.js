@@ -74,6 +74,7 @@ function IndividualBiometricsTable(props) {
   return (
     <HotTable
       data={dataR}
+      ref={hotTableComponentRef}
       colHeaders={col_names}
       rowHeaders={true}
       autoWrapRow={true}
