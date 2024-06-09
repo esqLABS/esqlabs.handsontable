@@ -15,52 +15,68 @@ import { HotTable } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
-import { splitSimulationTimeToArray, jsonSimulationTimeGenerate, convertSimulationTimeToString } from '../utils/simulationTimeModal';
-import { height } from "@mui/system";
+import {
+  splitSimulationTimeToArray,
+  jsonSimulationTimeGenerate,
+  convertSimulationTimeToString,
+} from "../utils/simulationTimeModal";
+import {
+  simulationTime__start_end__default_value,
+  simulationTime__points__default_value,
+  simulationTime__unitToConvert__default_value,
+} from "../utils/config.js";
+// Hooks
+import useSimulationTimeCellValidate from "../hooks/useSimulationTimeCellValidate.js";
 
 // register Handsontable's modules
 registerAllModules();
 
-function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) {
-    const [formData, setFormData] = useState("");
-    const [selectedConversionUnit, setSelectedConversionUnit] = useState(null);
-    const [tableData, setTableData] = useState([]);
-    const hotRef = useRef(null);
+function SimulationTimeModal({
+  showModal,
+  onCloseModal,
+  onDataSubmit,
+  cellData,
+}) {
+  const [formData, setFormData] = useState("");
+  const [selectedConversionUnit, setSelectedConversionUnit] = useState(null);
+  const [tableData, setTableData] = useState([]);
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState(false);
 
-    useEffect(() => {
-      // Initialize table data when cellData changes
-      if (cellData) {
-        const initialTableData = splitSimulationTimeToArray(
-          cellData.cell_value,
-          cellData.simulation_time_unit,
-          3
-        );
-        setTableData(initialTableData);
-      }
-    }, [cellData]);
+  const hotRef = useRef(null);
 
-    const handleUnitConversionChange = (event) => {
-      setSelectedConversionUnit(event.target.value);
-    };
+  // Apply cell validation
+  useSimulationTimeCellValidate(hotRef);
 
-    const handleSubmit = () => {
-      // Assuming tableData is validated
-      console.log({
+  useEffect(() => {
+    // Initialize table data when cellData changes
+    if (cellData) {
+      const initialTableData = splitSimulationTimeToArray(
+        cellData.cell_value,
+        cellData.simulation_time_unit,
+        3
+      );
+      setTableData(initialTableData);
+    }
+  }, [cellData]);
+
+  const handleUnitConversionChange = (event) => {
+    setSelectedConversionUnit(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    // Assuming tableData is validated
+    console.log({
+      jsonSchema: jsonSimulationTimeGenerate(tableData),
+      timeUnit: selectedConversionUnit,
+    });
+
+    convertSimulationTimeToString(
+      JSON.stringify({
         jsonSchema: jsonSimulationTimeGenerate(tableData),
-        timeUnit: selectedConversionUnit
-      });
-
-
-      // Execute async function
-      // const simulationVal = convertSimulationTimeToString(JSON.stringify({
-      //   jsonSchema: jsonSimulationTimeGenerate(tableData),
-      //   timeUnit: selectedConversionUnit
-      // }));
-
-      convertSimulationTimeToString(JSON.stringify({
-        jsonSchema: jsonSimulationTimeGenerate(tableData),
-        timeUnit: selectedConversionUnit
-      })).then((result) => {
+        timeUnit: selectedConversionUnit,
+      })
+    )
+      .then((result) => {
         console.log("Result:", result);
 
         onDataSubmit(
@@ -73,32 +89,49 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
         );
 
         onCloseModal(); // close modal window
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error caught outside:", error);
         onCloseModal(); // close modal window
       });
+  };
 
-      // Shiny.setInputValue('simulationtime_logic-process_simulation_time_conversion', 
-      //   JSON.stringify({
-      //     jsonSchema: jsonSimulationTimeGenerate(tableData),
-      //     timeUnit: selectedConversionUnit
-      //   }), {priority: "event"}
-      // );
-  
-      // const hot = hotRef.current.props.data;
-      // setFormData(simulationTimeToString(hot));
-      // const simulationVal = simulationTimeToString(tableData);
-  
-      // onDataSubmit(
-      //   simulationVal,
-      //   cellData.col_name,
-      //   cellData.row_num,
-      //   cellData.cell_value,
-      //   selectedConversionUnit,
-      //   cellData.simulation_time_unit_col_name
-      // );
-      // onCloseModal();
-    };
+  // Validate table data
+  useEffect(() => {
+    if (!tableData) return;
+
+    let inValidItems = [];
+
+    tableData.forEach((arr) => {
+      arr.forEach((el, index) => {
+        if (index % 2 === 0) {
+          if (
+            (typeof el !== "number" && el !== null) ||
+            (typeof el === "number" && el < 0)
+          ) {
+            inValidItems.push(el);
+          } else {
+            return;
+          }
+        } else {
+          if (
+            (el !== null && !simulationTime__start_end__default_value.includes(el) && (index === 1 || index === 3)) ||
+            (el !== null && !simulationTime__points__default_value.includes(el) && index === 5)
+          ) {
+            inValidItems.push(el);
+          } else {
+            return;
+          }
+        }
+      });
+    }); // end of forEach
+
+    if (inValidItems.length > 0 || !selectedConversionUnit) {
+      setDisableSubmitBtn(true);
+    } else {
+      setDisableSubmitBtn(false);
+    }
+  }, [tableData, selectedConversionUnit]);
 
   return (
     <React.Fragment>
@@ -109,92 +142,68 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
         onClose={onCloseModal}
       >
         <DialogTitle>Enter Simulation Time</DialogTitle>
-        <DialogContent style={{height: '50vh'}}>
-
-        <div style={{ height: "30vh" }}>
+        <DialogContent style={{ height: "50vh" }}>
+          <div style={{ height: "30vh" }}>
             <HotTable
-                id="hot2"
-                ref={hotRef}
-                data={tableData}
-                rowHeaders={true}
-                colHeaders={[
-                  "Start",
-                  "Time Unit",
-                  "End",
-                  "Time Unit",
-                  "Points",
-                  "Resolution",
-                ]}
-                autoWrapRow={true}
-                autoWrapCol={true}
-                columns={[
-                  { type: "numeric" },
-                  {
-                    type: "dropdown",
-                    source: [
-                      "s",
-                      "min",
-                      "h",
-                      "day(s)",
-                      "week(s)",
-                      "month(s)",
-                      "year(s)",
-                      "ks",
-                    ],
+              id="hot2"
+              ref={hotRef}
+              data={tableData}
+              rowHeaders={true}
+              colHeaders={[
+                "Start",
+                "Time Unit",
+                "End",
+                "Time Unit",
+                "Points",
+                "Resolution",
+              ]}
+              autoWrapRow={true}
+              autoWrapCol={true}
+              columns={[
+                { type: "numeric" },
+                {
+                  type: "dropdown",
+                  source: simulationTime__start_end__default_value,
+                },
+                { type: "numeric" },
+                {
+                  type: "dropdown",
+                  source: simulationTime__start_end__default_value,
+                },
+                { type: "numeric" },
+                {
+                  type: "dropdown",
+                  source: simulationTime__points__default_value,
+                },
+              ]}
+              contextMenu={{
+                items: {
+                  cut: {
+                    name: "Clear",
                   },
-                  { type: "numeric" },
-                  {
-                    type: "dropdown",
-                    source: [
-                      "s",
-                      "min",
-                      "h",
-                      "day(s)",
-                      "week(s)",
-                      "month(s)",
-                      "year(s)",
-                      "ks",
-                    ],
+                  row_below: {},
+                  remove_row: {
+                    disabled() {
+                      // Disable option when first row was clicked
+                      return this.getSelectedLast()[0] === 0; // `this` === hot
+                    },
                   },
-                  { type: "numeric" },
-                  {
-                    type: "dropdown",
-                    source: [
-                      "s",
-                      "min",
-                      "h",
-                      "day",
-                    ],
-                  },
-                ]}
-                contextMenu={{
-                    items: {
-                        'cut': {
-                          name: 'Clear'
-                        },
-                        'row_below': {},
-                        'remove_row': {
-                            disabled() {
-                                // Disable option when first row was clicked
-                                return this.getSelectedLast()[0] === 0; // `this` === hot
-                            }
-                        }
-                    }
-                }}
-                licenseKey="non-commercial-and-evaluation"
-                afterChange={(changes) => {
-                  // Update table data after any changes
-                  if (!changes) return;
-                  const newData = [...tableData];
-                  changes.forEach(([row, prop, oldValue, newValue]) => {
-                    newData[row][prop] = newValue;
-                  });
-                  setTableData(newData);
-                }}
+                },
+              }}
+              licenseKey="non-commercial-and-evaluation"
+              afterChange={(changes) => {
+                // Update table data after any changes
+                if (!changes) return;
+                const newData = [...tableData];
+                changes.forEach(([row, prop, oldValue, newValue]) => {
+                  newData[row][prop] = newValue;
+                });
+                setTableData(newData);
+              }}
             />
-        </div>
+          </div>
 
-        <FormControl>
+          <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Select Time Unit Convert To
             </FormLabel>
@@ -204,12 +213,9 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
               name="row-radio-buttons-group"
               value={selectedConversionUnit}
               onChange={handleUnitConversionChange}
+              style={{ zIndex: 9999999999 }}
             >
-              {[
-                "s",
-                "min",
-                "h",
-              ].map((unit) => {
+              {simulationTime__unitToConvert__default_value.map((unit) => {
                 return (
                   <FormControlLabel
                     key={unit}
@@ -221,10 +227,9 @@ function SimulationTimeModal({showModal, onCloseModal, onDataSubmit, cellData}) 
               })}
             </RadioGroup>
           </FormControl>
-
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button onClick={handleSubmit} disabled={disableSubmitBtn}>Submit</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
