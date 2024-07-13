@@ -5,6 +5,12 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 
 function HandsOnTableTemp(props) {
+
+  useEffect(() => {
+    console.log("props.data_scenarios Temp Table", props.data_scenarios);
+    console.log("col_names Temp Table", props.column_headers);
+  }, []);
+
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   // const col_names = Object.keys(dataR[0]);
@@ -26,10 +32,6 @@ function HandsOnTableTemp(props) {
     }
   };
 
-  useEffect(() => {
-    console.log("dataR Temp Table", dataR);
-    console.log("col_names Temp Table", props.column_headers);
-  }, []);
 
   return (
     <HotTable
