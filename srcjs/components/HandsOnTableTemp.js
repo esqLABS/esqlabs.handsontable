@@ -36,7 +36,7 @@ function HandsOnTableTemp(props) {
   return (
     <HotTable
       data={dataR}
-      colHeaders={col_names.map(column => column.title)}
+      colHeaders={col_names}
       columns={col_names}
       rowHeaders={true}
       autoWrapRow={true}
