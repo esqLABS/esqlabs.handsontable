@@ -36,7 +36,8 @@ function HandsOnTableTemp(props) {
   return (
     <HotTable
       data={dataR}
-      colHeaders={col_names}
+      colHeaders={col_names.map(column => column.title)}
+      columns={col_names}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
@@ -52,12 +53,7 @@ function HandsOnTableTemp(props) {
             disabled: false
           },
           'row_above': {},
-          'remove_row': {
-            disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
-            }
-          }
+          'remove_row': {}
         }
       }}
       beforeChange={onBeforeHotChange}
