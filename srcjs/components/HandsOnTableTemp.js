@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
@@ -25,6 +25,10 @@ function HandsOnTableTemp(props) {
     }
   };
 
+  useEffect(() => {
+    console.log("dataR Temp Table", dataR);
+  }, []);
+
   return (
     <HotTable
       data={dataR}
@@ -40,7 +44,10 @@ function HandsOnTableTemp(props) {
           'cut': {
             name: 'Clear'
           },
-          'row_below': {},
+          'row_below': {
+            disabled: false
+          },
+          'row_above': {},
           'remove_row': {
             disabled() {
             // Disable option when first row was clicked
