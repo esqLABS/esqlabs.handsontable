@@ -24,7 +24,8 @@ scenario_table_Input(
   plottype_options,
   axisscale_options,
   aggregation_options,
-  sheet_name
+  sheet_name,
+  column_headers
 )
 }
 \description{

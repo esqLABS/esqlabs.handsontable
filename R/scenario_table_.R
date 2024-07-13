@@ -26,7 +26,8 @@ scenario_table_Input <- function(
     plottype_options,
     axisscale_options,
     aggregation_options,
-    sheet_name
+    sheet_name,
+    column_headers
   ) {
   reactR::createReactShinyInput(
     inputId,
@@ -58,7 +59,8 @@ scenario_table_Input <- function(
       axisscale_option_dropdown        = axisscale_options,
       aggregation_option_dropdown      = aggregation_options,
       sheet                            = sheet_name,
-      shiny_el_id_name                 = inputId
+      shiny_el_id_name                 = inputId,
+      column_headers                   = column_headers
     ),
     htmltools::tags$div
   )
