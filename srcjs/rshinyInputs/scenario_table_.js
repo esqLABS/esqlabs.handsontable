@@ -185,6 +185,7 @@ const TableInput = ({ configuration, value, setValue }) => {
         <HandsOnTableTemp
           data_scenarios={JSON.parse(value)}
           shiny_el_id_name={configuration.shiny_el_id_name}
+          column_headers={JSON.parse(configuration.column_headers)}
         />
       );
   }

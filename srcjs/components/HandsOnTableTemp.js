@@ -6,15 +6,15 @@ import "handsontable/dist/handsontable.full.min.css";
 
 function HandsOnTableTemp(props) {
 
-  useEffect(() => {
+
     console.log("props.data_scenarios Temp Table", props.data_scenarios);
     console.log("col_names Temp Table", props.column_headers);
-  }, []);
+
 
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   // const col_names = Object.keys(dataR[0]);
-  const col_names = JSON.parse(props.column_headers);
+  const col_names = props.column_headers;
 
     const onBeforeHotChange = (changes) => {
     if (changes === undefined) return;
