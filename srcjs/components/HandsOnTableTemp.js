@@ -57,11 +57,19 @@ function HandsOnTableTemp(props) {
         }
       }}
       beforeChange={onBeforeHotChange}
-      afterRemoveRow={(index, amount, physicalRows) => {
-        // Send data to Shiny with the edited data
-        Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
-      }}
       afterCreateRow={(index, amount) => {
+        // Send data to Shiny with the edited data
+        if(!Object.keys(dataR[0]).length) {
+          let empty_obj_with_keys = [Object.fromEntries(col_names.map(key => [key, null]))]; 
+          updateDataR(empty_obj_with_keys);
+          // console.log("dataR", empty_obj_with_keys);
+          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(empty_obj_with_keys), {priority: "event"});
+        } else {
+          // console.log("dataR", dataR);
+          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+        }
+      }}
+      afterRemoveRow={(index, amount, physicalRows) => {
         // Send data to Shiny with the edited data
         Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
       }}
