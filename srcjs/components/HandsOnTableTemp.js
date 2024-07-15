@@ -7,7 +7,7 @@ import "handsontable/dist/handsontable.full.min.css";
 function HandsOnTableTemp(props) {
 
 
-    console.log("props.data_scenarios Temp Table", props.data_scenarios);
+    console.log(props.data_scenarios);
     console.log("col_names Temp Table", props.column_headers);
 
 
@@ -62,7 +62,7 @@ function HandsOnTableTemp(props) {
         if(!Object.keys(dataR[0]).length) {
           let empty_obj_with_keys = [Object.fromEntries(col_names.map(key => [key, null]))];
           // updateDataR(empty_obj_with_keys);
-          props.updateGlobalDataR(empty_obj_with_keys);
+          // props.updateGlobalDataR(empty_obj_with_keys);
           // console.log("dataR", empty_obj_with_keys);
           Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(empty_obj_with_keys), {priority: "event"});
         } else {
