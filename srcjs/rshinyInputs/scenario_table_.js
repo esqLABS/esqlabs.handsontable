@@ -73,6 +73,9 @@ const TableInput = ({ configuration, value, setValue }) => {
   let componentToRender;
   console.log(configuration);
   console.log(value);
+  console.log(JSON.parse(value));
+  console.log((configuration.column_headers));
+
 
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
@@ -185,7 +188,7 @@ const TableInput = ({ configuration, value, setValue }) => {
         <HandsOnTableTemp
           data_scenarios={JSON.parse(value)}
           shiny_el_id_name={configuration.shiny_el_id_name}
-          column_headers={JSON.parse(configuration.column_headers)}
+          column_headers={(configuration.column_headers)}
           updateGlobalDataR={setValue}
         />
       );
