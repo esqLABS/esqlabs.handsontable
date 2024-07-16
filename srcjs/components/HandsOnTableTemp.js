@@ -37,7 +37,7 @@ function HandsOnTableTemp(props) {
     <HotTable
       data={dataR}
       colHeaders={col_names}
-      columns={col_names}
+      columns={!dataR.length ? col_names : false}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
@@ -65,8 +65,8 @@ function HandsOnTableTemp(props) {
           // props.updateGlobalDataR(empty_obj_with_keys);
           // console.log("dataR", empty_obj_with_keys);
           Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(empty_obj_with_keys), {priority: "event"});
-          props.updateGlobalDataR(empty_obj_with_keys);
-          updateDataR(empty_obj_with_keys);
+          // props.updateGlobalDataR(empty_obj_with_keys);
+          // updateDataR(empty_obj_with_keys);
         } else {
           // console.log("dataR", dataR);
           Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
