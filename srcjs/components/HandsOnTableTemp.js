@@ -7,12 +7,12 @@ import "handsontable/dist/handsontable.full.min.css";
 function HandsOnTableTemp(props) {
 
 
-    console.log(props.data_scenarios);
-    console.log("col_names Temp Table", props.column_headers);
-
+  // console.log(props.data_scenarios);
+  // console.log("col_names Temp Table", props.column_headers);
 
   // Data state
-  const [dataR, updateDataR] = useState(props.data_scenarios);
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
   // const col_names = Object.keys(dataR[0]);
   const col_names = props.column_headers;
 
@@ -53,7 +53,12 @@ function HandsOnTableTemp(props) {
             disabled: false
           },
           'row_above': {},
-          'remove_row': {}
+          'remove_row': {
+            disabled() {
+              // Disable option when first row was clicked
+              return this.getSelectedLast()[0] === 0; // `this` === hot
+            }
+          }
         }
       }}
       beforeChange={onBeforeHotChange}
