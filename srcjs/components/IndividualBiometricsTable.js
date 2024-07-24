@@ -20,9 +20,10 @@ function IndividualBiometricsTable(props) {
         const cellProperties = {};
 
         // Check if the column is "population"
-        if (col === col_names.indexOf('Population')) {
+        if (col === col_names.indexOf("Population")) {
           if (
-            hot.getData()[row][col - 1] && (hot.getData()[row][col - 1].toLowerCase() !== "Human".toLowerCase())
+            hot.getData()[row][col - 1] &&
+            hot.getData()[row][col - 1].toLowerCase() !== "Human".toLowerCase()
           ) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
@@ -43,10 +44,49 @@ function IndividualBiometricsTable(props) {
   const updateNeighbourReadOnly = (changes, dataR) => {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
     if (
-      changes[0][1] === 'Species' &&
-      (changes[0][3] && (changes[0][3].toLowerCase() !== "Human".toLowerCase()))
+      changes[0][1] === "Species" &&
+      changes[0][3] &&
+      changes[0][3].toLowerCase() !== "Human".toLowerCase()
     ) {
-      dataR[changes[0][0]]['Population'] = null;
+      dataR[changes[0][0]]["Population"] = null;
+    }
+  };
+
+  const trackIndividualId = (changes) => {
+    // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
+    if (changes[0][1] === "IndividualId") {
+      if (changes[0][2] === null && changes[0][3] !== null) {
+        let actionCompleted = {
+          eventType: "individualId_added",
+          individualIdName: changes[0][3],
+        };
+        // Send data to Shiny with the action data
+        Shiny.setInputValue(`${props.shiny_el_id_name}_individual_event`, JSON.stringify(actionCompleted), { priority: "event" });
+        // console.log(actionCompleted)
+      }
+
+      if (changes[0][3] === null && changes[0][2] !== null) {
+        let actionCompleted = {
+          eventType: "individualId_removed",
+          individualIdName: [changes[0][2]],
+        };
+
+        // Send data to Shiny with the action data
+        Shiny.setInputValue(`${props.shiny_el_id_name}_individual_event`, JSON.stringify(actionCompleted), { priority: "event" });
+        // console.log(actionCompleted)
+      }
+
+      if (changes[0][3] !== null && changes[0][2] !== null) {
+        let actionCompleted = {
+          eventType: "individualId_renamed",
+          individualIdNewName: changes[0][3],
+          individualIdOldName: changes[0][2],
+        };
+
+        // Send data to Shiny with the action data
+        Shiny.setInputValue(`${props.shiny_el_id_name}_individual_event`, JSON.stringify(actionCompleted), { priority: "event" });
+        // console.log(actionCompleted)
+      }
     }
   };
 
@@ -59,6 +99,7 @@ function IndividualBiometricsTable(props) {
       return;
     } else {
       updateNeighbourReadOnly(changes, dataR);
+      trackIndividualId(changes);
       setTimeout(() => {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
@@ -97,6 +138,27 @@ function IndividualBiometricsTable(props) {
         },
       }}
       beforeChange={onBeforeHotChange}
+      beforeRemoveRow={(index, amount, physicalRows) => {
+        let individualIDs_removed = physicalRows
+          // Get individual_id values
+          .map((rowIndex) => dataR[rowIndex][col_names[0]])
+          // Remove null values
+          .filter((element) => element !== null);
+
+        // If array is empty return nothing
+        if (individualIDs_removed.length > 0) {
+          let actionCompleted = {
+            eventType: "individualId_removed",
+            individualIdName: individualIDs_removed,
+          };
+          Shiny.setInputValue(
+            `${props.shiny_el_id_name}_individual_event`,
+            JSON.stringify(actionCompleted),
+            { priority: "event" }
+          );
+          // console.log(actionCompleted)
+        }
+      }}
       afterRemoveRow={(index, amount, physicalRows) => {
         // Send data to Shiny with the edited data
         Shiny.setInputValue(
