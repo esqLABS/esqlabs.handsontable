@@ -61,19 +61,47 @@ function PlotConfigurationTable(props) {
           Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
         }}
       >
-        <HotColumn settings={{ data: col_names[0], type: "text" }} />
-        <HotColumn settings={{ data: col_names[1], type: "dropdown", source: props.datacombinedname_options }} />
-        <HotColumn settings={{ data: col_names[2], type: "dropdown", source: props.plottype_options }}/>
-        <HotColumn settings={{ data: col_names[3], type: "text" }} />
-        <HotColumn settings={{ data: col_names[4], type: "text" }} />
-        <HotColumn settings={{ data: col_names[5], type: "text" }} />
-        <HotColumn settings={{ data: col_names[6], type: "dropdown", source: props.axisscale_options }} />
-        <HotColumn settings={{ data: col_names[7], type: "dropdown", source: props.axisscale_options }} />
-        <HotColumn settings={{ data: col_names[8], type: "numeric" }} />
-        <HotColumn settings={{ data: col_names[9], type: "numeric" }} />
-        <HotColumn settings={{ data: col_names[10], type: "dropdown", source: props.aggregation_options }} />
-        <HotColumn settings={{ data: col_names[11], type: "numeric" }} />
-        <HotColumn settings={{ data: col_names[12], type: "numeric" }} />
+
+        {col_names && col_names.length > 0 && col_names.map((col, index) => {
+          let columnSettings = { data: col, type: "text" };
+
+          switch (col) {
+            case "plotID":
+            case "title":
+            case "xUnit":
+            case "yUnit":
+              columnSettings.type = "text";
+              break;
+            case "DataCombinedName":
+              columnSettings.type = "dropdown";
+              columnSettings.source = props.datacombinedname_options;
+              break;
+            case "plotType":
+              columnSettings.type = "dropdown";
+              columnSettings.source = props.plottype_options;
+              break;
+            case "xAxisScale":
+            case "yAxisScale":
+              columnSettings.type = "dropdown";
+              columnSettings.source = props.axisscale_options;
+              break;
+            case "aggregation":
+              columnSettings.type = "dropdown";
+              columnSettings.source = props.aggregation_options;
+              break;
+            case "xAxisLimits":
+            case "yAxisLimits":
+            case "quantiles":
+            case "foldDistance":
+              columnSettings.type = "numeric";
+              break;
+            default:
+              columnSettings.type = "text";
+          }
+
+          return <HotColumn key={index} settings={columnSettings} />;
+        })}
+
       </HotTable>
     </>
   );
