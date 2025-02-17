@@ -44,7 +44,7 @@ function SelectOutputPathIdGroup(props) {
   useEffect(() => {
       props.setSelectedOptions(item);
   }, [item]);
-  
+
   return(
     <FormControl sx={{ width: '100%' }}>
     <InputLabel id="demo-multiple-checkbox-label">PathId</InputLabel>
@@ -79,16 +79,16 @@ function OrderOutputPathID(props){
 
   useEffect(() => {
     props.setSelectedOptions(items);
-  }, [items]);  
+  }, [items]);
 
   useEffect(() => {
       setItems(props.selectedOptions);
   }, [props.selectedOptions]);
 
   return (
-    <SortableList 
-      onSortEnd={onSortEnd} 
-      className="list" 
+    <SortableList
+      onSortEnd={onSortEnd}
+      className="list"
       draggedItemClassName="dragged"
       style={{
         height: 300,
@@ -123,7 +123,7 @@ function ModalOutputPathID(props) {
   /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges} */
 
   const [outputpathIdSelected, setOutputpathIdSelected] = useState(props.selectedValue);
-  const [itemsToSort, setItemsToSort] = useState([]); 
+  const [itemsToSort, setItemsToSort] = useState([]);
   const [finalOrder, setFinalOrder] = useState([]);
   const [disableSave, setDisableSave] = useState(true);
 
@@ -144,7 +144,7 @@ function ModalOutputPathID(props) {
       setDisableSave(true);
     }
   }, [finalOrder]);
-  
+
   return (
       <Dialog
         fullWidth
@@ -173,19 +173,24 @@ function ModalOutputPathID(props) {
           <SelectOutputPathIdGroup
             options={props.dropdownOptions}
             selectedOptions={outputpathIdSelected}
-            setSelectedOptions={setItemsToSort}
-          />
-          <Divider style={{marginTop: '35px', marginBottom: '15px'}}>Order List</Divider>
-          <OrderOutputPathID
-            selectedOptions={itemsToSort}
+            // setSelectedOptions={setItemsToSort} /!temp if we the items sorting is active
             setSelectedOptions={setFinalOrder}
           />
+
+          {/*
+            // Hide Ordering
+            <Divider style={{marginTop: '35px', marginBottom: '15px'}}>Order List</Divider>
+            <OrderOutputPathID
+              selectedOptions={itemsToSort}
+              setSelectedOptions={setFinalOrder}
+            />
+          */}
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button 
-            autoFocus 
-            disabled={disableSave} 
+          <Button
+            autoFocus
+            disabled={disableSave}
             onClick={() => {
               props.saveChanges(finalOrder);
             }}>

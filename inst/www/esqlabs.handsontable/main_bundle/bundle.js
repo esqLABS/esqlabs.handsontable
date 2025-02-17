@@ -196342,15 +196342,9 @@ function ModalOutputPathID(props) {
     size: "small"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectOutputPathIdGroup, {
     options: props.dropdownOptions,
-    selectedOptions: outputpathIdSelected,
-    setSelectedOptions: setItemsToSort
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], {
-    style: {
-      marginTop: '35px',
-      marginBottom: '15px'
-    }
-  }, "Order List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(OrderOutputPathID, {
-    selectedOptions: itemsToSort,
+    selectedOptions: outputpathIdSelected
+    // setSelectedOptions={setItemsToSort} /!temp if we the items sorting is active
+    ,
     setSelectedOptions: setFinalOrder
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
     autoFocus: true,
