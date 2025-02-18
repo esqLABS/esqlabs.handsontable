@@ -154,8 +154,8 @@ function SimulationTimeModal({
                 "Time Unit",
                 "End",
                 "Time Unit",
-                "Points",
                 "Resolution",
+                "",
               ]}
               autoWrapRow={true}
               autoWrapCol={true}

@@ -197355,7 +197355,7 @@ function SimulationTimeModal(_ref) {
     ref: hotRef,
     data: tableData,
     rowHeaders: true,
-    colHeaders: ["Start", "Time Unit", "End", "Time Unit", "Points", "Resolution"],
+    colHeaders: ["Start", "Time Unit", "End", "Time Unit", "Resolution", ""],
     autoWrapRow: true,
     autoWrapCol: true,
     columns: [{
@@ -197749,7 +197749,7 @@ var sheetsName = [{
   sheets: ["DataCombined", "plotConfiguration", "plotGrids", "exportConfiguration"]
 }];
 var simulationTime__start_end__default_value = ["s", "min", "h", "day(s)", "week(s)", "month(s)", "year(s)", "ks"];
-var simulationTime__points__default_value = ["s", "min", "h", "day"];
+var simulationTime__points__default_value = ["pts/s", "pts/min", "pts/h", "pts/day"];
 var simulationTime__unitToConvert__default_value = ["s", "min", "h"];
 
 /***/ }),
@@ -197858,7 +197858,13 @@ function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
     var start_end_resolution_number = chunk.trim().split(",").map(Number);
     // Add time unit (next column value) between each number
     for (var i = 1; start_end_resolution_number.length < 6; i += 2) {
-      start_end_resolution_number.splice(i, 0, timeUnit);
+      if (i === 5) {
+        start_end_resolution_number.splice(i, 0, "pts/".concat(timeUnit));
+        continue;
+      } else {
+        start_end_resolution_number.splice(i, 0, timeUnit);
+        continue;
+      }
     }
     return start_end_resolution_number;
   });
@@ -197878,10 +197884,10 @@ function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
 }
 function simulationTimeToString(array) {
   /*
-    1. Iterate over each subarray: 
+    1. Iterate over each subarray:
       [
-        [10, 'unit', 50, 'unit', 100, 'unit'], 
-        [10, 'unit', 50, 'unit', 100, 'unit'], 
+        [10, 'unit', 50, 'unit', 100, 'unit'],
+        [10, 'unit', 50, 'unit', 100, 'unit'],
         [10, 'unit', 50, 'unit', 100, 'unit']
       ]
     2. Filter out the time unit values

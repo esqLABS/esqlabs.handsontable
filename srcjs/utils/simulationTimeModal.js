@@ -9,7 +9,13 @@ export function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
     let start_end_resolution_number = chunk.trim().split(",").map(Number);
     // Add time unit (next column value) between each number
     for (let i = 1; start_end_resolution_number.length < 6; i += 2) {
-      start_end_resolution_number.splice(i, 0, timeUnit);
+      if (i === 5) {
+        start_end_resolution_number.splice(i, 0, `pts/${timeUnit}`);
+        continue;
+      } else {
+        start_end_resolution_number.splice(i, 0, timeUnit);
+        continue;
+      }
     }
 
     return start_end_resolution_number;
@@ -32,10 +38,10 @@ export function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
 
 export function simulationTimeToString(array) {
   /*
-    1. Iterate over each subarray: 
+    1. Iterate over each subarray:
       [
-        [10, 'unit', 50, 'unit', 100, 'unit'], 
-        [10, 'unit', 50, 'unit', 100, 'unit'], 
+        [10, 'unit', 50, 'unit', 100, 'unit'],
+        [10, 'unit', 50, 'unit', 100, 'unit'],
         [10, 'unit', 50, 'unit', 100, 'unit']
       ]
     2. Filter out the time unit values
@@ -102,10 +108,10 @@ export async function convertSimulationTimeToString(jsonSchema) {
   try {
       // Send data to Shiny and wait for response
       const response = await sendSimulationTimeModalDataToShinyAndAwaitResponse(jsonSchema);
-      
+
       // Process the response from Shiny
       return(response);
-      
+
       // Continue with your logic here
   } catch (error) {
       // Handle any errors that occur during the process
