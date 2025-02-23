@@ -10,8 +10,16 @@ export function splitSimulationTimeToArray(inputString, timeUnit, chunkSize) {
     // Add time unit (next column value) between each number
     for (let i = 1; start_end_resolution_number.length < 6; i += 2) {
       if (i === 5) {
-        start_end_resolution_number.splice(i, 0, `pts/${timeUnit}`);
-        continue;
+        // If time unit is in [s, min, h] keep original unit
+        if(["s", "min", "h"].includes(timeUnit)) {
+          start_end_resolution_number.splice(i, 0, `pts/${timeUnit}`);
+          continue;
+        } else {
+          // Otherwise, use 'pts/day' as the time unit for:
+          // ["day(s)", "week(s)", "month(s)", "year(s)", "ks"]
+          start_end_resolution_number.splice(i, 0, `pts/day`);
+          continue;
+        }
       } else {
         start_end_resolution_number.splice(i, 0, timeUnit);
         continue;

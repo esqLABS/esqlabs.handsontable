@@ -39,4 +39,13 @@ export const simulationTime__start_end__default_value = [
 
 export const simulationTime__points__default_value = ["pts/s", "pts/min", "pts/h", "pts/day"];
 
-export const simulationTime__unitToConvert__default_value = ["s", "min", "h"];
+export const simulationTime__unitToConvert__default_value = [
+  "s",
+  "min",
+  "h",
+  "day(s)",
+  "week(s)",
+  "month(s)",
+  "year(s)",
+  "ks"
+];
