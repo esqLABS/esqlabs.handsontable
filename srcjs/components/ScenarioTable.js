@@ -7,6 +7,7 @@ import SimulationTimeModal from "./SimulationTimeModal";
 import { getSimulationTimeValue, processShinyData, prepareShinyData } from "../utils/simulationTime";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
+import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
 
 // register Handsontable's modules
 registerAllModules();
@@ -125,9 +126,9 @@ const ScenarioTable = (props) => {
                   }]
                 */
                 // Callback the function to open the modal
-                handleSimulationTimeModalOpen(
-                  getSimulationTimeValue(dataR, selection, col_names)
-                );
+                // handleSimulationTimeModalOpen(
+                  // getSimulationTimeValue(dataR, selection, col_names)
+                // );
               },
             },
           },
@@ -159,7 +160,20 @@ const ScenarioTable = (props) => {
         <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "checkbox" }} />
         <HotColumn settings={{ data: "ModelParameterSheets", type: "text" }} />
         <HotColumn settings={{ data: "ApplicationProtocol", type: "text" }} />
-        <HotColumn settings={{ data: "SimulationTime", type: "text" }} />
+        <HotColumn
+          // width={75}
+          settings={{
+            data: "SimulationTime"
+          }}
+        >
+          <SimulationTimeEditor
+            hot-editor
+            titleName="Enter Simulation Time"
+            parentData={dataR}
+            columnNames={col_names}
+            handleSimulationTimeModalDataSubmit={handleSimulationTimeModalDataSubmit}
+          />
+        </HotColumn>
         <HotColumn
           settings={{
             data: "SimulationTimeUnit",
@@ -190,12 +204,12 @@ const ScenarioTable = (props) => {
           />
         </HotColumn>
       </HotTable>
-      <SimulationTimeModal
+      {/*<SimulationTimeModal
         showModal={simulationTimeModalVisible}
         onCloseModal={handleSimulationTimeModalClose}
         onDataSubmit={handleSimulationTimeModalDataSubmit}
         cellData={simulationTimeModalData}
-      />
+      />*/}
     </>
   );
 };
