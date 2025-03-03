@@ -197532,7 +197532,8 @@ var ScenarioTable = function ScenarioTable(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "ApplicationProtocol",
-      type: "text"
+      type: "dropdown",
+      source: props.application_protocol_options
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"]
   // width={75}
@@ -198050,6 +198051,7 @@ var TableInput = function TableInput(_ref) {
         population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_id_dropdown),
         outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
         steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
+        application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.application_protocol_dropdown),
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;

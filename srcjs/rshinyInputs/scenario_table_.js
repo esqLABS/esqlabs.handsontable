@@ -94,6 +94,9 @@ const TableInput = ({ configuration, value, setValue }) => {
           steatystatetime_unit_options={
             validateVectorInputR(configuration.steatystatetime_unit_dropdown)
           }
+          application_protocol_options={
+            validateVectorInputR(configuration.application_protocol_dropdown)
+          }
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );

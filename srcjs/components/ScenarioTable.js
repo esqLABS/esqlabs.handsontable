@@ -159,7 +159,13 @@ const ScenarioTable = (props) => {
         />
         <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "checkbox" }} />
         <HotColumn settings={{ data: "ModelParameterSheets", type: "text" }} />
-        <HotColumn settings={{ data: "ApplicationProtocol", type: "text" }} />
+        <HotColumn
+          settings={{
+            data: "ApplicationProtocol",
+            type: "dropdown",
+            source: props.application_protocol_options
+
+          }} />
         <HotColumn
           // width={75}
           settings={{
