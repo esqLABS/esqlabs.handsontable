@@ -3,7 +3,7 @@ import React from "react";
 // HandsOnTable
 import { BaseEditorComponent } from "@handsontable/react";
 // Components
-import ModalOutputPathID from "./OutputPathIdModal.js";
+import ModalShowDropdownAndSortValue from "./ModalShowDropdownAndSortValue.js";
 
 class DropDownEditor extends BaseEditorComponent {
   constructor(props) {
@@ -70,7 +70,7 @@ class DropDownEditor extends BaseEditorComponent {
           ref={this.editorRef}
           onMouseDown={this.stopMousedownPropagation}
         >
-          <ModalOutputPathID
+          <ModalShowDropdownAndSortValue
             showModal={this.state.modalVisible}
             onCloseModal={this.close.bind(this)}
             dropdownOptions={this.props.dropdownOptions}
@@ -79,6 +79,9 @@ class DropDownEditor extends BaseEditorComponent {
               []
             }
             saveChanges={this.saveChanges.bind(this)}
+            enableSelectOrder={this.props.enableSelectOrder}
+            activeColumnName={this.props.activeColumnName}
+            placeHolderTitle={this.props.placeHolderTitle}
           />
 
         </div>

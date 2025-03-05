@@ -97,6 +97,9 @@ const TableInput = ({ configuration, value, setValue }) => {
           application_protocol_options={
             validateVectorInputR(configuration.application_protocol_dropdown)
           }
+          model_parameters_options={
+            validateVectorInputR(configuration.model_parameters_dropdown)
+          }
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );

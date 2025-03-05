@@ -24,7 +24,7 @@ import Chip from '@mui/material/Chip';
 import SortableList, { SortableItem } from 'react-easy-sort'
 import { arrayMoveImmutable } from 'array-move'
 
-function SelectOutputPathIdGroup(props) {
+function SelectValueGroup(props) {
   const [item, setItem] = React.useState(props.selectedOptions);
 
   const handleChange = (event) => {
@@ -47,7 +47,7 @@ function SelectOutputPathIdGroup(props) {
 
   return(
     <FormControl sx={{ width: '100%' }}>
-    <InputLabel id="demo-multiple-checkbox-label">PathId</InputLabel>
+    <InputLabel id="demo-multiple-checkbox-label">{props.placeHolderTitle}</InputLabel>
     <Select
       labelId="demo-multiple-checkbox-label"
       id="demo-multiple-checkbox"
@@ -70,7 +70,7 @@ function SelectOutputPathIdGroup(props) {
 }
 
 
-function OrderOutputPathID(props){
+function OrderItems(props){
   const [items, setItems] = React.useState(props.selectedOptions);
 
   const onSortEnd = (oldIndex, newIndex) => {
@@ -119,10 +119,10 @@ function OrderOutputPathID(props){
 };
 
 
-function ModalOutputPathID(props) {
-  /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges} */
+function ModalShowDropdownAndSortValue(props) {
+  /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges, enableSelectOrder} */
 
-  const [outputpathIdSelected, setOutputpathIdSelected] = useState(props.selectedValue);
+  const [valueSelected, setValueSelected] = useState(props.selectedValue);
   const [itemsToSort, setItemsToSort] = useState([]);
   const [finalOrder, setFinalOrder] = useState([]);
   const [disableSave, setDisableSave] = useState(true);
@@ -130,8 +130,8 @@ function ModalOutputPathID(props) {
 
   useEffect(() => {
     if (props.selectedValue) {
-      // props.setOutputpathIdSelected(props.selectedValue);
-      setOutputpathIdSelected(props.selectedValue);
+      // props.setValueSelected(props.selectedValue);
+      setValueSelected(props.selectedValue);
     }
     // Update local value when identity someProp changes (identity).
   }, [props.selectedValue]);
@@ -154,7 +154,7 @@ function ModalOutputPathID(props) {
         onClose={props.onCloseModal}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Select OutputPathIds
+          {`Select ${props.activeColumnName}`}
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -169,22 +169,34 @@ function ModalOutputPathID(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <Divider style={{marginTop: '5px', marginBottom: '25px'}} >Select <Chip label="OutputPathId" size="small" /></Divider>
-          <SelectOutputPathIdGroup
-            options={props.dropdownOptions}
-            selectedOptions={outputpathIdSelected}
-            // setSelectedOptions={setItemsToSort} /!temp if we the items sorting is active
-            setSelectedOptions={setFinalOrder}
-          />
+          <Divider style={{marginTop: '5px', marginBottom: '25px'}} >Select <Chip label={props.activeColumnName} size="small" /></Divider>
 
-          {/*
-            // Hide Ordering
-            <Divider style={{marginTop: '35px', marginBottom: '15px'}}>Order List</Divider>
-            <OrderOutputPathID
-              selectedOptions={itemsToSort}
-              setSelectedOptions={setFinalOrder}
-            />
-          */}
+          {props.enableSelectOrder ? (
+            <>
+              <SelectValueGroup
+                options={props.dropdownOptions}
+                selectedOptions={valueSelected}
+                setSelectedOptions={setItemsToSort}
+                placeHolderTitle={props.placeHolderTitle}
+              />
+
+              <Divider style={{marginTop: '35px', marginBottom: '15px'}}>Order List</Divider>
+              <OrderItems
+                selectedOptions={itemsToSort}
+                setSelectedOptions={setFinalOrder}
+              />
+            </>
+          ) : (
+            <>
+              <SelectValueGroup
+                options={props.dropdownOptions}
+                selectedOptions={valueSelected}
+                setSelectedOptions={setFinalOrder}
+                placeHolderTitle={props.placeHolderTitle}
+              />
+            </>
+          )}
+
         </DialogContent>
         <Divider />
         <DialogActions>
@@ -202,4 +214,4 @@ function ModalOutputPathID(props) {
 
 }
 
-export default ModalOutputPathID;
+export default ModalShowDropdownAndSortValue;

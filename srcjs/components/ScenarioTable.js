@@ -181,7 +181,19 @@ const ScenarioTable = (props) => {
           }}
         />
         <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "checkbox" }} />
-        <HotColumn settings={{ data: "ModelParameterSheets", type: "text" }} />
+        <HotColumn
+          settings={{
+            data: "ModelParameterSheets"
+          }} >
+          <DropDownEditor
+            hot-editor
+            titleName="Select path"
+            dropdownOptions={props.model_parameters_options}
+            enableSelectOrder={true}
+            activeColumnName="ModelParameterSheets"
+            placeHolderTitle="Paremeter"
+          />
+        </HotColumn>
         <HotColumn
           settings={{
             data: "ApplicationProtocol",
@@ -222,6 +234,9 @@ const ScenarioTable = (props) => {
             hot-editor
             titleName="Select path"
             dropdownOptions={props.outputpath_ids_options}
+            enableSelectOrder={false}
+            activeColumnName="OutputPathsIds"
+            placeHolderTitle="PathId"
           />
         </HotColumn>
       </HotTable>

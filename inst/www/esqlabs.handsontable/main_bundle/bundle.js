@@ -195995,7 +195995,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
-/* harmony import */ var _OutputPathIdModal_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OutputPathIdModal.js */ "./srcjs/components/HandsOnTableEditorsExt/OutputPathIdModal.js");
+/* harmony import */ var _ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalShowDropdownAndSortValue.js */ "./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -196093,12 +196093,15 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           style: this.editorContainerStyle,
           ref: this.editorRef,
           onMouseDown: this.stopMousedownPropagation
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_OutputPathIdModal_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
           showModal: this.state.modalVisible,
           onCloseModal: this.close.bind(this),
           dropdownOptions: this.props.dropdownOptions,
           selectedValue: this.convertIntoArrType(this.state.value) || [],
-          saveChanges: this.saveChanges.bind(this)
+          saveChanges: this.saveChanges.bind(this),
+          enableSelectOrder: this.props.enableSelectOrder,
+          activeColumnName: this.props.activeColumnName,
+          placeHolderTitle: this.props.placeHolderTitle
         }));
       } else if (this.props.isRenderer) {
         var colorboxStyle = {
@@ -196119,10 +196122,10 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
 
 /***/ }),
 
-/***/ "./srcjs/components/HandsOnTableEditorsExt/OutputPathIdModal.js":
-/*!**********************************************************************!*\
-  !*** ./srcjs/components/HandsOnTableEditorsExt/OutputPathIdModal.js ***!
-  \**********************************************************************/
+/***/ "./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js":
+/*!**********************************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js ***!
+  \**********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -196181,7 +196184,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Sortable List
 
 
-function SelectOutputPathIdGroup(props) {
+function SelectValueGroup(props) {
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.selectedOptions),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     item = _React$useState2[0],
@@ -196204,7 +196207,7 @@ function SelectOutputPathIdGroup(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_14__["default"], {
     id: "demo-multiple-checkbox-label"
-  }, "PathId"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_13__["default"], {
+  }, props.placeHolderTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Select__WEBPACK_IMPORTED_MODULE_13__["default"], {
     labelId: "demo-multiple-checkbox-label",
     id: "demo-multiple-checkbox",
     multiple: true,
@@ -196227,7 +196230,7 @@ function SelectOutputPathIdGroup(props) {
     }));
   })));
 }
-function OrderOutputPathID(props) {
+function OrderItems(props) {
   var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(props.selectedOptions),
     _React$useState4 = _slicedToArray(_React$useState3, 2),
     items = _React$useState4[0],
@@ -196274,13 +196277,13 @@ function OrderOutputPathID(props) {
   }));
 }
 ;
-function ModalOutputPathID(props) {
-  /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges} */
+function ModalShowDropdownAndSortValue(props) {
+  /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges, enableSelectOrder} */
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.selectedValue),
     _useState2 = _slicedToArray(_useState, 2),
-    outputpathIdSelected = _useState2[0],
-    setOutputpathIdSelected = _useState2[1];
+    valueSelected = _useState2[0],
+    setValueSelected = _useState2[1];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState4 = _slicedToArray(_useState3, 2),
     itemsToSort = _useState4[0],
@@ -196295,8 +196298,8 @@ function ModalOutputPathID(props) {
     setDisableSave = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (props.selectedValue) {
-      // props.setOutputpathIdSelected(props.selectedValue);
-      setOutputpathIdSelected(props.selectedValue);
+      // props.setValueSelected(props.selectedValue);
+      setValueSelected(props.selectedValue);
     }
     // Update local value when identity someProp changes (identity).
   }, [props.selectedValue]);
@@ -196321,7 +196324,7 @@ function ModalOutputPathID(props) {
       p: 2
     },
     id: "customized-dialog-title"
-  }, "Select OutputPathIds"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, "Select ".concat(props.activeColumnName)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     "aria-label": "close",
     onClick: props.onCloseModal,
     sx: {
@@ -196338,15 +196341,27 @@ function ModalOutputPathID(props) {
       marginBottom: '25px'
     }
   }, "Select ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    label: "OutputPathId",
+    label: props.activeColumnName,
     size: "small"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectOutputPathIdGroup, {
+  })), props.enableSelectOrder ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, {
     options: props.dropdownOptions,
-    selectedOptions: outputpathIdSelected
-    // setSelectedOptions={setItemsToSort} /!temp if we the items sorting is active
-    ,
+    selectedOptions: valueSelected,
+    setSelectedOptions: setItemsToSort,
+    placeHolderTitle: props.placeHolderTitle
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    style: {
+      marginTop: '35px',
+      marginBottom: '15px'
+    }
+  }, "Order List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(OrderItems, {
+    selectedOptions: itemsToSort,
     setSelectedOptions: setFinalOrder
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, {
+    options: props.dropdownOptions,
+    selectedOptions: valueSelected,
+    setSelectedOptions: setFinalOrder,
+    placeHolderTitle: props.placeHolderTitle
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
     autoFocus: true,
     disabled: disableSave,
     onClick: function onClick() {
@@ -196354,7 +196369,7 @@ function ModalOutputPathID(props) {
     }
   }, "Save changes")));
 }
-/* harmony default export */ __webpack_exports__["default"] = (ModalOutputPathID);
+/* harmony default export */ __webpack_exports__["default"] = (ModalShowDropdownAndSortValue);
 
 /***/ }),
 
@@ -197155,10 +197170,16 @@ var ScenarioTable = function ScenarioTable(props) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
-      data: "ModelParameterSheets",
-      type: "text"
+      data: "ModelParameterSheets"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    "hot-editor": true,
+    titleName: "Select path",
+    dropdownOptions: props.model_parameters_options,
+    enableSelectOrder: true,
+    activeColumnName: "ModelParameterSheets",
+    placeHolderTitle: "Paremeter"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "ApplicationProtocol",
       type: "dropdown",
@@ -197207,7 +197228,10 @@ var ScenarioTable = function ScenarioTable(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
     "hot-editor": true,
     titleName: "Select path",
-    dropdownOptions: props.outputpath_ids_options
+    dropdownOptions: props.outputpath_ids_options,
+    enableSelectOrder: false,
+    activeColumnName: "OutputPathsIds",
+    placeHolderTitle: "PathId"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimulationTimeModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
     showModal: simulationTimeModalVisible,
     onCloseModal: handleSimulationTimeModalClose,
@@ -197680,6 +197704,7 @@ var TableInput = function TableInput(_ref) {
         outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
         steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
         application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.application_protocol_dropdown),
+        model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.model_parameters_dropdown),
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
