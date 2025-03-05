@@ -197861,6 +197861,9 @@ function processShinyData(data) {
     if (typeof item.OutputPathsIds === "string") {
       item.OutputPathsIds = item.OutputPathsIds.trim() !== "" ? item.OutputPathsIds.split(", ") : null;
     }
+    if (typeof item.ModelParameterSheets === "string") {
+      item.ModelParameterSheets = item.ModelParameterSheets.trim() !== "" ? item.ModelParameterSheets.split(", ") : null;
+    }
     // Convert "TRUE" and "FALSE" strings to boolean values
     if (item.SteadyState === "TRUE") {
       item.SteadyState = true;
@@ -197879,14 +197882,13 @@ function prepareShinyData(data) {
     var cleanedEntry = {};
     for (var key in entry) {
       if (Object.prototype.hasOwnProperty.call(entry, key)) {
-        if (key === "OutputPathsIds") {
+        if (key === "OutputPathsIds" || key === "ModelParameterSheets") {
           if (Array.isArray(entry[key]) && entry[key].length === 0) {
             cleanedEntry[key] = null;
           } else if (entry[key] === null) {
             cleanedEntry[key] = null;
           } else {
             cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
-            ;
           }
         } else {
           cleanedEntry[key] = entry[key] === "" ? null : entry[key];
