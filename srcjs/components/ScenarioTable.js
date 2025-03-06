@@ -5,6 +5,7 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 import SimulationTimeModal from "./SimulationTimeModal";
 import { getSimulationTimeValue, processShinyData, prepareShinyData } from "../utils/simulationTime";
+import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 
@@ -32,7 +33,7 @@ const ScenarioTable = (props) => {
     setSimulationTimeModalVisible(false);
   };
 
-    // Detect double-click only in "SimulationTime" column
+  // Detect double-click only in "SimulationTime" column
   const handleCellDoubleClick = (event, coords) => {
     const columnIndex = coords.col;
     const columnName = col_names[columnIndex];
@@ -113,18 +114,48 @@ const ScenarioTable = (props) => {
           items: {
             row_above: {
                 disabled() {
-                    // Disable option when first row was clicked
-                    return this.getSelectedLast()[0] === 0; // `this` === hot
+                  // Disable option when first row was clicked
+                  return this.getSelectedLast()[0] === 0; // `this` === hot
                 },
             },
             row_below: {},
             cut: {name: 'Clear'},
             sp1: "---------",
             remove_row: {
-                disabled() {
-                    // Disable option when first row was clicked
-                    return this.getSelectedLast()[0] === 0; // `this` === hot
+                name() {
+                  // If only one row exists and the first one selected
+                  if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+                    return "Clear row"
+                  } else {
+                    return "Remove row";
+                  }
+                },
+                callback(key, selection, clickEvent) {
+                  const selectedRow = this.getSelectedLast()[0];
+
+                  if(this.countRows() === 1 && selectedRow === 0) {
+                    // Cut all elements of the first row
+                      forceCutRowContent(this, selectedRow);
+                  } else {
+                    // Perform remove row operation
+                    // Use Handsontable's built-in remove_row functionality for multiple selections
+                    const startRow = selection[0].start.row;
+                    const endRow = selection[0].end.row;
+                    let numberOfRowsToRemove = endRow - startRow + 1;
+
+                    if(this.countRows() === numberOfRowsToRemove) {
+                      numberOfRowsToRemove = numberOfRowsToRemove - 1
+                    }
+
+                    this.alter("remove_row", startRow, numberOfRowsToRemove);
+
+                    }
+
                 }
+                //disabled() {
+                    // Disable option when first row was clicked
+                  //  return this.getSelectedLast()[0] === 0; // `this` === hot
+                //}
             },
             sp2: "---------",
             enter_simulation_modal: {

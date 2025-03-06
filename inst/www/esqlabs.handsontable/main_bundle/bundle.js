@@ -196971,13 +196971,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _SimulationTimeModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SimulationTimeModal */ "./srcjs/components/SimulationTimeModal.js");
 /* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
-/* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -197110,10 +197112,34 @@ var ScenarioTable = function ScenarioTable(props) {
         },
         sp1: "---------",
         remove_row: {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
-          }
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
+          } //disabled() {
+          // Disable option when first row was clicked
+          //  return this.getSelectedLast()[0] === 0; // `this` === hot
+          //}
         },
         sp2: "---------",
         enter_simulation_modal: {
@@ -197172,7 +197198,7 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "ModelParameterSheets"
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
     titleName: "Select path",
     dropdownOptions: props.model_parameters_options,
@@ -197225,7 +197251,7 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "OutputPathsIds"
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
     titleName: "Select path",
     dropdownOptions: props.outputpath_ids_options,
@@ -197803,6 +197829,49 @@ var sheetsName = [{
 var simulationTime__start_end__default_value = ["s", "min", "h", "day(s)", "week(s)", "month(s)", "year(s)", "ks"];
 var simulationTime__points__default_value = ["pts/s", "pts/min", "pts/h", "pts/day"];
 var simulationTime__unitToConvert__default_value = ["s", "min", "h", "day(s)", "week(s)", "month(s)", "year(s)", "ks"];
+
+/***/ }),
+
+/***/ "./srcjs/utils/handsOnTableUtils.js":
+/*!******************************************!*\
+  !*** ./srcjs/utils/handsOnTableUtils.js ***!
+  \******************************************/
+/*! exports provided: forceCutRowContent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "forceCutRowContent", function() { return forceCutRowContent; });
+function forceCutRowContent(hot, rowIndex) {
+  if (!hot) return;
+  var colCount = hot.countCols(); // Get total number of columns
+  var readOnlyColumns = []; // Store read-only column indexes to restore later
+
+  // Temporarily disable read-only mode
+  for (var col = 0; col < colCount; col++) {
+    var cellMeta = hot.getCellMeta(rowIndex, col);
+    if (cellMeta.readOnly) {
+      readOnlyColumns.push(col); // Store read-only column indexes
+      hot.setCellMeta(rowIndex, col, "readOnly", false); // Temporarily disable read-only
+    }
+  }
+
+  // Select the entire row before performing the cut operation
+  hot.selectCells([[rowIndex, 0, rowIndex, colCount - 1]]);
+
+  // Perform the cut operation with a small delay to ensure the selection is applied
+  setTimeout(function () {
+    hot.getPlugin("CopyPaste").cut();
+
+    // Restore read-only state after cutting
+    setTimeout(function () {
+      readOnlyColumns.forEach(function (col) {
+        hot.setCellMeta(rowIndex, col, "readOnly", true);
+      });
+      hot.render(); // Re-render to apply changes
+    }, 50); // Small delay to allow the cut operation to complete
+  }, 50);
+}
 
 /***/ }),
 
