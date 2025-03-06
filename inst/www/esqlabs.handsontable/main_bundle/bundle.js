@@ -195625,6 +195625,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -195635,6 +195636,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+// Utils
 
 function DataCombinedTable(props) {
   // Data state
@@ -195677,9 +195680,30 @@ function DataCombinedTable(props) {
         },
         'row_below': {},
         'remove_row': {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -195787,6 +195811,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -195799,6 +195824,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Import Custom Renderer
+
+// Utils
 
 function DemographicsTable(props) {
   // Data state
@@ -195872,9 +195899,30 @@ function DemographicsTable(props) {
         },
         'row_below': {},
         'remove_row': {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -196387,6 +196435,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196397,6 +196446,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+// Utils
 
 function HandsOnTableTemp(props) {
   // console.log(props.data_scenarios);
@@ -196449,9 +196500,30 @@ function HandsOnTableTemp(props) {
         },
         'row_above': {},
         'remove_row': {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -196506,6 +196578,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196518,6 +196591,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Import Custom Renderer
+
+// Utils
 
 function IndividualBiometricsTable(props) {
   // Data state
@@ -196633,9 +196708,30 @@ function IndividualBiometricsTable(props) {
         },
         row_below: {},
         remove_row: {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -196734,6 +196830,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196744,6 +196841,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+// Utils
 
 function OutputPathsTable(props) {
   // Data state
@@ -196785,9 +196884,30 @@ function OutputPathsTable(props) {
         },
         'row_below': {},
         'remove_row': {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -196835,6 +196955,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196845,6 +196966,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+// Utils
 
 function PlotConfigurationTable(props) {
   // Data state
@@ -196887,9 +197010,30 @@ function PlotConfigurationTable(props) {
         },
         'row_below': {},
         'remove_row': {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }
@@ -197115,7 +197259,7 @@ var ScenarioTable = function ScenarioTable(props) {
           name: function name() {
             // If only one row exists and the first one selected
             if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
-              return "Clear row";
+              return "Clear row content";
             } else {
               return "Remove row";
             }
@@ -197136,35 +197280,6 @@ var ScenarioTable = function ScenarioTable(props) {
               }
               this.alter("remove_row", startRow, numberOfRowsToRemove);
             }
-          } //disabled() {
-          // Disable option when first row was clicked
-          //  return this.getSelectedLast()[0] === 0; // `this` === hot
-          //}
-        },
-        sp2: "---------",
-        enter_simulation_modal: {
-          // Own custom option
-          name: function name() {
-            // `name` can be a string or a function
-            return "<b>Enter Simulation Time</b>"; // Name can contain HTML
-          },
-          hidden: function hidden() {
-            // Hide all columns except the SimulationTime Column
-            return this.getSelectedLast()[1] !== col_names.indexOf("SimulationTime");
-            //   return this.getSelectedLast()[1] == 0; // `this` === hot
-          },
-          callback: function callback(key, selection, clickEvent) {
-            /*
-              `selection` is an array of selected cell coordinates.
-              [{
-                end: {row: 2, col: 6},
-                start: {row: 2, col: 6}
-              }]
-            */
-            // Callback the function to open the modal
-            // handleSimulationTimeModalOpen(
-            // getSimulationTimeValue(dataR, selection, col_names)
-            // );
           }
         }
       }
@@ -197295,7 +197410,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utils/simulationTimeModal */ "./srcjs/utils/simulationTimeModal.js");
 /* harmony import */ var _utils_config_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utils/config.js */ "./srcjs/utils/config.js");
-/* harmony import */ var _hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../hooks/useSimulationTimeCellValidate.js */ "./srcjs/hooks/useSimulationTimeCellValidate.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../hooks/useSimulationTimeCellValidate.js */ "./srcjs/hooks/useSimulationTimeCellValidate.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -197323,6 +197439,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 
 // Hooks
@@ -197354,7 +197471,7 @@ function SimulationTimeModal(_ref) {
   var hotRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
 
   // Apply cell validation
-  Object(_hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_16__["default"])(hotRef);
+  Object(_hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_17__["default"])(hotRef);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Initialize table data when cellData changes
     if (cellData) {
@@ -197457,9 +197574,30 @@ function SimulationTimeModal(_ref) {
         },
         row_below: {},
         remove_row: {
-          disabled: function disabled() {
-            // Disable option when first row was clicked
-            return this.getSelectedLast()[0] === 0; // `this` === hot
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_16__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
           }
         }
       }

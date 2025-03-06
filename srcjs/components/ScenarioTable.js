@@ -125,7 +125,7 @@ const ScenarioTable = (props) => {
                 name() {
                   // If only one row exists and the first one selected
                   if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
-                    return "Clear row"
+                    return "Clear row content"
                   } else {
                     return "Remove row";
                   }
@@ -150,41 +150,8 @@ const ScenarioTable = (props) => {
                     this.alter("remove_row", startRow, numberOfRowsToRemove);
 
                     }
-
                 }
-                //disabled() {
-                    // Disable option when first row was clicked
-                  //  return this.getSelectedLast()[0] === 0; // `this` === hot
-                //}
-            },
-            sp2: "---------",
-            enter_simulation_modal: {
-              // Own custom option
-              name() {
-                // `name` can be a string or a function
-                return "<b>Enter Simulation Time</b>"; // Name can contain HTML
-              },
-              hidden() {
-                // Hide all columns except the SimulationTime Column
-                return (
-                  this.getSelectedLast()[1] !== col_names.indexOf("SimulationTime")
-                );
-                //   return this.getSelectedLast()[1] == 0; // `this` === hot
-              },
-              callback(key, selection, clickEvent) {
-                /*
-                  `selection` is an array of selected cell coordinates.
-                  [{
-                    end: {row: 2, col: 6},
-                    start: {row: 2, col: 6}
-                  }]
-                */
-                // Callback the function to open the modal
-                // handleSimulationTimeModalOpen(
-                  // getSimulationTimeValue(dataR, selection, col_names)
-                // );
-              },
-            },
+            }
           },
         }}
       >

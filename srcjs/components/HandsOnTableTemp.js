@@ -3,10 +3,11 @@ import { useRef } from "react";
 import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
+// Utils
+import { forceCutRowContent } from "../utils/handsOnTableUtils";
+
 
 function HandsOnTableTemp(props) {
-
-
   // console.log(props.data_scenarios);
   // console.log("col_names Temp Table", props.column_headers);
 
@@ -54,11 +55,36 @@ function HandsOnTableTemp(props) {
           },
           'row_above': {},
           'remove_row': {
-            disabled() {
-              // Disable option when first row was clicked
-              return this.getSelectedLast()[0] === 0; // `this` === hot
+                name() {
+                  // If only one row exists and the first one selected
+                  if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+                    return "Clear row content"
+                  } else {
+                    return "Remove row";
+                  }
+                },
+                callback(key, selection, clickEvent) {
+                  const selectedRow = this.getSelectedLast()[0];
+
+                  if(this.countRows() === 1 && selectedRow === 0) {
+                    // Cut all elements of the first row
+                      forceCutRowContent(this, selectedRow);
+                  } else {
+                    // Perform remove row operation
+                    // Use Handsontable's built-in remove_row functionality for multiple selections
+                    const startRow = selection[0].start.row;
+                    const endRow = selection[0].end.row;
+                    let numberOfRowsToRemove = endRow - startRow + 1;
+
+                    if(this.countRows() === numberOfRowsToRemove) {
+                      numberOfRowsToRemove = numberOfRowsToRemove - 1
+                    }
+
+                    this.alter("remove_row", startRow, numberOfRowsToRemove);
+
+                    }
+                }
             }
-          }
         }
       }}
       beforeChange={onBeforeHotChange}
