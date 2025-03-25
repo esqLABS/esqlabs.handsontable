@@ -10,9 +10,21 @@ function PlotConfigurationTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   const col_names = Object.keys(dataR[0]);
+  // Constants
+  const DROPDOWN_TYPE_COLUMNS = ["DataCombinedName", "plotType", "xAxisScale", "yAxisScale", "aggregation"];
   console.log(col_names);
 
-  const onBeforeHotChange = (changes) => {
+  const updateNoneSelectionValue = (dataR, changes, source) => {
+    if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if(DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+    }
+  }
+
+
+  const onBeforeHotChange = (changes, source) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -21,6 +33,7 @@ function PlotConfigurationTable(props) {
         return;
     } else {
         setTimeout(() => {
+            updateNoneSelectionValue(dataR, changes, source);
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
             Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
@@ -101,20 +114,20 @@ function PlotConfigurationTable(props) {
               break;
             case "DataCombinedName":
               columnSettings.type = "dropdown";
-              columnSettings.source = props.datacombinedname_options;
+              columnSettings.source = ["--NONE--", ...props.datacombinedname_options];
               break;
             case "plotType":
               columnSettings.type = "dropdown";
-              columnSettings.source = props.plottype_options;
+              columnSettings.source = ["--NONE--", ...props.plottype_options];
               break;
             case "xAxisScale":
             case "yAxisScale":
               columnSettings.type = "dropdown";
-              columnSettings.source = props.axisscale_options;
+              columnSettings.source = ["--NONE--", ...props.axisscale_options];
               break;
             case "aggregation":
               columnSettings.type = "dropdown";
-              columnSettings.source = props.aggregation_options;
+              columnSettings.source = ["--NONE--", ...props.aggregation_options];
               break;
             case "xAxisLimits":
             case "yAxisLimits":

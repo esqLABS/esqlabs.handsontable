@@ -14,6 +14,8 @@ registerAllModules();
 
 const ScenarioTable = (props) => {
   // props: data_scenarios, individual_ids_options
+  // Constants
+  const DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"]
   // Data state
   const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
   const col_names = Object.keys(dataR[0]);
@@ -57,9 +59,9 @@ const ScenarioTable = (props) => {
     dataR[rowNumber][timeUnitColName] = timeUnitValue;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
-    console.log(prepareShinyData(dataR));
+    console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
     // Send data to Shiny with the edited data
-    Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+    Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
   };
 
   const hotTableComponentRef = useRef(null);
@@ -75,7 +77,7 @@ const ScenarioTable = (props) => {
         setTimeout(() => {
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
         }, 500)
     }
   };
@@ -94,6 +96,14 @@ const ScenarioTable = (props) => {
         autoWrapCol={true}
         licenseKey="non-commercial-and-evaluation"
         beforeChange={onBeforeHotChange}
+        afterChange={(changes, source) => {
+          if (source === 'edit') {
+            // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+            if(DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+              dataR[changes[0][0]][changes[0][1]] = null;
+            }
+          }
+        }}
         afterOnCellMouseDown={
           (event, coords) => {
               handleCellDoubleClick(event, coords);
@@ -102,12 +112,12 @@ const ScenarioTable = (props) => {
         afterRemoveRow={(index, amount, physicalRows) => {
             //console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
         }}
         afterCreateRow={(index, amount) => {
             //console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
         }}
         contextMenu={{
           callback(key, selection, clickEvent) {},
@@ -166,7 +176,7 @@ const ScenarioTable = (props) => {
           settings={{
             data: "IndividualId",
             type: "dropdown",
-            source: props.individual_ids_options,
+            source: ["--NONE--", ...props.individual_ids_options],
             //source: ["pop1", "pop2", "pop3"],
           }}
         />
@@ -174,7 +184,8 @@ const ScenarioTable = (props) => {
           settings={{
             data: "PopulationId",
             type: "dropdown",
-            source: props.population_ids_options,
+            strict: true,
+            source: ["--NONE--", ...props.population_ids_options],
             //source: ["pop1", "pop2", "pop3"],
           }}
         />
@@ -196,7 +207,7 @@ const ScenarioTable = (props) => {
           settings={{
             data: "ApplicationProtocol",
             type: "dropdown",
-            source: props.application_protocol_options
+            source: ["--NONE--", ...props.application_protocol_options]
 
           }} />
         <HotColumn
@@ -219,7 +230,7 @@ const ScenarioTable = (props) => {
           settings={{
             data: "SteadyStateTimeUnit",
             type: "dropdown",
-            source: props.steatystatetime_unit_options
+            source: ["--NONE--", ...props.steatystatetime_unit_options]
           }} />
         <HotColumn settings={{ data: "ModelFile", type: "text" }} />
         <HotColumn

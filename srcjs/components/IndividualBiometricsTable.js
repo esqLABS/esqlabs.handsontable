@@ -12,6 +12,8 @@ function IndividualBiometricsTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   const col_names = Object.keys(dataR[0]);
+    // Constants
+  const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]]
   const hotTableComponentRef = useRef(null);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ function IndividualBiometricsTable(props) {
           } else {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
-            cellProperties.source = props.population_options;
+            cellProperties.source = ["--NONE--", ...props.population_options];
             cellProperties.renderer = dropdownRenderer;
           }
         }
@@ -53,6 +55,15 @@ function IndividualBiometricsTable(props) {
       dataR[changes[0][0]]["Population"] = null;
     }
   };
+
+  const updateNoneSelectionValue = (dataR, changes, source) => {
+    if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if(DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+    }
+  }
 
   const trackIndividualId = (changes) => {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
@@ -92,7 +103,7 @@ function IndividualBiometricsTable(props) {
     }
   };
 
-  const onBeforeHotChange = (changes) => {
+  const onBeforeHotChange = (changes, source) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -101,6 +112,7 @@ function IndividualBiometricsTable(props) {
       return;
     } else {
       updateNeighbourReadOnly(changes, dataR);
+      updateNoneSelectionValue(dataR, changes, source);
       trackIndividualId(changes);
       setTimeout(() => {
         // console.log(prepareShinyData(dataR));
@@ -165,6 +177,16 @@ function IndividualBiometricsTable(props) {
         },
       }}
       beforeChange={onBeforeHotChange}
+      afterChange={(changes, source) => {
+        if (source === 'edit') {
+          // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+          if(DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+            console.log("Dropdown type column changed to --NONE--");
+            console.log(changes[0][1]);
+            dataR[changes[0][0]][changes[0][1]] = null;
+          }
+        }
+      }}
       beforeRemoveRow={(index, amount, physicalRows) => {
         let individualIDs_removed = physicalRows
           // Get individual_id values
@@ -208,21 +230,21 @@ function IndividualBiometricsTable(props) {
         settings={{
           data: col_names[1],
           type: "dropdown",
-          source: props.species_options,
+          source: ["--NONE--", ...props.species_options],
         }}
       />
       <HotColumn
         settings={{
           data: col_names[2],
           type: "dropdown",
-          source: props.population_options,
+          source: ["--NONE--", ...props.population_options],
         }}
       />
       <HotColumn
         settings={{
           data: col_names[3],
           type: "dropdown",
-          source: props.gender_options,
+          source: ["--NONE--", ...props.gender_options],
         }}
       />
       <HotColumn settings={{ data: col_names[4], type: "numeric" }} />

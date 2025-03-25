@@ -195626,6 +195626,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -195646,8 +195650,18 @@ function DataCombinedTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4]];
   console.log(col_names);
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
+    if (source === 'edit') {
+      // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+      if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+        dataR[changes[0][0]][changes[0][1]] = null;
+      }
+    }
+  };
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -195656,6 +195670,7 @@ function DataCombinedTable(props) {
       return;
     } else {
       setTimeout(function () {
+        updateNoneSelectionValue(dataR, changes, source);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -195730,7 +195745,7 @@ function DataCombinedTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: props.datatype_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.datatype_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195741,13 +195756,13 @@ function DataCombinedTable(props) {
     settings: {
       data: col_names[3],
       type: "dropdown",
-      source: props.scenario_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.scenario_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[4],
       type: "dropdown",
-      source: props.path_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.path_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195812,6 +195827,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -195834,6 +195853,8 @@ function DemographicsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[7], col_names[10], col_names[15]];
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var hot = hotTableComponentRef.current.hotInstance;
@@ -195850,7 +195871,7 @@ function DemographicsTable(props) {
           } else {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
-            cellProperties.source = props.population_options;
+            cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.population_options));
             cellProperties.renderer = handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__["dropdownRenderer"];
           }
         }
@@ -195864,7 +195885,15 @@ function DemographicsTable(props) {
       dataR[changes[0][0]][col_names[2]] = null;
     }
   };
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
+    if (source === 'edit') {
+      // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+      if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+        dataR[changes[0][0]][changes[0][1]] = null;
+      }
+    }
+  };
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -195873,6 +195902,7 @@ function DemographicsTable(props) {
       return;
     } else {
       updateNeighbourReadOnly(changes, dataR);
+      updateNoneSelectionValue(dataR, changes, source);
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
@@ -195928,6 +195958,14 @@ function DemographicsTable(props) {
       }
     },
     beforeChange: onBeforeHotChange,
+    afterChange: function afterChange(changes, source) {
+      if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+      }
+    },
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       // Send data to Shiny with the edited data
       Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -195949,13 +195987,13 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: props.species_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.species_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[2],
       type: "dropdown",
-      source: props.population_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195981,7 +196019,7 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[7],
       type: "dropdown",
-      source: props.weight_unit_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.weight_unit_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195997,7 +196035,7 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[10],
       type: "dropdown",
-      source: props.height_unit_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.height_unit_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196023,7 +196061,7 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[15],
       type: "dropdown",
-      source: props.bmi_unit_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.bmi_unit_options))
     }
   }));
 }
@@ -196579,6 +196617,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196601,6 +196643,8 @@ function IndividualBiometricsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]];
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var hot = hotTableComponentRef.current.hotInstance;
@@ -196617,7 +196661,7 @@ function IndividualBiometricsTable(props) {
           } else {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
-            cellProperties.source = props.population_options;
+            cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.population_options));
             cellProperties.renderer = handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__["dropdownRenderer"];
           }
         }
@@ -196629,6 +196673,14 @@ function IndividualBiometricsTable(props) {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
     if (changes[0][1] === "Species" && changes[0][3] && changes[0][3].toLowerCase() !== "Human".toLowerCase()) {
       dataR[changes[0][0]]["Population"] = null;
+    }
+  };
+  var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
+    if (source === 'edit') {
+      // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+      if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+        dataR[changes[0][0]][changes[0][1]] = null;
+      }
     }
   };
   var trackIndividualId = function trackIndividualId(changes) {
@@ -196672,7 +196724,7 @@ function IndividualBiometricsTable(props) {
       }
     }
   };
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -196681,6 +196733,7 @@ function IndividualBiometricsTable(props) {
       return;
     } else {
       updateNeighbourReadOnly(changes, dataR);
+      updateNoneSelectionValue(dataR, changes, source);
       trackIndividualId(changes);
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
@@ -196737,6 +196790,16 @@ function IndividualBiometricsTable(props) {
       }
     },
     beforeChange: onBeforeHotChange,
+    afterChange: function afterChange(changes, source) {
+      if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          console.log("Dropdown type column changed to --NONE--");
+          console.log(changes[0][1]);
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+      }
+    },
     beforeRemoveRow: function beforeRemoveRow(index, amount, physicalRows) {
       var individualIDs_removed = physicalRows
       // Get individual_id values
@@ -196781,19 +196844,19 @@ function IndividualBiometricsTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: props.species_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.species_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[2],
       type: "dropdown",
-      source: props.population_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[3],
       type: "dropdown",
-      source: props.gender_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.gender_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196956,6 +197019,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196976,8 +197043,18 @@ function PlotConfigurationTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = ["DataCombinedName", "plotType", "xAxisScale", "yAxisScale", "aggregation"];
   console.log(col_names);
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
+    if (source === 'edit') {
+      // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+      if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+        dataR[changes[0][0]][changes[0][1]] = null;
+      }
+    }
+  };
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -196986,6 +197063,7 @@ function PlotConfigurationTable(props) {
       return;
     } else {
       setTimeout(function () {
+        updateNoneSelectionValue(dataR, changes, source);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -197065,20 +197143,20 @@ function PlotConfigurationTable(props) {
         break;
       case "DataCombinedName":
         columnSettings.type = "dropdown";
-        columnSettings.source = props.datacombinedname_options;
+        columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.datacombinedname_options));
         break;
       case "plotType":
         columnSettings.type = "dropdown";
-        columnSettings.source = props.plottype_options;
+        columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.plottype_options));
         break;
       case "xAxisScale":
       case "yAxisScale":
         columnSettings.type = "dropdown";
-        columnSettings.source = props.axisscale_options;
+        columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.axisscale_options));
         break;
       case "aggregation":
         columnSettings.type = "dropdown";
-        columnSettings.source = props.aggregation_options;
+        columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.aggregation_options));
         break;
       case "xAxisLimits":
       case "yAxisLimits":
@@ -197117,6 +197195,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -197138,6 +197220,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 Object(handsontable_registry__WEBPACK_IMPORTED_MODULE_2__["registerAllModules"])();
 var ScenarioTable = function ScenarioTable(props) {
   // props: data_scenarios, individual_ids_options
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"];
   // Data state
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
@@ -197188,9 +197272,9 @@ var ScenarioTable = function ScenarioTable(props) {
     dataR[rowNumber][timeUnitColName] = timeUnitValue;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
-    console.log(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR));
+    console.log(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS));
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
     });
   };
@@ -197206,7 +197290,7 @@ var ScenarioTable = function ScenarioTable(props) {
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
           priority: "event"
         });
       }, 500);
@@ -197224,20 +197308,28 @@ var ScenarioTable = function ScenarioTable(props) {
     autoWrapCol: true,
     licenseKey: "non-commercial-and-evaluation",
     beforeChange: onBeforeHotChange,
+    afterChange: function afterChange(changes, source) {
+      if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+      }
+    },
     afterOnCellMouseDown: function afterOnCellMouseDown(event, coords) {
       handleCellDoubleClick(event, coords);
     },
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     },
     afterCreateRow: function afterCreateRow(index, amount) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     },
@@ -197294,14 +197386,15 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "IndividualId",
       type: "dropdown",
-      source: props.individual_ids_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.individual_ids_options))
       //source: ["pop1", "pop2", "pop3"],
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "PopulationId",
       type: "dropdown",
-      source: props.population_ids_options
+      strict: true,
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_ids_options))
       //source: ["pop1", "pop2", "pop3"],
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
@@ -197324,7 +197417,7 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "ApplicationProtocol",
       type: "dropdown",
-      source: props.application_protocol_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.application_protocol_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"]
   // width={75}
@@ -197353,7 +197446,7 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "SteadyStateTimeUnit",
       type: "dropdown",
-      source: props.steatystatetime_unit_options
+      source: ["--NONE--"].concat(_toConsumableArray(props.steatystatetime_unit_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -198083,6 +198176,7 @@ function processShinyData(data) {
 
 // clean data before sending to shiny
 function prepareShinyData(data) {
+  var noneTypeColumns = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   if (data === undefined) return;
   if (data === null) return;
   return data.map(function (entry) {
@@ -198098,7 +198192,16 @@ function prepareShinyData(data) {
             cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
           }
         } else {
-          cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+          // Convert "--NONE--" string to null values
+          if (noneTypeColumns.includes(key)) {
+            if (entry[key] === "--NONE--" || entry[key] === null) {
+              cleanedEntry[key] = null;
+            } else {
+              cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+            }
+          } else {
+            cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+          }
         }
       }
     }

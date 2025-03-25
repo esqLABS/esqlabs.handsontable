@@ -60,7 +60,7 @@ export function processShinyData(data) {
   }
 
 // clean data before sending to shiny
-export function prepareShinyData(data) {
+export function prepareShinyData(data, noneTypeColumns = []) {
     if (data === undefined) return;
     if (data === null) return;
 
@@ -77,7 +77,16 @@ export function prepareShinyData(data) {
                         cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
                     }
                 } else {
-                    cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+                    // Convert "--NONE--" string to null values
+                    if(noneTypeColumns.includes(key)) {
+                      if(entry[key] === "--NONE--" || entry[key] === null) {
+                        cleanedEntry[key] = null;
+                      } else {
+                        cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+                      }
+                    } else {
+                      cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+                    }
                 }
             }
         }
