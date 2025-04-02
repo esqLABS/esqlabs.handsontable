@@ -196208,6 +196208,120 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
 
 /***/ }),
 
+/***/ "./srcjs/components/HandsOnTableEditorsExt/ModalProteinOntogeny.js":
+/*!*************************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/ModalProteinOntogeny.js ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/index.js");
+/* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/index.js");
+/* harmony import */ var _mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/DialogTitle */ "./node_modules/@mui/material/DialogTitle/index.js");
+/* harmony import */ var _mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/DialogContent */ "./node_modules/@mui/material/DialogContent/index.js");
+/* harmony import */ var _mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material/DialogActions */ "./node_modules/@mui/material/DialogActions/index.js");
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/index.js");
+/* harmony import */ var _mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material/Close */ "./node_modules/@mui/icons-material/Close.js");
+/* harmony import */ var _mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_icons_md__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-icons/md */ "./node_modules/react-icons/md/index.mjs");
+/* harmony import */ var _mui_material_FormControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/FormControl */ "./node_modules/@mui/material/FormControl/index.js");
+/* harmony import */ var _mui_material_MenuItem__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/material/MenuItem */ "./node_modules/@mui/material/MenuItem/index.js");
+/* harmony import */ var _mui_material_ListItemText__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material/ListItemText */ "./node_modules/@mui/material/ListItemText/index.js");
+/* harmony import */ var _mui_material_Checkbox__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/material/Checkbox */ "./node_modules/@mui/material/Checkbox/index.js");
+/* harmony import */ var _mui_material_Select__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/material/Select */ "./node_modules/@mui/material/Select/index.js");
+/* harmony import */ var _mui_material_InputLabel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/InputLabel */ "./node_modules/@mui/material/InputLabel/index.js");
+/* harmony import */ var _mui_material_OutlinedInput__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/material/OutlinedInput */ "./node_modules/@mui/material/OutlinedInput/index.js");
+/* harmony import */ var _mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material/Divider */ "./node_modules/@mui/material/Divider/index.js");
+/* harmony import */ var _mui_material_Chip__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material/Chip */ "./node_modules/@mui/material/Chip/index.js");
+/* harmony import */ var react_easy_sort__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react-easy-sort */ "./node_modules/react-easy-sort/index.module.js");
+/* harmony import */ var array_move__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! array-move */ "./node_modules/array-move/index.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+// General
+
+// Modal
+
+
+
+
+
+
+
+// Icons
+
+// Checkbox group
+
+
+
+
+
+
+
+
+
+// Sortable List
+
+
+function ModalProteinOntogeny(props) {
+  /* props: {showModal, onCloseModal, dropdownOptions, selectedValue, saveChanges, enableSelectOrder} */
+
+  // const [valueSelected, setValueSelected] = useState(props.selectedValue);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+    _useState2 = _slicedToArray(_useState, 2),
+    disableSave = _useState2[0],
+    setDisableSave = _useState2[1];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    fullWidth: true,
+    maxWidth: "sm",
+    "aria-labelledby": "customized-dialog-title",
+    open: props.showModal,
+    onClose: props.onCloseModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sx: {
+      m: 0,
+      p: 2
+    },
+    id: "customized-dialog-title"
+  }, "Select ".concat(props.activeColumnName)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    "aria-label": "close",
+    onClick: props.onCloseModal,
+    sx: {
+      position: "absolute",
+      right: 8,
+      top: 8,
+      color: function color(theme) {
+        return theme.palette.grey[500];
+      }
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7___default.a, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    style: {
+      marginTop: '5px',
+      marginBottom: '25px'
+    }
+  }, "Select ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_17__["default"], {
+    label: props.activeColumnName,
+    size: "small"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Protein ontogeny part!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    autoFocus: true,
+    disabled: disableSave,
+    onClick: function onClick() {
+      console.log('Save changes');
+      //props.saveChanges(finalOrder);
+    }
+  }, "Save changes")));
+}
+/* harmony default export */ __webpack_exports__["default"] = (ModalProteinOntogeny);
+
+/***/ }),
+
 /***/ "./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js":
 /*!**********************************************************************************!*\
   !*** ./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js ***!
@@ -196459,6 +196573,140 @@ function ModalShowDropdownAndSortValue(props) {
 
 /***/ }),
 
+/***/ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js":
+/*!**************************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var _ModalProteinOntogeny_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalProteinOntogeny.js */ "./srcjs/components/HandsOnTableEditorsExt/ModalProteinOntogeny.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+// React Dependancies
+
+// HandsOnTable
+
+// Components
+
+var ProteinOntogenyEditor = /*#__PURE__*/function (_BaseEditorComponent) {
+  _inherits(ProteinOntogenyEditor, _BaseEditorComponent);
+  function ProteinOntogenyEditor(props) {
+    var _this;
+    _classCallCheck(this, ProteinOntogenyEditor);
+    _this = _callSuper(this, ProteinOntogenyEditor, [props]);
+    _this.editorRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef(null);
+    _this.state = {
+      renderResult: null,
+      value: null,
+      modalVisible: false
+    };
+    return _this;
+  }
+  _createClass(ProteinOntogenyEditor, [{
+    key: "stopMousedownPropagation",
+    value: function stopMousedownPropagation(e) {
+      e.stopPropagation();
+    }
+  }, {
+    key: "setValue",
+    value: function setValue(value, callback) {
+      this.setState(function (state, props) {
+        return {
+          value: value
+        };
+      }, callback);
+    }
+  }, {
+    key: "getValue",
+    value: function getValue() {
+      return this.state.value;
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      // Open modal window
+      this.setState({
+        modalVisible: true
+      });
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      // Close modal window
+      this.setState({
+        modalVisible: false
+      });
+    }
+  }, {
+    key: "prepare",
+    value: function prepare(row, col, prop, td, originalValue, cellProperties) {
+      _get(_getPrototypeOf(ProteinOntogenyEditor.prototype), "prepare", this).call(this, row, col, prop, td, originalValue, cellProperties);
+    }
+  }, {
+    key: "convertIntoArrType",
+    value: function convertIntoArrType(value) {
+      return typeof value === "string" && value.length !== 0 ? value.split(",") : value;
+    }
+  }, {
+    key: "saveChanges",
+    value: function saveChanges(value) {
+      var _this2 = this;
+      this.setValue(typeof value === "string" ? value.split(",") : value, function () {
+        _this2.finishEditing();
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var renderResult = [];
+      if (this.props.isEditor) {
+        renderResult = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          style: this.editorContainerStyle,
+          ref: this.editorRef,
+          onMouseDown: this.stopMousedownPropagation
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalProteinOntogeny_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          showModal: this.state.modalVisible,
+          onCloseModal: this.close.bind(this),
+          activeColumnName: this.props.activeColumnName
+        }));
+      } else if (this.props.isRenderer) {
+        var colorboxStyle = {
+          //   background: this.props.value,
+          width: "21px",
+          height: "21px",
+          "float": "left",
+          marginRight: "5px"
+        };
+        renderResult = Array.isArray(this.props.value) ? this.props.value.join(", ") : this.props.value;
+      }
+      return renderResult;
+    }
+  }]);
+  return ProteinOntogenyEditor;
+}(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["BaseEditorComponent"]);
+/* harmony default export */ __webpack_exports__["default"] = (ProteinOntogenyEditor);
+
+/***/ }),
+
 /***/ "./srcjs/components/HandsOnTableTemp.js":
 /*!**********************************************!*\
   !*** ./srcjs/components/HandsOnTableTemp.js ***!
@@ -196617,6 +196865,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -196636,6 +196885,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Utils
 
+// Import Custom HandsOntableEditor
+
 function IndividualBiometricsTable(props) {
   // Data state
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
@@ -196643,6 +196894,12 @@ function IndividualBiometricsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Add Protein ontogeny column if it doesn't exist
+  console.log(col_names);
+  console.log(col_names.includes("Protein ontogeny"));
+  if (!col_names.includes("Protein ontogeny")) {
+    col_names.push("Protein ontogeny");
+  }
   // Constants
   var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]];
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -196873,7 +197130,14 @@ function IndividualBiometricsTable(props) {
       data: col_names[6],
       type: "numeric"
     }
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    settings: {
+      data: col_names[7]
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    "hot-editor": true,
+    activeColumnName: "Protein ontogeny"
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (IndividualBiometricsTable);
 

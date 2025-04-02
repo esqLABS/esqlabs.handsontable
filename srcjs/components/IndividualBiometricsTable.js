@@ -7,12 +7,21 @@ import "handsontable/dist/handsontable.full.min.css";
 import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+// Import Custom HandsOntableEditor
+import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
+
 
 function IndividualBiometricsTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
-  const col_names = Object.keys(dataR[0]);
-    // Constants
+  let col_names = Object.keys(dataR[0]);
+  // Add Protein ontogeny column if it doesn't exist
+  console.log(col_names);
+  console.log(col_names.includes("Protein ontogeny"));
+  if(!(col_names.includes("Protein ontogeny"))) {
+    col_names.push("Protein ontogeny");
+  }
+  // Constants
   const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]]
   const hotTableComponentRef = useRef(null);
 
@@ -250,6 +259,12 @@ function IndividualBiometricsTable(props) {
       <HotColumn settings={{ data: col_names[4], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[5], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[6], type: "numeric" }} />
+      <HotColumn settings={{ data: col_names[7] }}>
+        <ProteinOntogenyEditor
+          hot-editor
+          activeColumnName="Protein ontogeny"
+        />
+      </HotColumn>
     </HotTable>
   );
 }
