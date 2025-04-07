@@ -263,6 +263,7 @@ function IndividualBiometricsTable(props) {
         <ProteinOntogenyEditor
           hot-editor
           activeColumnName="Protein ontogeny"
+          windowTitle="Map Protein to Ontogeny"
         />
       </HotColumn>
     </HotTable>
