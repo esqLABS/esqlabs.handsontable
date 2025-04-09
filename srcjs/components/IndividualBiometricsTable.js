@@ -16,8 +16,6 @@ function IndividualBiometricsTable(props) {
   const [dataR, updateDataR] = useState(props.data_scenarios);
   let col_names = Object.keys(dataR[0]);
   // Add Protein ontogeny column if it doesn't exist
-  console.log(col_names);
-  console.log(col_names.includes("Protein ontogeny"));
   if(!(col_names.includes("Protein ontogeny"))) {
     col_names.push("Protein ontogeny");
   }

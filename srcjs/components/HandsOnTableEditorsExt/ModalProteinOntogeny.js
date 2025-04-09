@@ -42,7 +42,7 @@ function ModalProteinOntogeny(props) {
     if (!tableData) return;
 
     let inValidItems = [];
-  
+
     tableData.forEach((arr) => {
       arr.forEach((el, index) => {
         if (index === 0) {
@@ -55,7 +55,7 @@ function ModalProteinOntogeny(props) {
           }
         } else {
           if (
-            (el !== null && !ospsuite_standard_ontogeny.includes(el) && (index === 1))
+            (el == null || !(ospsuite_standard_ontogeny || []).includes(el)) && index === 1
           ) {
             inValidItems.push(el);
           } else {
@@ -64,7 +64,7 @@ function ModalProteinOntogeny(props) {
         }
       });
     }); // end of forEach
-  
+
     if (inValidItems.length > 0) {
       setDisableSave(true);
     } else {

@@ -196300,7 +196300,7 @@ function ModalProteinOntogeny(props) {
             return;
           }
         } else {
-          if (el !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_13__["ospsuite_standard_ontogeny"].includes(el) && index === 1) {
+          if ((el == null || !(_utils_config_js__WEBPACK_IMPORTED_MODULE_13__["ospsuite_standard_ontogeny"] || []).includes(el)) && index === 1) {
             inValidItems.push(el);
           } else {
             return;
@@ -197033,8 +197033,6 @@ function IndividualBiometricsTable(props) {
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
   // Add Protein ontogeny column if it doesn't exist
-  console.log(col_names);
-  console.log(col_names.includes("Protein ontogeny"));
   if (!col_names.includes("Protein ontogeny")) {
     col_names.push("Protein ontogeny");
   }
@@ -198195,7 +198193,8 @@ var useProteinOntogenyValidate = function useProteinOntogenyValidate(hotRef) {
           }
         }
         if (col === 1) {
-          if (hot.getData()[row][col] !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["ospsuite_standard_ontogeny"].includes(hot.getData()[row][col])) {
+          var cellValue = hot.getData()[row][col];
+          if (cellValue != null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["ospsuite_standard_ontogeny"].includes(cellValue)) {
             cellProperties.renderer = _components_TableRenderer_TableRenderer_js__WEBPACK_IMPORTED_MODULE_2__["invalidCellRenderer"];
           }
         }

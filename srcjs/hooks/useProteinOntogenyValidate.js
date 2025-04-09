@@ -22,9 +22,9 @@ const useProteinOntogenyValidate = (hotRef) => {
         }
 
         if (col === 1) {
+          const cellValue = hot.getData()[row][col];
           if (
-            hot.getData()[row][col] !== null &&
-            !ospsuite_standard_ontogeny.includes(hot.getData()[row][col])
+            cellValue != null && !ospsuite_standard_ontogeny.includes(cellValue)
           ) {
             cellProperties.renderer = invalidCellRenderer;
           }
