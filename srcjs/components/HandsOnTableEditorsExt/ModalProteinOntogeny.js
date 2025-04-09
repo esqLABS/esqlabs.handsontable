@@ -8,27 +8,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-// Icons
-import { MdDragIndicator } from "react-icons/md";
 // Checkbox group
-import Box from '@mui/material/Box';
-import FormControl from "@mui/material/FormControl";
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 // Table
 import { HotTable } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
-// Sortable List
-import SortableList, { SortableItem } from 'react-easy-sort'
-import { arrayMoveImmutable } from 'array-move'
+// Utils
+import { ospsuite_standard_ontogeny } from "../../utils/config.js";
+// Hooks
+import useProteinOntogenyValidate from "../../hooks/useProteinOntogenyValidate.js";
 
 // register Handsontable's modules
 registerAllModules();
@@ -40,10 +30,47 @@ function ModalProteinOntogeny(props) {
   const [disableSave, setDisableSave] = useState(true);
   const [tableData, setTableData] = useState(props.cellData);
   const hotRef = useRef(null);
+  // Apply cell validation
+  useProteinOntogenyValidate(hotRef);
 
   useEffect(() => {
     setTableData(props.cellData);
   }, [props.cellData]);
+
+  // Validate table data
+  useEffect(() => {
+    if (!tableData) return;
+
+    let inValidItems = [];
+  
+    tableData.forEach((arr) => {
+      arr.forEach((el, index) => {
+        if (index === 0) {
+          if (
+            (!el)
+          ) {
+            inValidItems.push(el);
+          } else {
+            return;
+          }
+        } else {
+          if (
+            (el !== null && !ospsuite_standard_ontogeny.includes(el) && (index === 1))
+          ) {
+            inValidItems.push(el);
+          } else {
+            return;
+          }
+        }
+      });
+    }); // end of forEach
+  
+    if (inValidItems.length > 0) {
+      setDisableSave(true);
+    } else {
+      setDisableSave(false);
+    }
+  }, [tableData]);
 
   return (
     <Dialog
@@ -95,7 +122,7 @@ function ModalProteinOntogeny(props) {
                 { type: "text" },
                 {
                   type: "dropdown",
-                  source: ["CYP1A2","CYP2C18","CYP2C19","CYP2C8","CYP2C9","CYP2D6","CYP2E1","CYP3A4","CYP3A5","CYP3A7","UGT1A1","UGT1A4","UGT1A6","UGT1A9","UGT2B4","UGT2B7"]
+                  source: ospsuite_standard_ontogeny
                 }
               ]}
               contextMenu={{
@@ -155,7 +182,7 @@ function ModalProteinOntogeny(props) {
       <DialogActions>
         <Button
           autoFocus
-          // disabled={disableSave}
+          disabled={disableSave}
           onClick={() => {
             console.log('Save changes');
             console.log(tableData);

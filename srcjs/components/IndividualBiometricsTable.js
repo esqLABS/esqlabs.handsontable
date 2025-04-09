@@ -123,6 +123,7 @@ function IndividualBiometricsTable(props) {
       updateNeighbourReadOnly(changes, dataR);
       updateNoneSelectionValue(dataR, changes, source);
       trackIndividualId(changes);
+
       setTimeout(() => {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
@@ -259,7 +260,11 @@ function IndividualBiometricsTable(props) {
       <HotColumn settings={{ data: col_names[4], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[5], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[6], type: "numeric" }} />
-      <HotColumn settings={{ data: col_names[7] }}>
+      <HotColumn
+        settings={{
+          data: col_names[7]
+        }}
+      >
         <ProteinOntogenyEditor
           hot-editor
           activeColumnName="Protein ontogeny"

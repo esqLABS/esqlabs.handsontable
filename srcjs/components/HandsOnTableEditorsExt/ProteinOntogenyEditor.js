@@ -19,6 +19,10 @@ class ProteinOntogenyEditor extends BaseEditorComponent {
       modalVisible: false,
       cellData: null
     };
+
+    // Preserve original finishEditing
+    this._originalFinishEditing = super.finishEditing.bind(this);
+
   }
 
   stopMousedownPropagation(e) {
@@ -32,7 +36,7 @@ class ProteinOntogenyEditor extends BaseEditorComponent {
   }
 
   getValue() {
-    return this.state.value;
+    return this.state.value; // Make sure it's a string
   }
 
   open() {
@@ -46,12 +50,12 @@ class ProteinOntogenyEditor extends BaseEditorComponent {
   }
 
   // Override `finishEditing` to no-op until explicitly called
-  finishEditing(restoreOriginalValue, ctrlPressed, callback) {
+  finishEditing() {
     if (!this.state.modalVisible) {
-      // Only call parent finishEditing if modal is already closed
-      super.finishEditing(restoreOriginalValue, ctrlPressed, callback);
+      // finishEditing expects (restoreOriginalValue = false, ctrlDown = false)
+      this._originalFinishEditing(false, false);
     }
-    // Otherwise do nothing (wait for user to press Save)
+    // If modal is open, do nothing (user is still editing)
   }
 
 
@@ -63,28 +67,21 @@ class ProteinOntogenyEditor extends BaseEditorComponent {
     this.setState({
       cellData: parsed,
       value: originalValue
-    }, () => {
-      console.log("Original value:", originalValue);
-      console.log("Parsed cellData:", this.state.cellData);
-      console.log("Raw value stored:", this.state.value);
     });
 
   }
 
-  convertIntoArrType(value) {
-    return typeof value === "string" && value.length !== 0
-      ? value.split(",")
-      : value;
-  }
 
   saveChanges(value) {
-    this.setValue({
-      value: joinProteinOntogenyFromArray(value),
-    }, () => {
-      console.log("State updated in saveChanges:", this.state.value);
-      console.log("State updated param `value`:", value);
-      this.finishEditing();
-    });
+    const joined = joinProteinOntogenyFromArray(value);
+
+    this.setValue(
+      joined,
+      () => {
+        this.saveValue([[joined]], false);  // safe value and ctrlDown
+        this._originalFinishEditing(false, false);  // manually finish after saving
+      }
+    );
   }
 
   render() {
@@ -117,9 +114,11 @@ class ProteinOntogenyEditor extends BaseEditorComponent {
         marginRight: "5px",
       };
 
-      renderResult = Array.isArray(this.props.value)
-        ? this.props.value.join(", ")
-        : this.props.value;
+      //renderResult = Array.isArray(this.props.value)
+      //  ? this.props.value.join(", ")
+      //  : this.props.value;
+
+      renderResult = "UNKNOWN"
 
     }
 
