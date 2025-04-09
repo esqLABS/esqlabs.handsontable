@@ -7,12 +7,18 @@ import "handsontable/dist/handsontable.full.min.css";
 import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+// Import Custom HandsOntableEditor
+import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
 
 
 function DemographicsTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   const col_names = Object.keys(dataR[0]);
+  // Add Protein ontogeny column if it doesn't exist
+  if(!(col_names.includes("Protein ontogeny"))) {
+    col_names.push("Protein ontogeny");
+  }
     // Constants
   const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[7], col_names[10], col_names[15]];
   const hotTableComponentRef = useRef(null);
@@ -197,6 +203,17 @@ function DemographicsTable(props) {
           source: ["--NONE--", ...props.bmi_unit_options]
         }}
       />
+      <HotColumn
+        settings={{
+          data: col_names[16]
+        }}
+      >
+        <ProteinOntogenyEditor
+          hot-editor
+          activeColumnName="Protein ontogeny"
+          windowTitle="Map Protein to Ontogeny"
+        />
+      </HotColumn>
     </HotTable>
   );
 }

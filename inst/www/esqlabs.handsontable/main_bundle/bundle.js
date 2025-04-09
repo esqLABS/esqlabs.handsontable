@@ -195827,6 +195827,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -195846,6 +195847,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Utils
 
+// Import Custom HandsOntableEditor
+
 function DemographicsTable(props) {
   // Data state
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
@@ -195853,6 +195856,10 @@ function DemographicsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
+  // Add Protein ontogeny column if it doesn't exist
+  if (!col_names.includes("Protein ontogeny")) {
+    col_names.push("Protein ontogeny");
+  }
   // Constants
   var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[7], col_names[10], col_names[15]];
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -196063,7 +196070,15 @@ function DemographicsTable(props) {
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.bmi_unit_options))
     }
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    settings: {
+      data: col_names[16]
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    "hot-editor": true,
+    activeColumnName: "Protein ontogeny",
+    windowTitle: "Map Protein to Ontogeny"
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (DemographicsTable);
 
