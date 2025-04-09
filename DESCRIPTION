@@ -1,6 +1,6 @@
 Package: esqlabs.handsontable
 Title: ESQLabs HandsonTable: Interactive react.js table library
-Version: 0.0.1.9000
+Version: 0.0.1.9001
 Authors@R: 
     person("Anastasiia", "Kostiv", , "anastasiia.kostiv.ext@esqlabs.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
