@@ -196072,7 +196072,8 @@ function DemographicsTable(props) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
-      data: col_names[16]
+      data: col_names[16],
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["proteinOntogenyAlwaysDoubleClickRenderer"]
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
@@ -197283,7 +197284,8 @@ function IndividualBiometricsTable(props) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
-      data: col_names[7]
+      data: col_names[7],
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["proteinOntogenyAlwaysDoubleClickRenderer"]
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
@@ -198157,13 +198159,14 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readOnlyStyleRenderer", function() { return readOnlyStyleRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidCellRenderer", function() { return invalidCellRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proteinOntogenyAlwaysDoubleClickRenderer", function() { return proteinOntogenyAlwaysDoubleClickRenderer; });
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 
 function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -198173,6 +198176,13 @@ function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperti
 function invalidCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
   td.style.background = "#ffbeba";
+}
+function proteinOntogenyAlwaysDoubleClickRenderer(instance, td, row, col, prop, value, cellProperties) {
+  // Always render "DOUBLE CLICK" no matter the real value
+  td.innerHTML = "DOUBLE CLICK";
+  td.style.color = "#bbb";
+  td.style.fontStyle = "italic";
+  return td;
 }
 
 /***/ }),
@@ -198608,8 +198618,8 @@ function splitProteinOntogenyToArray(inputString) {
   }
 
   // Split by semicolon to get top-level groups
-  var protein_ontogeny_Array = inputString.split(';').map(function (group) {
-    var parts = group.split(',');
+  var protein_ontogeny_Array = inputString.split(',').map(function (group) {
+    var parts = group.split(':');
 
     // Ensure exactly two elements per group
     if (parts.length === 1) {
@@ -198672,7 +198682,7 @@ function joinProteinOntogenyFromArray(nestedArray) {
     }
 
     // Return combined "protein,ontogeny" string
-    return "".concat(pair[0], ",").concat(pair[1]);
+    return "".concat(pair[0], ":").concat(pair[1]);
   });
 
   // If any invalid [protein, ontogeny] pair was found
@@ -198681,7 +198691,7 @@ function joinProteinOntogenyFromArray(nestedArray) {
   }
 
   // Join all "protein,ontogeny" strings with semicolon
-  return joined.join(';');
+  return joined.join(',');
 }
 
 /***/ }),

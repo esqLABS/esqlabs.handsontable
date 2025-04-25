@@ -27,8 +27,8 @@ export function splitProteinOntogenyToArray(inputString) {
   }
 
   // Split by semicolon to get top-level groups
-  const protein_ontogeny_Array = inputString.split(';').map(group => {
-    const parts = group.split(',');
+  const protein_ontogeny_Array = inputString.split(',').map(group => {
+    const parts = group.split(':');
 
     // Ensure exactly two elements per group
     if (parts.length === 1) {
@@ -89,7 +89,7 @@ export function joinProteinOntogenyFromArray(nestedArray) {
     }
 
     // Return combined "protein,ontogeny" string
-    return `${pair[0]},${pair[1]}`;
+    return `${pair[0]}:${pair[1]}`;
   });
 
   // If any invalid [protein, ontogeny] pair was found
@@ -98,6 +98,6 @@ export function joinProteinOntogenyFromArray(nestedArray) {
   }
 
   // Join all "protein,ontogeny" strings with semicolon
-  return joined.join(';');
+  return joined.join(',');
 }
 

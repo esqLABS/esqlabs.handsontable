@@ -4,7 +4,7 @@ import { registerAllModules } from "handsontable/registry";
 import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
@@ -205,7 +205,8 @@ function DemographicsTable(props) {
       />
       <HotColumn
         settings={{
-          data: col_names[16]
+          data: col_names[16],
+          renderer: proteinOntogenyAlwaysDoubleClickRenderer
         }}
       >
         <ProteinOntogenyEditor

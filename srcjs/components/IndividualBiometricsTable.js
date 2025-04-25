@@ -4,12 +4,11 @@ import { registerAllModules } from "handsontable/registry";
 import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
 import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
-
 
 function IndividualBiometricsTable(props) {
   // Data state
@@ -260,7 +259,8 @@ function IndividualBiometricsTable(props) {
       <HotColumn settings={{ data: col_names[6], type: "numeric" }} />
       <HotColumn
         settings={{
-          data: col_names[7]
+          data: col_names[7],
+          renderer: proteinOntogenyAlwaysDoubleClickRenderer
         }}
       >
         <ProteinOntogenyEditor
