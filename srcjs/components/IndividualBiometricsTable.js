@@ -14,9 +14,9 @@ function IndividualBiometricsTable(props) {
   // Data state
   const [dataR, updateDataR] = useState(props.data_scenarios);
   let col_names = Object.keys(dataR[0]);
-  // Add Protein ontogeny column if it doesn't exist
-  if(!(col_names.includes("Protein ontogeny"))) {
-    col_names.push("Protein ontogeny");
+  // Add Protein Ontogenies column if it doesn't exist
+  if(!(col_names.includes("Protein Ontogenies"))) {
+    col_names.push("Protein Ontogenies");
   }
   // Constants
   const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]]
@@ -265,7 +265,7 @@ function IndividualBiometricsTable(props) {
       >
         <ProteinOntogenyEditor
           hot-editor
-          activeColumnName="Protein ontogeny"
+          activeColumnName="Protein Ontogenies"
           windowTitle="Map Protein to Ontogeny"
         />
       </HotColumn>

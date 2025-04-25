@@ -3,8 +3,14 @@ import { useRef } from "react";
 import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
+// Import Custom Renderer
+import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
+
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+// Import Custom HandsOntableEditor
+import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
+
 
 
 function HandsOnTableTemp(props) {
@@ -107,7 +113,41 @@ function HandsOnTableTemp(props) {
         // Send data to Shiny with the edited data
         Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
       }}
-    />
+    >
+
+      {
+        col_names.map((col_name, col_index) => {
+          if (col_name === "Protein Ontogenies") {
+            return (
+              <HotColumn
+                key={col_index}
+                settings={{
+                  data: col_name,
+                  renderer: proteinOntogenyAlwaysDoubleClickRenderer,
+                }}
+              >
+                <ProteinOntogenyEditor
+                  hot-editor
+                  activeColumnName="Protein Ontogenies"
+                  windowTitle="Map Protein to Ontogeny"
+                />
+              </HotColumn>
+            );
+          } else {
+            return (
+              <HotColumn
+                key={col_index}
+                settings={{
+                  data: col_name,
+                }}
+              />
+            );
+          }
+        })
+      }
+
+
+    </HotTable>
   );
 }
 

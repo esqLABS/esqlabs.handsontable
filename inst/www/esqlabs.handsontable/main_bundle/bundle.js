@@ -195856,9 +195856,9 @@ function DemographicsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
-  // Add Protein ontogeny column if it doesn't exist
-  if (!col_names.includes("Protein ontogeny")) {
-    col_names.push("Protein ontogeny");
+  // Add Protein Ontogenies column if it doesn't exist
+  if (!col_names.includes("Protein Ontogenies")) {
+    col_names.push("Protein Ontogenies");
   }
   // Constants
   var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[7], col_names[10], col_names[15]];
@@ -196077,7 +196077,7 @@ function DemographicsTable(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
-    activeColumnName: "Protein ontogeny",
+    activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
   })));
 }
@@ -196875,7 +196875,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
-/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196887,7 +196889,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+// Import Custom Renderer
+
+
 // Utils
+
+// Import Custom HandsOntableEditor
 
 function HandsOnTableTemp(props) {
   // console.log(props.data_scenarios);
@@ -196952,7 +196959,7 @@ function HandsOnTableTemp(props) {
             var selectedRow = this.getSelectedLast()[0];
             if (this.countRows() === 1 && selectedRow === 0) {
               // Cut all elements of the first row
-              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"])(this, selectedRow);
             } else {
               // Perform remove row operation
               // Use Handsontable's built-in remove_row functionality for multiple selections
@@ -196996,7 +197003,28 @@ function HandsOnTableTemp(props) {
         priority: "event"
       });
     }
-  });
+  }, col_names.map(function (col_name, col_index) {
+    if (col_name === "Protein Ontogenies") {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+        key: col_index,
+        settings: {
+          data: col_name,
+          renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["proteinOntogenyAlwaysDoubleClickRenderer"]
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        "hot-editor": true,
+        activeColumnName: "Protein Ontogenies",
+        windowTitle: "Map Protein to Ontogeny"
+      }));
+    } else {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+        key: col_index,
+        settings: {
+          data: col_name
+        }
+      });
+    }
+  }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (HandsOnTableTemp);
 
@@ -197048,9 +197076,9 @@ function IndividualBiometricsTable(props) {
     dataR = _useState2[0],
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
-  // Add Protein ontogeny column if it doesn't exist
-  if (!col_names.includes("Protein ontogeny")) {
-    col_names.push("Protein ontogeny");
+  // Add Protein Ontogenies column if it doesn't exist
+  if (!col_names.includes("Protein Ontogenies")) {
+    col_names.push("Protein Ontogenies");
   }
   // Constants
   var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[2], col_names[3]];
@@ -197289,7 +197317,7 @@ function IndividualBiometricsTable(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
-    activeColumnName: "Protein ontogeny",
+    activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
   })));
 }
