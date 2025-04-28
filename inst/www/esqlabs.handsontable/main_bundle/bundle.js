@@ -196877,7 +196877,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196893,8 +196892,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
-
-// Import Custom HandsOntableEditor
 
 function HandsOnTableTemp(props) {
   // console.log(props.data_scenarios);
@@ -197004,26 +197001,12 @@ function HandsOnTableTemp(props) {
       });
     }
   }, col_names.map(function (col_name, col_index) {
-    if (col_name === "Protein Ontogenies") {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
-        key: col_index,
-        settings: {
-          data: col_name,
-          renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["proteinOntogenyAlwaysDoubleClickRenderer"]
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        "hot-editor": true,
-        activeColumnName: "Protein Ontogenies",
-        windowTitle: "Map Protein to Ontogeny"
-      }));
-    } else {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
-        key: col_index,
-        settings: {
-          data: col_name
-        }
-      });
-    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+      key: col_index,
+      settings: {
+        data: col_name
+      }
+    });
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (HandsOnTableTemp);

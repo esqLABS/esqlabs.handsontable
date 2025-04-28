@@ -8,9 +8,6 @@ import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableR
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
-// Import Custom HandsOntableEditor
-import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
-
 
 
 function HandsOnTableTemp(props) {
@@ -117,32 +114,14 @@ function HandsOnTableTemp(props) {
 
       {
         col_names.map((col_name, col_index) => {
-          if (col_name === "Protein Ontogenies") {
-            return (
-              <HotColumn
-                key={col_index}
-                settings={{
-                  data: col_name,
-                  renderer: proteinOntogenyAlwaysDoubleClickRenderer,
-                }}
-              >
-                <ProteinOntogenyEditor
-                  hot-editor
-                  activeColumnName="Protein Ontogenies"
-                  windowTitle="Map Protein to Ontogeny"
-                />
-              </HotColumn>
-            );
-          } else {
-            return (
+          return (
               <HotColumn
                 key={col_index}
                 settings={{
                   data: col_name,
                 }}
               />
-            );
-          }
+          );
         })
       }
 
