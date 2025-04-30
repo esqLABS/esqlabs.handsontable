@@ -198790,7 +198790,21 @@ function prepareShinyData(data) {
           } else if (entry[key] === null) {
             cleanedEntry[key] = null;
           } else {
-            cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
+            console.log("key"); // Debugging line
+            console.log(key); // Debugging line
+            console.log("entry[key]"); // Debugging line
+            console.log(entry[key]); // Debugging line
+            if (typeof entry[key] === "string" && entry[key].includes(",")) {
+              cleanedEntry[key] = entry[key];
+            } else {
+              cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
+              try {
+                cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
+              } catch (error) {
+                // Fallback in case entry[key] is not an array and `.join()` fails
+                cleanedEntry[key] = String(entry[key]);
+              }
+            }
           }
         } else {
           // Convert "--NONE--" string to null values
