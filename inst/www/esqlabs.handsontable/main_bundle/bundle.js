@@ -198001,9 +198001,6 @@ function SimulationTimeModal(_ref) {
       setTableData(initialTableData);
     }
   }, [cellData]);
-  var handleUnitConversionChange = function handleUnitConversionChange(event) {
-    setSelectedConversionUnit(event.target.value);
-  };
   var handleSubmit = function handleSubmit() {
     // Assuming tableData is validated
     console.log({
@@ -198033,24 +198030,37 @@ function SimulationTimeModal(_ref) {
           if (typeof el !== "number" && el !== null || typeof el === "number" && el < 0) {
             inValidItems.push(el);
           } else {
-            return;
+            if (el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
           }
         } else {
           if (el !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__start_end__default_value"].includes(el) && (index === 1 || index === 3) || el !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__points__default_value"].includes(el) && index === 5) {
             inValidItems.push(el);
           } else {
-            return;
+            if (el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
           }
         }
       });
     }); // end of forEach
 
-    if (inValidItems.length > 0 || !selectedConversionUnit) {
+    if (inValidItems.length > 0) {
       setDisableSubmitBtn(true);
     } else {
+      var _tableData$0$, _tableData$;
       setDisableSubmitBtn(false);
+      setSelectedConversionUnit((_tableData$0$ = (_tableData$ = tableData[0]) === null || _tableData$ === void 0 ? void 0 : _tableData$[1]) !== null && _tableData$0$ !== void 0 ? _tableData$0$ : null);
     }
-  }, [tableData, selectedConversionUnit]);
+  }, [tableData]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    console.log("Selected conversion unit:", selectedConversionUnit);
+  }, [selectedConversionUnit]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"]
   // fullWidth={true}
   , {
@@ -198139,25 +198149,7 @@ function SimulationTimeModal(_ref) {
       });
       setTableData(newData);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_FormControl__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_FormLabel__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    id: "demo-row-radio-buttons-group-label"
-  }, "Select Time Unit Convert To"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_RadioGroup__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    row: true,
-    "aria-labelledby": "demo-row-radio-buttons-group-label",
-    name: "row-radio-buttons-group",
-    value: selectedConversionUnit,
-    onChange: handleUnitConversionChange,
-    style: {
-      zIndex: 9999999999
-    }
-  }, _utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__unitToConvert__default_value"].map(function (unit) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_FormControlLabel__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      key: unit,
-      value: unit,
-      control: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Radio__WEBPACK_IMPORTED_MODULE_6__["default"], null),
-      label: unit
-    });
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
     onClick: handleSubmit,
     disabled: disableSubmitBtn
   }, "Submit"))));
@@ -198790,10 +198782,6 @@ function prepareShinyData(data) {
           } else if (entry[key] === null) {
             cleanedEntry[key] = null;
           } else {
-            console.log("key"); // Debugging line
-            console.log(key); // Debugging line
-            console.log("entry[key]"); // Debugging line
-            console.log(entry[key]); // Debugging line
             if (typeof entry[key] === "string" && entry[key].includes(",")) {
               cleanedEntry[key] = entry[key];
             } else {

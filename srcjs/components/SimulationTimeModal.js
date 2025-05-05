@@ -60,9 +60,6 @@ function SimulationTimeModal({
     }
   }, [cellData]);
 
-  const handleUnitConversionChange = (event) => {
-    setSelectedConversionUnit(event.target.value);
-  };
 
   const handleSubmit = () => {
     // Assuming tableData is validated
@@ -112,7 +109,11 @@ function SimulationTimeModal({
           ) {
             inValidItems.push(el);
           } else {
-            return;
+            if(el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
           }
         } else {
           if (
@@ -121,18 +122,24 @@ function SimulationTimeModal({
           ) {
             inValidItems.push(el);
           } else {
-            return;
+            if(el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
           }
         }
       });
     }); // end of forEach
 
-    if (inValidItems.length > 0 || !selectedConversionUnit) {
+    if (inValidItems.length > 0) {
       setDisableSubmitBtn(true);
     } else {
       setDisableSubmitBtn(false);
+      setSelectedConversionUnit(tableData[0]?.[1] ?? null);
     }
-  }, [tableData, selectedConversionUnit]);
+  }, [tableData]);
+
 
   return (
     <React.Fragment>
@@ -228,31 +235,6 @@ function SimulationTimeModal({
               }}
             />
           </div>
-
-          <FormControl>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Select Time Unit Convert To
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={selectedConversionUnit}
-              onChange={handleUnitConversionChange}
-              style={{ zIndex: 9999999999 }}
-            >
-              {simulationTime__unitToConvert__default_value.map((unit) => {
-                return (
-                  <FormControlLabel
-                    key={unit}
-                    value={unit}
-                    control={<Radio />}
-                    label={unit}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSubmit} disabled={disableSubmitBtn}>Submit</Button>
