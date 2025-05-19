@@ -20,6 +20,10 @@ class SimulationTimeEditor extends BaseEditorComponent {
       modalVisible: false,
       cellData: null,
     };
+
+    // Preserve original finishEditing
+    this._originalFinishEditing = super.finishEditing.bind(this);
+
   }
 
   stopMousedownPropagation(e) {
@@ -52,6 +56,16 @@ class SimulationTimeEditor extends BaseEditorComponent {
     // Close modal window
     this.setState({ modalVisible: false });
   }
+
+    // Override `finishEditing` to no-op until explicitly called
+  finishEditing() {
+    if (!this.state.modalVisible) {
+      // finishEditing expects (restoreOriginalValue = false, ctrlDown = false)
+      this._originalFinishEditing(false, false);
+    }
+    // If modal is open, do nothing (user is still editing)
+  }
+
 
 
   prepare(row, col, prop, td, originalValue, cellProperties) {
@@ -89,7 +103,6 @@ class SimulationTimeEditor extends BaseEditorComponent {
           ref={this.editorRef}
           onMouseDown={this.stopMousedownPropagation}
         >
-
             <SimulationTimeModal
              // key={this.state.modalVisible ? "open" : "closed"} // Force re-render
               showModal={this.state.modalVisible}

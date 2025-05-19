@@ -8,6 +8,7 @@ import { getSimulationTimeValue, processShinyData, prepareShinyData } from "../u
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
+import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
 
 // register Handsontable's modules
 registerAllModules();
@@ -35,22 +36,6 @@ const ScenarioTable = (props) => {
     setSimulationTimeModalVisible(false);
   };
 
-  // Detect double-click only in "SimulationTime" column
-  const handleCellDoubleClick = (event, coords) => {
-    const columnIndex = coords.col;
-    const columnName = col_names[columnIndex];
-
-    if (columnName === "SimulationTime") {
-      const now = Date.now();
-      if (now - lastClickTime < 300) {
-        console.log(`Double-click detected on "SimulationTime" column at row ${coords.row}`);
-        handleSimulationTimeModalOpen(
-          getSimulationTimeValue(dataR, coords.row, coords.col, col_names)
-        );
-      }
-      setLastClickTime(now);
-    }
-  };
 
   const handleSimulationTimeModalDataSubmit = (data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) => {
     // Do something with the submitted data
@@ -104,11 +89,6 @@ const ScenarioTable = (props) => {
             }
           }
         }}
-        afterOnCellMouseDown={
-          (event, coords) => {
-              handleCellDoubleClick(event, coords);
-          }
-        }
         afterRemoveRow={(index, amount, physicalRows) => {
             //console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
@@ -215,7 +195,15 @@ const ScenarioTable = (props) => {
           settings={{
             data: "SimulationTime"
           }}
-        />
+        >
+          <SimulationTimeEditor
+            hot-editor
+            titleName="Enter Simulation Time"
+            parentData={dataR}
+            columnNames={col_names}
+            handleSimulationTimeModalDataSubmit={handleSimulationTimeModalDataSubmit}
+          />
+        </HotColumn>
         <HotColumn
           settings={{
             data: "SimulationTimeUnit",
@@ -249,12 +237,7 @@ const ScenarioTable = (props) => {
           />
         </HotColumn>
       </HotTable>
-      <SimulationTimeModal
-        showModal={simulationTimeModalVisible}
-        onCloseModal={handleSimulationTimeModalClose}
-        onDataSubmit={handleSimulationTimeModalDataSubmit}
-        cellData={simulationTimeModalData}
-      />
+
     </>
   );
 };

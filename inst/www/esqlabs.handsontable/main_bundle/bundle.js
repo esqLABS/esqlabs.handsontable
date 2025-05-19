@@ -196861,6 +196861,400 @@ var ProteinOntogenyEditor = /*#__PURE__*/function (_BaseEditorComponent) {
 
 /***/ }),
 
+/***/ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js":
+/*!*************************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var _SimulationTimeModal_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SimulationTimeModal.js */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeModal.js");
+/* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+// React Dependancies
+
+// HandsOnTable
+
+// Components
+
+// Utils
+
+var SimulationTimeEditor = /*#__PURE__*/function (_BaseEditorComponent) {
+  _inherits(SimulationTimeEditor, _BaseEditorComponent);
+  function SimulationTimeEditor(props) {
+    var _thisSuper, _this;
+    _classCallCheck(this, SimulationTimeEditor);
+    _this = _callSuper(this, SimulationTimeEditor, [props]);
+    _this.editorRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef(null);
+    _this.state = {
+      renderResult: null,
+      value: null,
+      modalVisible: false,
+      cellData: null
+    };
+
+    // Preserve original finishEditing
+    _this._originalFinishEditing = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SimulationTimeEditor.prototype)), "finishEditing", _thisSuper).bind(_assertThisInitialized(_this));
+    return _this;
+  }
+  _createClass(SimulationTimeEditor, [{
+    key: "stopMousedownPropagation",
+    value: function stopMousedownPropagation(e) {
+      e.stopPropagation();
+    }
+  }, {
+    key: "setValue",
+    value: function setValue(value, callback) {
+      this.setState(function (state, props) {
+        return {
+          value: value
+        };
+      }, callback);
+    }
+  }, {
+    key: "setCellData",
+    value: function setCellData(value, callback) {
+      this.setState(function (state, props) {
+        return {
+          cellData: value
+        };
+      }, callback);
+    }
+  }, {
+    key: "getValue",
+    value: function getValue() {
+      return this.state.value;
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      // To be removed: this.state.value;
+      // Open modal window
+      this.setState({
+        modalVisible: true
+      });
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      // Close modal window
+      this.setState({
+        modalVisible: false
+      });
+    }
+
+    // Override `finishEditing` to no-op until explicitly called
+  }, {
+    key: "finishEditing",
+    value: function finishEditing() {
+      if (!this.state.modalVisible) {
+        // finishEditing expects (restoreOriginalValue = false, ctrlDown = false)
+        this._originalFinishEditing(false, false);
+      }
+      // If modal is open, do nothing (user is still editing)
+    }
+  }, {
+    key: "prepare",
+    value: function prepare(row, col, prop, td, originalValue, cellProperties) {
+      var _this2 = this;
+      _get(_getPrototypeOf(SimulationTimeEditor.prototype), "prepare", this).call(this, row, col, prop, td, originalValue, cellProperties);
+      this.setState({
+        cellData: Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_3__["getSimulationTimeValue"])(this.props.parentData, row, col, this.props.columnNames)
+      }, function () {
+        console.log("State updated in prepare:", _this2.state.value);
+      });
+    }
+  }, {
+    key: "saveChanges",
+    value: function saveChanges(value) {
+      // this.setValue(value, () => {
+      //  console.log("Value saved: ", value);
+      //  this.finishEditing();
+      //});
+      this.finishEditing();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var renderResult = [];
+      if (this.props.isEditor) {
+        renderResult = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          style: this.editorContainerStyle,
+          ref: this.editorRef,
+          onMouseDown: this.stopMousedownPropagation
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimulationTimeModal_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+        // key={this.state.modalVisible ? "open" : "closed"} // Force re-render
+        , {
+          showModal: this.state.modalVisible,
+          onCloseModal: this.close.bind(this),
+          cellData: this.state.cellData || [] // Ensure it's always an array
+          ,
+          onDataSubmit: this.props.handleSimulationTimeModalDataSubmit.bind(this),
+          saveEditorValue: this.setValue.bind(this)
+        }));
+      } else if (this.props.isRenderer) {
+        console.log("this.props.value", this.props.value);
+        var colorboxStyle = {
+          //   background: this.props.value,
+          width: "21px",
+          height: "21px",
+          "float": "left",
+          marginRight: "5px"
+        };
+        renderResult = Array.isArray(this.props.value) ? this.props.value.join(", ") : this.props.value;
+      }
+      return renderResult;
+    }
+  }]);
+  return SimulationTimeEditor;
+}(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["BaseEditorComponent"]);
+/* harmony default export */ __webpack_exports__["default"] = (SimulationTimeEditor);
+
+/***/ }),
+
+/***/ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeModal.js":
+/*!************************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/SimulationTimeModal.js ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/index.js");
+/* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/index.js");
+/* harmony import */ var _mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/DialogActions */ "./node_modules/@mui/material/DialogActions/index.js");
+/* harmony import */ var _mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/DialogContent */ "./node_modules/@mui/material/DialogContent/index.js");
+/* harmony import */ var _mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material/DialogTitle */ "./node_modules/@mui/material/DialogTitle/index.js");
+/* harmony import */ var _mui_material_Radio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/Radio */ "./node_modules/@mui/material/Radio/index.js");
+/* harmony import */ var _mui_material_RadioGroup__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/RadioGroup */ "./node_modules/@mui/material/RadioGroup/index.js");
+/* harmony import */ var _mui_material_FormControlLabel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material/FormControlLabel */ "./node_modules/@mui/material/FormControlLabel/index.js");
+/* harmony import */ var _mui_material_FormControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/FormControl */ "./node_modules/@mui/material/FormControl/index.js");
+/* harmony import */ var _mui_material_FormLabel__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/material/FormLabel */ "./node_modules/@mui/material/FormLabel/index.js");
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../utils/simulationTimeModal */ "./srcjs/utils/simulationTimeModal.js");
+/* harmony import */ var _utils_config_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../utils/config.js */ "./srcjs/utils/config.js");
+/* harmony import */ var _hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../hooks/useSimulationTimeCellValidate.js */ "./srcjs/hooks/useSimulationTimeCellValidate.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+// Form Control to
+
+
+
+
+
+// Table
+
+
+
+// Utils
+
+
+// Hooks
+
+
+// register Handsontable's modules
+Object(handsontable_registry__WEBPACK_IMPORTED_MODULE_12__["registerAllModules"])();
+function SimulationTimeModal(props, _ref) {
+  var onDataSubmit = _ref.onDataSubmit;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState2 = _slicedToArray(_useState, 2),
+    formData = _useState2[0],
+    setFormData = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    selectedConversionUnit = _useState4[0],
+    setSelectedConversionUnit = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    tableData = _useState6[0],
+    setTableData = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    disableSubmitBtn = _useState8[0],
+    setDisableSubmitBtn = _useState8[1];
+  var hotRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+
+  // Apply cell validation
+  Object(_hooks_useSimulationTimeCellValidate_js__WEBPACK_IMPORTED_MODULE_16__["default"])(hotRef);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Initialize table data when cellData changes
+    if (props.cellData) {
+      var initialTableData = Object(_utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__["splitSimulationTimeToArray"])(props.cellData.cell_value, props.cellData.simulation_time_unit, 3);
+      setTableData(initialTableData);
+    }
+  }, [props.cellData]);
+  var handleSubmit = function handleSubmit() {
+    // Assuming tableData is validated
+    console.log({
+      jsonSchema: Object(_utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__["jsonSimulationTimeGenerate"])(tableData),
+      timeUnit: selectedConversionUnit
+    });
+    Object(_utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__["convertSimulationTimeToString"])(JSON.stringify({
+      jsonSchema: Object(_utils_simulationTimeModal__WEBPACK_IMPORTED_MODULE_14__["jsonSimulationTimeGenerate"])(tableData),
+      timeUnit: selectedConversionUnit
+    })).then(function (result) {
+      console.log("Result:", result);
+      props.onDataSubmit(result, props.cellData.col_name, props.cellData.row_num, props.cellData.cell_value, selectedConversionUnit, props.cellData.simulation_time_unit_col_name);
+      props.saveEditorValue(result); // save editor value
+      props.onCloseModal(); // close modal window
+    })["catch"](function (error) {
+      console.error("Error caught outside:", error);
+      props.onCloseModal(); // close modal window
+    });
+  };
+
+  // Validate table data
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (!tableData) return;
+    var inValidItems = [];
+    tableData.forEach(function (arr) {
+      arr.forEach(function (el, index) {
+        if (index % 2 === 0) {
+          if (typeof el !== "number" && el !== null || typeof el === "number" && el < 0) {
+            inValidItems.push(el);
+          } else {
+            if (el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
+          }
+        } else {
+          if (el !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__start_end__default_value"].includes(el) && (index === 1 || index === 3) || el !== null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__points__default_value"].includes(el) && index === 5) {
+            inValidItems.push(el);
+          } else {
+            if (el == null) {
+              inValidItems.push(el);
+            } else {
+              return;
+            }
+          }
+        }
+      });
+    }); // end of forEach
+
+    if (inValidItems.length > 0) {
+      setDisableSubmitBtn(true);
+    } else {
+      var _tableData$0$, _tableData$;
+      setDisableSubmitBtn(false);
+      setSelectedConversionUnit((_tableData$0$ = (_tableData$ = tableData[0]) === null || _tableData$ === void 0 ? void 0 : _tableData$[1]) !== null && _tableData$0$ !== void 0 ? _tableData$0$ : null);
+    }
+  }, [tableData]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"]
+  // fullWidth={true}
+  , {
+    maxWidth: "lg",
+    open: props.showModal,
+    onClose: props.onCloseModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_5__["default"], null, "Enter Simulation Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    style: {
+      height: "50vh"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      height: "30vh"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_11__["HotTable"], {
+    id: "hot2",
+    ref: hotRef,
+    data: tableData,
+    rowHeaders: true,
+    colHeaders: ["Start", "Time Unit", "End", "Time Unit", "Resolution", ""],
+    autoWrapRow: true,
+    autoWrapCol: true,
+    columns: [{
+      type: "numeric"
+    }, {
+      type: "dropdown",
+      source: _utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__start_end__default_value"]
+    }, {
+      type: "numeric"
+    }, {
+      type: "dropdown",
+      source: _utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__start_end__default_value"]
+    }, {
+      type: "numeric"
+    }, {
+      type: "dropdown",
+      source: _utils_config_js__WEBPACK_IMPORTED_MODULE_15__["simulationTime__points__default_value"]
+    }],
+    contextMenu: {
+      items: {
+        cut: {
+          name: "Clear"
+        },
+        row_below: {},
+        remove_row: {
+          disabled: function disabled() {
+            // Disable option when first row was clicked
+            return this.getSelectedLast()[0] === 0; // `this` === hot
+          }
+        }
+      }
+    },
+    licenseKey: "non-commercial-and-evaluation",
+    afterChange: function afterChange(changes) {
+      // Update table data after any changes
+      if (!changes) return;
+      var newData = _toConsumableArray(tableData);
+      changes.forEach(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 4),
+          row = _ref3[0],
+          prop = _ref3[1],
+          oldValue = _ref3[2],
+          newValue = _ref3[3];
+        newData[row][prop] = newValue;
+      });
+      setTableData(newData);
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    onClick: handleSubmit,
+    disabled: disableSubmitBtn
+  }, "Submit"))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (SimulationTimeModal);
+
+/***/ }),
+
 /***/ "./srcjs/components/HandsOnTableTemp.js":
 /*!**********************************************!*\
   !*** ./srcjs/components/HandsOnTableTemp.js ***!
@@ -197624,6 +198018,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
+/* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -197643,6 +198038,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Import Custom HandsOntableEditor
+
 
 
 // register Handsontable's modules
@@ -197679,20 +198075,6 @@ var ScenarioTable = function ScenarioTable(props) {
   };
   var handleSimulationTimeModalClose = function handleSimulationTimeModalClose() {
     setSimulationTimeModalVisible(false);
-  };
-
-  // Detect double-click only in "SimulationTime" column
-  var handleCellDoubleClick = function handleCellDoubleClick(event, coords) {
-    var columnIndex = coords.col;
-    var columnName = col_names[columnIndex];
-    if (columnName === "SimulationTime") {
-      var now = Date.now();
-      if (now - lastClickTime < 300) {
-        console.log("Double-click detected on \"SimulationTime\" column at row ".concat(coords.row));
-        handleSimulationTimeModalOpen(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["getSimulationTimeValue"])(dataR, coords.row, coords.col, col_names));
-      }
-      setLastClickTime(now);
-    }
   };
   var handleSimulationTimeModalDataSubmit = function handleSimulationTimeModalDataSubmit(data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) {
     // Do something with the submitted data
@@ -197744,9 +198126,6 @@ var ScenarioTable = function ScenarioTable(props) {
           dataR[changes[0][0]][changes[0][1]] = null;
         }
       }
-    },
-    afterOnCellMouseDown: function afterOnCellMouseDown(event, coords) {
-      handleCellDoubleClick(event, coords);
     },
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       //console.log(prepareShinyData(dataR));
@@ -197854,7 +198233,13 @@ var ScenarioTable = function ScenarioTable(props) {
     settings: {
       data: "SimulationTime"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    "hot-editor": true,
+    titleName: "Enter Simulation Time",
+    parentData: dataR,
+    columnNames: col_names,
+    handleSimulationTimeModalDataSubmit: handleSimulationTimeModalDataSubmit
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "SimulationTimeUnit",
       type: "text",
@@ -197895,12 +198280,7 @@ var ScenarioTable = function ScenarioTable(props) {
     enableSelectOrder: false,
     activeColumnName: "OutputPathsIds",
     placeHolderTitle: "PathId"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimulationTimeModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    showModal: simulationTimeModalVisible,
-    onCloseModal: handleSimulationTimeModalClose,
-    onDataSubmit: handleSimulationTimeModalDataSubmit,
-    cellData: simulationTimeModalData
-  }));
+  }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (ScenarioTable);
 
@@ -198058,9 +198438,6 @@ function SimulationTimeModal(_ref) {
       setSelectedConversionUnit((_tableData$0$ = (_tableData$ = tableData[0]) === null || _tableData$ === void 0 ? void 0 : _tableData$[1]) !== null && _tableData$0$ !== void 0 ? _tableData$0$ : null);
     }
   }, [tableData]);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    console.log("Selected conversion unit:", selectedConversionUnit);
-  }, [selectedConversionUnit]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"]
   // fullWidth={true}
   , {
