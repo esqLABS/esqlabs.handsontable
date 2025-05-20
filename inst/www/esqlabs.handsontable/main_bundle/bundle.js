@@ -197182,7 +197182,7 @@ function SimulationTimeModal(props, _ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"]
   // fullWidth={true}
   , {
-    maxWidth: "lg",
+    maxWidth: "md",
     open: props.showModal,
     onClose: props.onCloseModal
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_5__["default"], null, "Enter Simulation Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__["default"], {

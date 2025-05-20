@@ -143,7 +143,7 @@ function SimulationTimeModal(props, {
     <React.Fragment>
       <Dialog
         // fullWidth={true}
-        maxWidth={"lg"}
+        maxWidth={"md"}
         open={props.showModal}
         onClose={props.onCloseModal}
       >
