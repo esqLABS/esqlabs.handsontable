@@ -9,6 +9,8 @@ import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
+// Custom renderer
+import { scenarioNameCellRenderer, dropdownValidationRenderer } from "./TableRenderer/TableRenderer";
 
 // register Handsontable's modules
 registerAllModules();
@@ -16,7 +18,7 @@ registerAllModules();
 const ScenarioTable = (props) => {
   // props: data_scenarios, individual_ids_options
   // Constants
-  const DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"]
+  const DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"];
   // Data state
   const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
   const col_names = Object.keys(dataR[0]);
@@ -25,6 +27,18 @@ const ScenarioTable = (props) => {
   const [simulationTimeModalData, setSimulationTimeModalData] = useState([]);
   // Double-click detection state
   const [lastClickTime, setLastClickTime] = useState(0);
+
+  // ADD: Get duplicate Scenario_name values
+  const getDuplicateScenarioNames = () => {
+    const nameCounts = {};
+    dataR.forEach(row => {
+      const name = row.Scenario_name;
+      if (name) {
+        nameCounts[name] = (nameCounts[name] || 0) + 1;
+      }
+    });
+    return new Set(Object.keys(nameCounts).filter(name => nameCounts[name] > 1));
+  };
 
   // SimulationTime Modal functions
   const handleSimulationTimeModalOpen = (cellData) => {
@@ -35,7 +49,6 @@ const ScenarioTable = (props) => {
   const handleSimulationTimeModalClose = () => {
     setSimulationTimeModalVisible(false);
   };
-
 
   const handleSimulationTimeModalDataSubmit = (data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) => {
     // Do something with the submitted data
@@ -63,7 +76,7 @@ const ScenarioTable = (props) => {
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
             Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
-        }, 500)
+        }, 500);
     }
   };
 
@@ -99,6 +112,21 @@ const ScenarioTable = (props) => {
             // Send data to Shiny with the edited data
             Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
         }}
+
+        // ADD: Highlight duplicate Scenario_name rows
+        cells={(row, col) => {
+          const cellProperties = {};
+          const duplicates = getDuplicateScenarioNames();
+          const currentRow = dataR[row];
+
+          // Apply class to all cells in the row if Scenario_name is duplicated
+          if (duplicates.has(currentRow?.Scenario_name)) {
+            cellProperties.className = 'duplicate-row';
+          }
+
+          return cellProperties;
+        }}
+
         contextMenu={{
           callback(key, selection, clickEvent) {},
           items: {
@@ -115,7 +143,7 @@ const ScenarioTable = (props) => {
                 name() {
                   // If only one row exists and the first one selected
                   if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
-                    return "Clear row content"
+                    return "Clear row content";
                   } else {
                     return "Remove row";
                   }
@@ -134,12 +162,11 @@ const ScenarioTable = (props) => {
                     let numberOfRowsToRemove = endRow - startRow + 1;
 
                     if(this.countRows() === numberOfRowsToRemove) {
-                      numberOfRowsToRemove = numberOfRowsToRemove - 1
+                      numberOfRowsToRemove = numberOfRowsToRemove - 1;
                     }
 
                     this.alter("remove_row", startRow, numberOfRowsToRemove);
-
-                    }
+                  }
                 }
             }
           },
@@ -149,7 +176,8 @@ const ScenarioTable = (props) => {
           width={450}
           settings={{
             data: "Scenario_name",
-            type: "text"
+            type: "text",
+            renderer: scenarioNameCellRenderer  // custom cell renderer
           }}
         />
         <HotColumn
@@ -157,6 +185,7 @@ const ScenarioTable = (props) => {
             data: "IndividualId",
             type: "dropdown",
             source: ["--NONE--", ...props.individual_ids_options],
+            renderer: dropdownValidationRenderer
             //source: ["pop1", "pop2", "pop3"],
           }}
         />
@@ -166,6 +195,7 @@ const ScenarioTable = (props) => {
             type: "dropdown",
             strict: true,
             source: ["--NONE--", ...props.population_ids_options],
+            renderer: dropdownValidationRenderer
             //source: ["pop1", "pop2", "pop3"],
           }}
         />

@@ -59514,7 +59514,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, ".htContextMenu.handsontable {\r\n  z-index: 2100 !important;\r\n}\r\n\r\n.esqlabs-handsontable-container {\r\n  position: flex;\r\n  height: 70vh;\r\n}\r\n", "",{"version":3,"sources":["webpack://./srcjs/index.css"],"names":[],"mappings":"AAAA;EACE,wBAAwB;AAC1B;;AAEA;EACE,cAAc;EACd,YAAY;AACd","sourcesContent":[".htContextMenu.handsontable {\r\n  z-index: 2100 !important;\r\n}\r\n\r\n.esqlabs-handsontable-container {\r\n  position: flex;\r\n  height: 70vh;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.i, ".htContextMenu.handsontable {\n  z-index: 2100 !important;\n}\n\n.esqlabs-handsontable-container {\n  position: flex;\n  height: 70vh;\n}\n\n/* Highlight duplicate rows across all overlays */\n.ht_master .duplicate-row {\n  background-color: #efd7d7 !important;\n}\n", "",{"version":3,"sources":["webpack://./srcjs/index.css"],"names":[],"mappings":"AAAA;EACE,wBAAwB;AAC1B;;AAEA;EACE,cAAc;EACd,YAAY;AACd;;AAEA,iDAAiD;AACjD;EACE,oCAAoC;AACtC","sourcesContent":[".htContextMenu.handsontable {\n  z-index: 2100 !important;\n}\n\n.esqlabs-handsontable-container {\n  position: flex;\n  height: 70vh;\n}\n\n/* Highlight duplicate rows across all overlays */\n.ht_master .duplicate-row {\n  background-color: #efd7d7 !important;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -198019,6 +198019,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
 /* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -198039,6 +198040,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Import Custom HandsOntableEditor
 
+
+// Custom renderer
 
 
 // register Handsontable's modules
@@ -198067,6 +198070,20 @@ var ScenarioTable = function ScenarioTable(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     lastClickTime = _useState8[0],
     setLastClickTime = _useState8[1];
+
+  // ✅ ADD: Get duplicate Scenario_name values
+  var getDuplicateScenarioNames = function getDuplicateScenarioNames() {
+    var nameCounts = {};
+    dataR.forEach(function (row) {
+      var name = row.Scenario_name;
+      if (name) {
+        nameCounts[name] = (nameCounts[name] || 0) + 1;
+      }
+    });
+    return new Set(Object.keys(nameCounts).filter(function (name) {
+      return nameCounts[name] > 1;
+    }));
+  };
 
   // SimulationTime Modal functions
   var handleSimulationTimeModalOpen = function handleSimulationTimeModalOpen(cellData) {
@@ -198140,6 +198157,20 @@ var ScenarioTable = function ScenarioTable(props) {
       Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
+    }
+
+    // ADD: Highlight duplicate Scenario_name rows
+    ,
+    cells: function cells(row, col) {
+      var cellProperties = {};
+      var duplicates = getDuplicateScenarioNames();
+      var currentRow = dataR[row];
+
+      // Apply class to all cells in the row if Scenario_name is duplicated
+      if (duplicates.has(currentRow === null || currentRow === void 0 ? void 0 : currentRow.Scenario_name)) {
+        cellProperties.className = 'duplicate-row';
+      }
+      return cellProperties;
     },
     contextMenu: {
       callback: function callback(key, selection, clickEvent) {},
@@ -198188,13 +198219,15 @@ var ScenarioTable = function ScenarioTable(props) {
     width: 450,
     settings: {
       data: "Scenario_name",
-      type: "text"
+      type: "text",
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["scenarioNameCellRenderer"] // custom cell renderer
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "IndividualId",
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.individual_ids_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.individual_ids_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["dropdownValidationRenderer"]
       //source: ["pop1", "pop2", "pop3"],
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
@@ -198202,7 +198235,8 @@ var ScenarioTable = function ScenarioTable(props) {
       data: "PopulationId",
       type: "dropdown",
       strict: true,
-      source: ["--NONE--"].concat(_toConsumableArray(props.population_ids_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_ids_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["dropdownValidationRenderer"]
       //source: ["pop1", "pop2", "pop3"],
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
@@ -198539,7 +198573,7 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -198547,6 +198581,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readOnlyStyleRenderer", function() { return readOnlyStyleRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidCellRenderer", function() { return invalidCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proteinOntogenyAlwaysDoubleClickRenderer", function() { return proteinOntogenyAlwaysDoubleClickRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scenarioNameCellRenderer", function() { return scenarioNameCellRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownValidationRenderer", function() { return dropdownValidationRenderer; });
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 
 function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -198563,6 +198599,49 @@ function proteinOntogenyAlwaysDoubleClickRenderer(instance, td, row, col, prop, 
   td.style.color = "#bbb";
   td.style.fontStyle = "italic";
   return td;
+}
+function scenarioNameCellRenderer(instance, td, row, col, prop, value, cellProperties) {
+  handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
+  var allValues = instance.getDataAtCol(col);
+
+  // Find all rows with the same value
+  var duplicateRows = allValues.map(function (v, i) {
+    return v === value ? i + 1 : null;
+  }) // +1 for 1-based row numbers
+  .filter(function (v) {
+    return v !== null;
+  });
+  var isDuplicate = duplicateRows.length > 1;
+  if (isDuplicate) {
+    td.style.background = "#ffbeba";
+    td.title = "Scenario \"".concat(value, "\" is duplicated in rows: ").concat(duplicateRows.join(", "));
+  } else {
+    td.style.background = "#ffffff";
+    td.title = ""; // Clear tooltip for non-duplicates
+  }
+}
+function dropdownValidationRenderer(instance, td, row, col, prop, value, cellProperties) {
+  handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["autocompleteRenderer"].apply(this, arguments);
+  var validSource = cellProperties.source || [];
+  var scenarioName = instance.getDataAtRowProp(row, "Scenario_name");
+  var tabName;
+  switch (prop) {
+    case "IndividualId":
+      tabName = "Individuals";
+      break;
+    case "PopulationId":
+      tabName = "Populations";
+      break;
+    default:
+      tabName = "UNKNOWN";
+  }
+  if (value && !validSource.includes(value)) {
+    td.style.background = "#ffbeba";
+    td.title = "".concat(prop, " \"").concat(value, "\" is defined for scenario \"").concat(scenarioName, "\", but is not present in the '").concat(tabName, "' tab!");
+  } else {
+    td.style.background = "#ffffff";
+    td.title = "";
+  }
 }
 
 /***/ }),

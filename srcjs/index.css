@@ -6,3 +6,8 @@
   position: flex;
   height: 70vh;
 }
+
+/* Highlight duplicate rows across all overlays */
+.ht_master .duplicate-row {
+  background-color: #efd7d7 !important;
+}
