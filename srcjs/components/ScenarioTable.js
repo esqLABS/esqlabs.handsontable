@@ -64,7 +64,7 @@ const ScenarioTable = (props) => {
 
   const hotTableComponentRef = useRef(null);
 
-  const onBeforeHotChange = (changes) => {
+  const onBeforeHotChange = (changes, source) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -72,6 +72,16 @@ const ScenarioTable = (props) => {
         // console.log("no change");
         return;
     } else {
+
+        if (source === "edit") {
+          changes.forEach(([row, col, oldVal, newVal]) => {
+            if (col === "SimulationTime" && (newVal === null || newVal === "")) {
+              dataR[row]["SimulationTimeUnit"] = null;
+              console.log(`Cleared SimulationTimeUnit at row ${row}`);
+            }
+          });
+        }
+
         setTimeout(() => {
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data

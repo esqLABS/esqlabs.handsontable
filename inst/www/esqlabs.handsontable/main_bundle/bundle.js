@@ -198071,7 +198071,7 @@ var ScenarioTable = function ScenarioTable(props) {
     lastClickTime = _useState8[0],
     setLastClickTime = _useState8[1];
 
-  // ✅ ADD: Get duplicate Scenario_name values
+  // ADD: Get duplicate Scenario_name values
   var getDuplicateScenarioNames = function getDuplicateScenarioNames() {
     var nameCounts = {};
     dataR.forEach(function (row) {
@@ -198107,7 +198107,7 @@ var ScenarioTable = function ScenarioTable(props) {
     });
   };
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -198115,6 +198115,19 @@ var ScenarioTable = function ScenarioTable(props) {
       // console.log("no change");
       return;
     } else {
+      if (source === "edit") {
+        changes.forEach(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 4),
+            row = _ref2[0],
+            col = _ref2[1],
+            oldVal = _ref2[2],
+            newVal = _ref2[3];
+          if (col === "SimulationTime" && (newVal === null || newVal === "")) {
+            dataR[row]["SimulationTimeUnit"] = null;
+            console.log("Cleared SimulationTimeUnit at row ".concat(row));
+          }
+        });
+      }
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
@@ -198137,6 +198150,7 @@ var ScenarioTable = function ScenarioTable(props) {
     licenseKey: "non-commercial-and-evaluation",
     beforeChange: onBeforeHotChange,
     afterChange: function afterChange(changes, source) {
+      console.log(source);
       if (source === 'edit') {
         // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
         if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
