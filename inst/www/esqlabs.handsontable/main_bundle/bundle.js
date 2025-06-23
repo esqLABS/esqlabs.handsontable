@@ -196106,13 +196106,13 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 // React Dependancies
 
 // HandsOnTable
@@ -196122,15 +196122,19 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Objec
 var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
   _inherits(DropDownEditor, _BaseEditorComponent);
   function DropDownEditor(props) {
-    var _this;
+    var _thisSuper, _this;
     _classCallCheck(this, DropDownEditor);
     _this = _callSuper(this, DropDownEditor, [props]);
     _this.editorRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef(null);
     _this.state = {
       renderResult: null,
       value: null,
-      modalVisible: false
+      modalVisible: false,
+      cellData: null
     };
+
+    // Preserve original finishEditing
+    _this._originalFinishEditing = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(DropDownEditor.prototype)), "finishEditing", _thisSuper).bind(_assertThisInitialized(_this));
     return _this;
   }
   _createClass(DropDownEditor, [{
@@ -196144,6 +196148,15 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
       this.setState(function (state, props) {
         return {
           value: value
+        };
+      }, callback);
+    }
+  }, {
+    key: "setCellData",
+    value: function setCellData(value, callback) {
+      this.setState(function (state, props) {
+        return {
+          cellData: value
         };
       }, callback);
     }
@@ -196168,10 +196181,31 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
         modalVisible: false
       });
     }
+
+    // Override `finishEditing` to no-op until explicitly called
+  }, {
+    key: "finishEditing",
+    value: function finishEditing() {
+      if (!this.state.modalVisible) {
+        // finishEditing expects (restoreOriginalValue = false, ctrlDown = false)
+        this._originalFinishEditing(false, false);
+      }
+      // If modal is open, do nothing (user is still editing)
+    }
   }, {
     key: "prepare",
     value: function prepare(row, col, prop, td, originalValue, cellProperties) {
+      var _this2 = this;
       _get(_getPrototypeOf(DropDownEditor.prototype), "prepare", this).call(this, row, col, prop, td, originalValue, cellProperties);
+      this.setState({
+        cellData: {
+          originalValue: originalValue,
+          row: row,
+          col: col
+        }
+      }, function () {
+        console.log("State updated in prepare:", _this2.state.value);
+      });
     }
   }, {
     key: "convertIntoArrType",
@@ -196181,10 +196215,12 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
   }, {
     key: "saveChanges",
     value: function saveChanges(value) {
-      var _this2 = this;
-      this.setValue(typeof value === "string" ? value.split(",") : value, function () {
-        _this2.finishEditing();
-      });
+      this.props.handleDropdownModalDataSubmit(value, this.state.cellData.col, this.state.cellData.row, this.state.cellData.originalValue);
+      // this.setValue(typeof value === "string" ? value.split(",") : value, () => {
+      //  this.finishEditing();
+      // });
+      this.finishEditing();
+      this.close();
     }
   }, {
     key: "render",
@@ -198084,15 +198120,6 @@ var ScenarioTable = function ScenarioTable(props) {
       return nameCounts[name] > 1;
     }));
   };
-
-  // SimulationTime Modal functions
-  var handleSimulationTimeModalOpen = function handleSimulationTimeModalOpen(cellData) {
-    setSimulationTimeModalData(cellData);
-    setSimulationTimeModalVisible(true);
-  };
-  var handleSimulationTimeModalClose = function handleSimulationTimeModalClose() {
-    setSimulationTimeModalVisible(false);
-  };
   var handleSimulationTimeModalDataSubmit = function handleSimulationTimeModalDataSubmit(data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) {
     // Do something with the submitted data
     dataR[rowNumber][columName] = data;
@@ -198100,7 +198127,18 @@ var ScenarioTable = function ScenarioTable(props) {
     dataR[rowNumber][timeUnitColName] = timeUnitValue;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
-    console.log(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS));
+    // console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
+    // Send data to Shiny with the edited data
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+      priority: "event"
+    });
+  };
+  var handleDropdownModalDataSubmit = function handleDropdownModalDataSubmit(data, columNumber, rowNumber, oldCellValue) {
+    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    // Do something with the submitted data
+    dataR[rowNumber][col_names[columNumber]] = data;
+    // In no change in the cell value stop function
+    if (oldCellValue === data) return;
     // Send data to Shiny with the edited data
     Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
@@ -198124,7 +198162,7 @@ var ScenarioTable = function ScenarioTable(props) {
             newVal = _ref2[3];
           if (col === "SimulationTime" && (newVal === null || newVal === "")) {
             dataR[row]["SimulationTimeUnit"] = null;
-            console.log("Cleared SimulationTimeUnit at row ".concat(row));
+            // console.log(`Cleared SimulationTimeUnit at row ${row}`);
           }
         });
       }
@@ -198148,9 +198186,30 @@ var ScenarioTable = function ScenarioTable(props) {
     autoWrapRow: true,
     autoWrapCol: true,
     licenseKey: "non-commercial-and-evaluation",
+    beforePaste: function beforePaste(data, coords) {
+      var startRow = coords[0].startRow;
+      var startCol = coords[0].startCol;
+      data.forEach(function (rowData, i) {
+        var rowIndex = startRow + i;
+        rowData.forEach(function (value, j) {
+          var colIndex = startCol + j;
+          var colName = col_names[colIndex];
+          if (["SimulationTimeUnit", "ModelParameterSheets", "OutputPathsIds"].includes(colName)) {
+            console.log("Force-pasting OutputPathsIds at row ".concat(rowIndex, ":"), value);
+            dataR[rowIndex][colName] = value; // apply copied value manually
+          }
+        });
+      });
+
+      // Send data to Shiny
+      setTimeout(function () {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+          priority: "event"
+        });
+      }, 200);
+    },
     beforeChange: onBeforeHotChange,
     afterChange: function afterChange(changes, source) {
-      console.log(source);
       if (source === 'edit') {
         // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
         if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
@@ -198260,7 +198319,8 @@ var ScenarioTable = function ScenarioTable(props) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
-      data: "ModelParameterSheets"
+      data: "ModelParameterSheets",
+      type: "text"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
@@ -198268,7 +198328,8 @@ var ScenarioTable = function ScenarioTable(props) {
     dropdownOptions: props.model_parameters_options,
     enableSelectOrder: true,
     activeColumnName: "ModelParameterSheets",
-    placeHolderTitle: "Paremeter"
+    placeHolderTitle: "Paremeter",
+    handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "ApplicationProtocol",
@@ -198319,7 +198380,8 @@ var ScenarioTable = function ScenarioTable(props) {
   // width={75}
   , {
     settings: {
-      data: "OutputPathsIds"
+      data: "OutputPathsIds",
+      type: "text"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
@@ -198327,7 +198389,8 @@ var ScenarioTable = function ScenarioTable(props) {
     dropdownOptions: props.outputpath_ids_options,
     enableSelectOrder: false,
     activeColumnName: "OutputPathsIds",
-    placeHolderTitle: "PathId"
+    placeHolderTitle: "PathId",
+    handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (ScenarioTable);
@@ -199255,7 +199318,6 @@ function prepareShinyData(data) {
             if (typeof entry[key] === "string" && entry[key].includes(",")) {
               cleanedEntry[key] = entry[key];
             } else {
-              cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
               try {
                 cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
               } catch (error) {

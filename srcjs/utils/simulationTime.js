@@ -77,7 +77,6 @@ export function prepareShinyData(data, noneTypeColumns = []) {
                         if(typeof entry[key] === "string" && entry[key].includes(",")) {
                           cleanedEntry[key] = entry[key]
                         } else {
-                            cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
                           try {
                             cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
                           } catch (error) {

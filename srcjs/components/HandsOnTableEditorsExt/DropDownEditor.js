@@ -14,8 +14,13 @@ class DropDownEditor extends BaseEditorComponent {
     this.state = {
       renderResult: null,
       value: null,
-      modalVisible: false
+      modalVisible: false,
+      cellData: null
     };
+
+    // Preserve original finishEditing
+    this._originalFinishEditing = super.finishEditing.bind(this);
+
   }
 
   stopMousedownPropagation(e) {
@@ -25,6 +30,12 @@ class DropDownEditor extends BaseEditorComponent {
   setValue(value, callback) {
     this.setState((state, props) => {
       return { value: value };
+    }, callback);
+  }
+
+  setCellData(value, callback) {
+    this.setState((state, props) => {
+      return { cellData: value };
     }, callback);
   }
 
@@ -42,9 +53,27 @@ class DropDownEditor extends BaseEditorComponent {
     this.setState({ modalVisible: false });
   }
 
+      // Override `finishEditing` to no-op until explicitly called
+  finishEditing() {
+    if (!this.state.modalVisible) {
+      // finishEditing expects (restoreOriginalValue = false, ctrlDown = false)
+      this._originalFinishEditing(false, false);
+    }
+    // If modal is open, do nothing (user is still editing)
+  }
+
 
   prepare(row, col, prop, td, originalValue, cellProperties) {
     super.prepare(row, col, prop, td, originalValue, cellProperties);
+    this.setState({
+      cellData: {
+        originalValue,
+        row,
+        col
+      }
+    }, () => {
+      console.log("State updated in prepare:", this.state.value);
+    });
 
   }
 
@@ -55,9 +84,18 @@ class DropDownEditor extends BaseEditorComponent {
   }
 
   saveChanges(value) {
-    this.setValue(typeof value === "string" ? value.split(",") : value, () => {
-      this.finishEditing();
-    });
+    this.props.handleDropdownModalDataSubmit(
+      value,
+      this.state.cellData.col,
+      this.state.cellData.row,
+      this.state.cellData.originalValue
+
+    )
+    // this.setValue(typeof value === "string" ? value.split(",") : value, () => {
+    //  this.finishEditing();
+    // });
+    this.finishEditing();
+    this.close();
   }
 
   render() {

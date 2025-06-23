@@ -40,15 +40,6 @@ const ScenarioTable = (props) => {
     return new Set(Object.keys(nameCounts).filter(name => nameCounts[name] > 1));
   };
 
-  // SimulationTime Modal functions
-  const handleSimulationTimeModalOpen = (cellData) => {
-    setSimulationTimeModalData(cellData);
-    setSimulationTimeModalVisible(true);
-  };
-
-  const handleSimulationTimeModalClose = () => {
-    setSimulationTimeModalVisible(false);
-  };
 
   const handleSimulationTimeModalDataSubmit = (data, columName, rowNumber, oldCellValue, timeUnitValue, timeUnitColName) => {
     // Do something with the submitted data
@@ -57,7 +48,17 @@ const ScenarioTable = (props) => {
     dataR[rowNumber][timeUnitColName] = timeUnitValue;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
-    console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
+    // console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
+    // Send data to Shiny with the edited data
+    Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
+  };
+
+  const handleDropdownModalDataSubmit = (data, columNumber, rowNumber, oldCellValue) => {
+    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    // Do something with the submitted data
+    dataR[rowNumber][col_names[columNumber]] = data;
+    // In no change in the cell value stop function
+    if (oldCellValue === data) return;
     // Send data to Shiny with the edited data
     Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)), {priority: "event"});
   };
@@ -77,7 +78,7 @@ const ScenarioTable = (props) => {
           changes.forEach(([row, col, oldVal, newVal]) => {
             if (col === "SimulationTime" && (newVal === null || newVal === "")) {
               dataR[row]["SimulationTimeUnit"] = null;
-              console.log(`Cleared SimulationTimeUnit at row ${row}`);
+              // console.log(`Cleared SimulationTimeUnit at row ${row}`);
             }
           });
         }
@@ -103,6 +104,34 @@ const ScenarioTable = (props) => {
         autoWrapRow={true}
         autoWrapCol={true}
         licenseKey="non-commercial-and-evaluation"
+        beforePaste={(data, coords) => {
+          const startRow = coords[0].startRow;
+          const startCol = coords[0].startCol;
+
+          data.forEach((rowData, i) => {
+            const rowIndex = startRow + i;
+
+            rowData.forEach((value, j) => {
+              const colIndex = startCol + j;
+              const colName = col_names[colIndex];
+
+              if (["SimulationTimeUnit", "ModelParameterSheets", "OutputPathsIds"].includes(colName)) {
+                console.log(`Force-pasting OutputPathsIds at row ${rowIndex}:`, value);
+                dataR[rowIndex][colName] = value; // apply copied value manually
+              }
+            });
+          });
+
+          // Send data to Shiny
+          setTimeout(() => {
+            Shiny.setInputValue(
+              `${props.shiny_el_id_name}_edited`,
+              JSON.stringify(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS)),
+              { priority: "event" }
+            );
+          }, 200);
+        }}
+
         beforeChange={onBeforeHotChange}
         afterChange={(changes, source) => {
           if (source === 'edit') {
@@ -212,7 +241,8 @@ const ScenarioTable = (props) => {
         <HotColumn settings={{ data: "ReadPopulationFromCSV", type: "checkbox" }} />
         <HotColumn
           settings={{
-            data: "ModelParameterSheets"
+            data: "ModelParameterSheets",
+            type: "text"
           }} >
           <DropDownEditor
             hot-editor
@@ -221,6 +251,7 @@ const ScenarioTable = (props) => {
             enableSelectOrder={true}
             activeColumnName="ModelParameterSheets"
             placeHolderTitle="Paremeter"
+            handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
         <HotColumn
@@ -264,7 +295,8 @@ const ScenarioTable = (props) => {
         <HotColumn
           // width={75}
           settings={{
-            data: "OutputPathsIds"
+            data: "OutputPathsIds",
+            type: "text"
           }}
         >
           <DropDownEditor
@@ -274,6 +306,7 @@ const ScenarioTable = (props) => {
             enableSelectOrder={false}
             activeColumnName="OutputPathsIds"
             placeHolderTitle="PathId"
+            handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
       </HotTable>
