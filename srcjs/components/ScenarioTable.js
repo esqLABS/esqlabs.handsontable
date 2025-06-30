@@ -10,7 +10,7 @@ import { forceCutRowContent } from "../utils/handsOnTableUtils";
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
 // Custom renderer
-import { scenarioNameCellRenderer, dropdownValidationRenderer } from "./TableRenderer/TableRenderer";
+import { scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer } from "./TableRenderer/TableRenderer";
 
 // register Handsontable's modules
 registerAllModules();
@@ -95,7 +95,8 @@ const ScenarioTable = (props) => {
     <>
       <HotTable
         data={dataR}
-        colHeaders={col_names}
+        // colHeaders={col_names}
+        colHeaders={col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col)}
         ref={hotTableComponentRef}
         fixedColumnsStart={1}
         width="100%"
@@ -249,7 +250,7 @@ const ScenarioTable = (props) => {
             titleName="Select path"
             dropdownOptions={props.model_parameters_options}
             enableSelectOrder={true}
-            activeColumnName="ModelParameterSheets"
+            activeColumnName="Parameter set(s)"
             placeHolderTitle="Paremeter"
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
@@ -264,7 +265,8 @@ const ScenarioTable = (props) => {
         <HotColumn
           // width={75}
           settings={{
-            data: "SimulationTime"
+            data: "SimulationTime",
+            renderer: simulationTimeCellRenderer
           }}
         >
           <SimulationTimeEditor

@@ -85,3 +85,10 @@ export function dropdownValidationRenderer(instance, td, row, col, prop, value, 
     td.title = "";
   }
 }
+
+
+export function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellProperties) {
+  textRenderer.apply(this, arguments);
+  td.title = `Double click on cell to open Enter Simulation Time modal`;
+  return td;
+}

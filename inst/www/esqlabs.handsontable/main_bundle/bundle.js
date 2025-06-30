@@ -198176,8 +198176,12 @@ var ScenarioTable = function ScenarioTable(props) {
     }
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
-    data: dataR,
-    colHeaders: col_names,
+    data: dataR
+    // colHeaders={col_names}
+    ,
+    colHeaders: col_names.map(function (col) {
+      return col === "ModelParameterSheets" ? "Parameter sets" : col;
+    }),
     ref: hotTableComponentRef,
     fixedColumnsStart: 1,
     width: "100%",
@@ -198327,7 +198331,7 @@ var ScenarioTable = function ScenarioTable(props) {
     titleName: "Select path",
     dropdownOptions: props.model_parameters_options,
     enableSelectOrder: true,
-    activeColumnName: "ModelParameterSheets",
+    activeColumnName: "Parameter set(s)",
     placeHolderTitle: "Paremeter",
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
@@ -198340,7 +198344,8 @@ var ScenarioTable = function ScenarioTable(props) {
   // width={75}
   , {
     settings: {
-      data: "SimulationTime"
+      data: "SimulationTime",
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["simulationTimeCellRenderer"]
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__["default"], {
     "hot-editor": true,
@@ -198650,7 +198655,7 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -198660,6 +198665,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proteinOntogenyAlwaysDoubleClickRenderer", function() { return proteinOntogenyAlwaysDoubleClickRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scenarioNameCellRenderer", function() { return scenarioNameCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownValidationRenderer", function() { return dropdownValidationRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "simulationTimeCellRenderer", function() { return simulationTimeCellRenderer; });
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 
 function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -198719,6 +198725,11 @@ function dropdownValidationRenderer(instance, td, row, col, prop, value, cellPro
     td.style.background = "#ffffff";
     td.title = "";
   }
+}
+function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellProperties) {
+  handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
+  td.title = "Double click on cell to open Enter Simulation Time modal";
+  return td;
 }
 
 /***/ }),
