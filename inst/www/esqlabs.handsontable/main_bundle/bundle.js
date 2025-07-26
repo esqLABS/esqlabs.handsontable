@@ -198912,55 +198912,6 @@ __webpack_require__.r(__webpack_exports__);
 
 // Utils
 
-
-// const TextInput = ({ configuration, value, setValue }) => {
-//   return <input type='text' value={value} onChange={e => setValue(e.target.value)}/>;
-// };
-
-var names = ["ind1", "ind2", "ind3", "ind4", "ind5"];
-var data = [{
-  Scenario_name: "Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=8 (PM)",
-  IndividualId: ["ind1", "ind2"],
-  PopulationId: null,
-  ReadPopulationFromCSV: null,
-  ModelParameterSheets: null,
-  ApplicationProtocol: null,
-  SimulationTime: "0, 570, 20",
-  SimulationTimeUnit: "h",
-  SteadyState: "FALSE",
-  SteadyStateTime: null,
-  SteadyStateTimeUnit: null,
-  ModelFile: "Paroxantine/Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=8 (PM).pkml",
-  OutputPathsIds: "Output_1"
-}, {
-  Scenario_name: "Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=9 (EM)",
-  IndividualId: null,
-  PopulationId: null,
-  ReadPopulationFromCSV: null,
-  ModelParameterSheets: null,
-  ApplicationProtocol: null,
-  SimulationTime: "0, 570, 20",
-  SimulationTimeUnit: "h",
-  SteadyState: "FALSE",
-  SteadyStateTime: null,
-  SteadyStateTimeUnit: null,
-  ModelFile: "Paroxantine/Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=9 (EM).pkml",
-  OutputPathsIds: "Output_1, Output_2"
-}, {
-  Scenario_name: "Massaroti (2005) - paroxetine hydrochloride, 20 mg, po, n=28 (EM)",
-  IndividualId: null,
-  PopulationId: null,
-  ReadPopulationFromCSV: null,
-  ModelParameterSheets: null,
-  ApplicationProtocol: null,
-  SimulationTime: "0, 124, 20",
-  SimulationTimeUnit: "h",
-  SteadyState: "FALSE",
-  SteadyStateTime: null,
-  SteadyStateTimeUnit: null,
-  ModelFile: "Paroxantine/Massaroti (2005) - paroxetine hydrochloride, 20 mg, po, n=28 (EM).pkml",
-  OutputPathsIds: "Output_1"
-}];
 var TableInput = function TableInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
@@ -198968,12 +198919,14 @@ var TableInput = function TableInput(_ref) {
   var componentToRender;
   console.log(configuration);
   console.log(value);
-  console.log(JSON.parse(value));
+  // console.log(JSON.parse(atob(value)));
+  // console.log(JSON.parse(value));
+  console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.individual_id_dropdown),
         population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_id_dropdown),
         outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
@@ -198985,13 +198938,13 @@ var TableInput = function TableInput(_ref) {
       break;
     case configuration.sheet.toLowerCase() === "OutputPaths".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "IndividualBiometrics".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.species_option_dropdown),
         population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_option_dropdown),
         gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.gender_option_dropdown),
@@ -199000,7 +198953,7 @@ var TableInput = function TableInput(_ref) {
       break;
     case configuration.sheet.toLowerCase() === "Demographics".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.species_option_dropdown),
         population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_option_dropdown),
         weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.weight_unit_dropdown),
@@ -199011,7 +198964,7 @@ var TableInput = function TableInput(_ref) {
       break;
     case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.datatype_option_dropdown),
         scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.scenario_option_dropdown),
         path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.path_option_dropdown),
@@ -199020,7 +198973,7 @@ var TableInput = function TableInput(_ref) {
       break;
     case configuration.sheet.toLowerCase() === "plotConfiguration".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         datacombinedname_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.datacombinedname_option_dropdown),
         plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.plottype_option_dropdown),
         axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
@@ -199030,7 +198983,7 @@ var TableInput = function TableInput(_ref) {
       break;
     default:
       componentToRender = /*#__PURE__*/React.createElement(_components_HandsOnTableTemp_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        data_scenarios: JSON.parse(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
         shiny_el_id_name: configuration.shiny_el_id_name,
         column_headers: configuration.column_headers,
         updateGlobalDataR: setValue
@@ -199521,12 +199474,13 @@ function _convertSimulationTimeToString() {
 /*!******************************!*\
   !*** ./srcjs/utils/utils.js ***!
   \******************************/
-/*! exports provided: validateVectorInputR */
+/*! exports provided: validateVectorInputR, base64ToUtf8Json */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateVectorInputR", function() { return validateVectorInputR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "base64ToUtf8Json", function() { return base64ToUtf8Json; });
 function validateVectorInputR(input) {
   // Check if input is a string
   if (typeof input === 'string' && input.length === 0) {
@@ -199541,6 +199495,16 @@ function validateVectorInputR(input) {
     // Return empty array for other types or empty string
     return [];
   }
+}
+function base64ToUtf8Json(base64) {
+  var binaryString = atob(base64);
+  var bytes = new Uint8Array(binaryString.length);
+  for (var i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  var utf8Decoder = new TextDecoder("utf-8");
+  var jsonString = utf8Decoder.decode(bytes);
+  return JSON.parse(jsonString);
 }
 
 /***/ }),

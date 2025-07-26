@@ -76,7 +76,7 @@ scenario_table_Input <- function(
 #'
 #' @export
 updateScenario_table_Input <- function(session, inputId, value, configuration = NULL) {
-  message <- list(value = value)
+  message <- list(value = base64enc::base64encode(charToRaw(value)))
   if (!is.null(configuration)) message$configuration <- configuration
   session$sendInputMessage(inputId, message);
 }

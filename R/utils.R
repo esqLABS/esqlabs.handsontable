@@ -3,11 +3,12 @@
 #' <Add Description>
 #'
 #' @importFrom jsonlite toJSON
-#'
+#' @importFrom base64enc base64encode
 #' @export
 prepare_js_data <- function(data) {
   res_ <- jsonlite::toJSON(x = data, pretty = TRUE, na = 'null')
-  return(res_)
+  encoded <- base64enc::base64encode(charToRaw(res_))
+  return(encoded)
 }
 
 #' Get JSON from Handsontable Input

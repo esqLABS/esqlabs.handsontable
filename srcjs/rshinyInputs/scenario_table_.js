@@ -8,80 +8,22 @@ import DemographicsTable from "../components/DemographicsTable.js";
 import DataCombinedTable from "../components/DataCombinedTable.js";
 import PlotConfigurationTable from "../components/PlotConfigurationTable.js";
 // Utils
-import { validateVectorInputR } from '../utils/utils.js';
-
-// const TextInput = ({ configuration, value, setValue }) => {
-//   return <input type='text' value={value} onChange={e => setValue(e.target.value)}/>;
-// };
-
-const names = ["ind1", "ind2", "ind3", "ind4", "ind5"];
-const data = [
-  {
-    Scenario_name:
-      "Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=8 (PM)",
-    IndividualId: ["ind1", "ind2"],
-    PopulationId: null,
-    ReadPopulationFromCSV: null,
-    ModelParameterSheets: null,
-    ApplicationProtocol: null,
-    SimulationTime: "0, 570, 20",
-    SimulationTimeUnit: "h",
-    SteadyState: "FALSE",
-    SteadyStateTime: null,
-    SteadyStateTimeUnit: null,
-    ModelFile:
-      "Paroxantine/Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=8 (PM).pkml",
-    OutputPathsIds: "Output_1",
-  },
-  {
-    Scenario_name:
-      "Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=9 (EM)",
-    IndividualId: null,
-    PopulationId: null,
-    ReadPopulationFromCSV: null,
-    ModelParameterSheets: null,
-    ApplicationProtocol: null,
-    SimulationTime: "0, 570, 20",
-    SimulationTimeUnit: "h",
-    SteadyState: "FALSE",
-    SteadyStateTime: null,
-    SteadyStateTimeUnit: null,
-    ModelFile:
-      "Paroxantine/Sindrup (1992) - paroxetine hydrochloride, 30 mg, po, md, n=9 (EM).pkml",
-    OutputPathsIds: "Output_1, Output_2",
-  },
-  {
-    Scenario_name:
-      "Massaroti (2005) - paroxetine hydrochloride, 20 mg, po, n=28 (EM)",
-    IndividualId: null,
-    PopulationId: null,
-    ReadPopulationFromCSV: null,
-    ModelParameterSheets: null,
-    ApplicationProtocol: null,
-    SimulationTime: "0, 124, 20",
-    SimulationTimeUnit: "h",
-    SteadyState: "FALSE",
-    SteadyStateTime: null,
-    SteadyStateTimeUnit: null,
-    ModelFile:
-      "Paroxantine/Massaroti (2005) - paroxetine hydrochloride, 20 mg, po, n=28 (EM).pkml",
-    OutputPathsIds: "Output_1",
-  },
-];
+import { base64ToUtf8Json, validateVectorInputR } from '../utils/utils.js';
 
 const TableInput = ({ configuration, value, setValue }) => {
   let componentToRender;
   console.log(configuration);
   console.log(value);
-  console.log(JSON.parse(value));
+  // console.log(JSON.parse(atob(value)));
+  // console.log(JSON.parse(value));
+  console.log(base64ToUtf8Json(value));
   console.log((configuration.column_headers));
-
 
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = (
         <ScenarioTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           individual_ids_options={
             validateVectorInputR(configuration.individual_id_dropdown)
           }
@@ -107,7 +49,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     case configuration.sheet.toLowerCase() === "OutputPaths".toLowerCase():
       componentToRender = (
         <OutputPathsTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -115,7 +57,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     case configuration.sheet.toLowerCase() === "IndividualBiometrics".toLowerCase():
       componentToRender = (
         <IndividualBiometricsTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           species_options={
             validateVectorInputR(configuration.species_option_dropdown)
           }
@@ -132,7 +74,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     case configuration.sheet.toLowerCase() === "Demographics".toLowerCase():
       componentToRender = (
         <DemographicsTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           species_options={
             validateVectorInputR(configuration.species_option_dropdown)
           }
@@ -155,7 +97,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
       componentToRender = (
         <DataCombinedTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           datatype_options={
             validateVectorInputR(configuration.datatype_option_dropdown)
           }
@@ -172,7 +114,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     case configuration.sheet.toLowerCase() === "plotConfiguration".toLowerCase():
       componentToRender = (
         <PlotConfigurationTable
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           datacombinedname_options={
             validateVectorInputR(configuration.datacombinedname_option_dropdown)
           }
@@ -192,7 +134,7 @@ const TableInput = ({ configuration, value, setValue }) => {
     default:
       componentToRender = (
         <HandsOnTableTemp
-          data_scenarios={JSON.parse(value)}
+          data_scenarios={base64ToUtf8Json(value)}
           shiny_el_id_name={configuration.shiny_el_id_name}
           column_headers={(configuration.column_headers)}
           updateGlobalDataR={setValue}

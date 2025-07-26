@@ -13,3 +13,15 @@ export function validateVectorInputR(input) {
     return [];
   }
 }
+
+
+export function base64ToUtf8Json(base64) {
+  const binaryString = atob(base64);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  const utf8Decoder = new TextDecoder("utf-8");
+  const jsonString = utf8Decoder.decode(bytes);
+  return JSON.parse(jsonString);
+}
