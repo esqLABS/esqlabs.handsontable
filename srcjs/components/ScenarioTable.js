@@ -20,7 +20,9 @@ const ScenarioTable = (props) => {
   // Constants
   const DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"];
   // Data state
-  const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
+  // const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
+  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : processShinyData(props.data_scenarios));
+
   const col_names = Object.keys(dataR[0]);
   // SimulationTime Modal state
   const [simulationTimeModalVisible, setSimulationTimeModalVisible] = useState(false);

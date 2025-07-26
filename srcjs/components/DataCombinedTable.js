@@ -8,7 +8,8 @@ import { forceCutRowContent } from "../utils/handsOnTableUtils";
 
 function DataCombinedTable(props) {
   // Data state
-  const [dataR, updateDataR] = useState(props.data_scenarios);
+  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
+
   const col_names = Object.keys(dataR[0]);
   // Constants
   const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4]];

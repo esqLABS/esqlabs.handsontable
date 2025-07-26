@@ -42,6 +42,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           model_parameters_options={
             validateVectorInputR(configuration.model_parameters_dropdown)
           }
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -50,6 +51,7 @@ const TableInput = ({ configuration, value, setValue }) => {
       componentToRender = (
         <OutputPathsTable
           data_scenarios={base64ToUtf8Json(value)}
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -67,6 +69,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           gender_options={
             validateVectorInputR(configuration.gender_option_dropdown)
           }
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -90,6 +93,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           bmi_unit_options={
             validateVectorInputR(configuration.bmi_unit_dropdown)
           }
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -107,6 +111,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           path_options={
             validateVectorInputR(configuration.path_option_dropdown)
           }
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );
@@ -127,6 +132,7 @@ const TableInput = ({ configuration, value, setValue }) => {
           aggregation_options={
             validateVectorInputR(configuration.aggregation_option_dropdown)
           }
+          column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
       );

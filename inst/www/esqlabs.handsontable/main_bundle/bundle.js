@@ -195645,7 +195645,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function DataCombinedTable(props) {
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -195851,7 +195853,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function DemographicsTable(props) {
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -197484,7 +197489,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function IndividualBiometricsTable(props) {
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -197768,7 +197776,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function OutputPathsTable(props) {
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -197897,7 +197908,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function PlotConfigurationTable(props) {
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.data_scenarios),
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198087,7 +198101,10 @@ var ScenarioTable = function ScenarioTable(props) {
   // Constants
   var DROPDOWN_TYPE_COLUMNS = ["IndividualId", "PopulationId", "ApplicationProtocol", "SteadyStateTimeUnit"];
   // Data state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
+  // const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198933,12 +198950,14 @@ var TableInput = function TableInput(_ref) {
         steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
         application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.application_protocol_dropdown),
         model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.model_parameters_dropdown),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "OutputPaths".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
@@ -198948,6 +198967,7 @@ var TableInput = function TableInput(_ref) {
         species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.species_option_dropdown),
         population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_option_dropdown),
         gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.gender_option_dropdown),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
@@ -198959,6 +198979,7 @@ var TableInput = function TableInput(_ref) {
         weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.weight_unit_dropdown),
         height_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.height_unit_dropdown),
         bmi_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.bmi_unit_dropdown),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
@@ -198968,6 +198989,7 @@ var TableInput = function TableInput(_ref) {
         datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.datatype_option_dropdown),
         scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.scenario_option_dropdown),
         path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.path_option_dropdown),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
@@ -198978,6 +199000,7 @@ var TableInput = function TableInput(_ref) {
         plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.plottype_option_dropdown),
         axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
         aggregation_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.aggregation_option_dropdown),
+        column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;

@@ -8,7 +8,9 @@ import { forceCutRowContent } from "../utils/handsOnTableUtils";
 
 function OutputPathsTable(props) {
   // Data state
-  const [dataR, updateDataR] = useState(props.data_scenarios);
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
+
   const col_names = Object.keys(dataR[0]);
 
   const onBeforeHotChange = (changes) => {
