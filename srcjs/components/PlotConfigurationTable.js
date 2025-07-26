@@ -10,6 +10,8 @@ function PlotConfigurationTable(props) {
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
   const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
+  const [colNames, setColNames] = useState(props.column_headers);
+
 
   const col_names = Object.keys(dataR[0]);
   // Constants
@@ -48,6 +50,7 @@ function PlotConfigurationTable(props) {
       <HotTable
         data={dataR}
         colHeaders={col_names}
+        columns={colNames.map(col => ({ data: col }))}
         rowHeaders={true}
         autoWrapRow={true}
         width="100%"
@@ -90,7 +93,25 @@ function PlotConfigurationTable(props) {
 
                     }
                 }
+            },
+            'custom_add_col': {
+              name: 'Add Column',
+              callback: function () {
+                const newCol = prompt("Enter new column name:");
+                if (!newCol || colNames.includes(newCol)) return;
+
+                const newColNames = [...colNames, newCol];
+                setColNames(newColNames);
+
+                const newData = dataR.map(row => ({ ...row, [newCol]: null }));
+                updateDataR(newData);
+
+                setTimeout(() => {
+                  Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(newData), { priority: "event" });
+                }, 300);
+              }
             }
+
           }
         }}
         beforeChange={onBeforeHotChange}

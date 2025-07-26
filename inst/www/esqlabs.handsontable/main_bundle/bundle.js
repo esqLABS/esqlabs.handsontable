@@ -196090,6 +196090,192 @@ function DemographicsTable(props) {
 
 /***/ }),
 
+/***/ "./srcjs/components/ExportConfigurationTable.js":
+/*!******************************************************!*\
+  !*** ./srcjs/components/ExportConfigurationTable.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+// Import Custom Renderer
+
+
+// Utils
+
+function ExportConfigurationTable(props) {
+  // Data state
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
+    _useState2 = _slicedToArray(_useState, 2),
+    dataR = _useState2[0],
+    updateDataR = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.column_headers),
+    _useState4 = _slicedToArray(_useState3, 2),
+    colNames = _useState4[0],
+    setColNames = _useState4[1];
+
+  // const col_names = Object.keys(dataR[0]);
+  var col_names = props.column_headers;
+  var onBeforeHotChange = function onBeforeHotChange(changes) {
+    if (changes === undefined) return;
+    if (changes === null) return;
+    if (!changes.length) return;
+    if (dataR[changes[0][0]][changes[0][1]] === changes[0][3]) {
+      // console.log("no change");
+      return;
+    } else {
+      setTimeout(function () {
+        // console.log(prepareShinyData(dataR));
+        // Send data to Shiny with the edited data
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+          priority: "event"
+        });
+      }, 500);
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
+    data: dataR,
+    colHeaders: col_names,
+    columns: colNames.map(function (col) {
+      return {
+        data: col
+      };
+    }),
+    rowHeaders: true,
+    autoWrapRow: true,
+    autoWrapCol: true,
+    width: "100%",
+    height: "100%",
+    licenseKey: "non-commercial-and-evaluation",
+    contextMenu: {
+      items: {
+        'cut': {
+          name: 'Clear'
+        },
+        'row_below': {
+          disabled: false
+        },
+        'row_above': {},
+        'remove_row': {
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
+          }
+        },
+        'custom_add_col': {
+          name: 'Add Column',
+          callback: function callback() {
+            var newCol = prompt("Enter new column name:");
+            if (!newCol || colNames.includes(newCol)) return;
+            var newColNames = [].concat(_toConsumableArray(colNames), [newCol]);
+            setColNames(newColNames);
+            var newData = dataR.map(function (row) {
+              return _objectSpread(_objectSpread({}, row), {}, _defineProperty({}, newCol, null));
+            });
+            updateDataR(newData);
+            setTimeout(function () {
+              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(newData), {
+                priority: "event"
+              });
+            }, 300);
+          }
+        }
+      }
+    },
+    beforeChange: onBeforeHotChange,
+    afterCreateRow: function afterCreateRow(index, amount) {
+      // Send data to Shiny with the edited data
+      if (!Object.keys(dataR[0]).length) {
+        var empty_obj_with_keys = [Object.fromEntries(col_names.map(function (key) {
+          return [key, null];
+        }))];
+        // updateDataR(empty_obj_with_keys);
+        // props.updateGlobalDataR(empty_obj_with_keys);
+        // console.log("dataR", empty_obj_with_keys);
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(empty_obj_with_keys), {
+          priority: "event"
+        });
+        // props.updateGlobalDataR(empty_obj_with_keys);
+        updateDataR(empty_obj_with_keys);
+      } else {
+        // console.log("dataR", dataR);
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+          priority: "event"
+        });
+      }
+    },
+    afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
+      // Send data to Shiny with the edited data
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+        priority: "event"
+      });
+    }
+  }, col_names.map(function (col_name, col_index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+      key: col_index,
+      settings: {
+        data: col_name
+      }
+    });
+  }));
+}
+/* harmony default export */ __webpack_exports__["default"] = (ExportConfigurationTable);
+
+/***/ }),
+
 /***/ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js":
 /*!*******************************************************************!*\
   !*** ./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js ***!
@@ -197329,9 +197515,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Utils
 
 function HandsOnTableTemp(props) {
-  // console.log(props.data_scenarios);
-  // console.log("col_names Temp Table", props.column_headers);
-
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
@@ -197414,13 +197597,9 @@ function HandsOnTableTemp(props) {
         var empty_obj_with_keys = [Object.fromEntries(col_names.map(function (key) {
           return [key, null];
         }))];
-        // updateDataR(empty_obj_with_keys);
-        // props.updateGlobalDataR(empty_obj_with_keys);
-        // console.log("dataR", empty_obj_with_keys);
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(empty_obj_with_keys), {
           priority: "event"
         });
-        // props.updateGlobalDataR(empty_obj_with_keys);
         updateDataR(empty_obj_with_keys);
       } else {
         // console.log("dataR", dataR);
@@ -197889,6 +198068,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -197915,6 +198100,10 @@ function PlotConfigurationTable(props) {
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.column_headers),
+    _useState4 = _slicedToArray(_useState3, 2),
+    colNames = _useState4[0],
+    setColNames = _useState4[1];
   var col_names = Object.keys(dataR[0]);
   // Constants
   var DROPDOWN_TYPE_COLUMNS = ["DataCombinedName", "plotType", "xAxisScale", "yAxisScale", "aggregation"];
@@ -197948,6 +198137,11 @@ function PlotConfigurationTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: col_names,
+    columns: colNames.map(function (col) {
+      return {
+        data: col
+      };
+    }),
     rowHeaders: true,
     autoWrapRow: true,
     width: "100%",
@@ -197985,6 +198179,24 @@ function PlotConfigurationTable(props) {
               }
               this.alter("remove_row", startRow, numberOfRowsToRemove);
             }
+          }
+        },
+        'custom_add_col': {
+          name: 'Add Column',
+          callback: function callback() {
+            var newCol = prompt("Enter new column name:");
+            if (!newCol || colNames.includes(newCol)) return;
+            var newColNames = [].concat(_toConsumableArray(colNames), [newCol]);
+            setColNames(newColNames);
+            var newData = dataR.map(function (row) {
+              return _objectSpread(_objectSpread({}, row), {}, _defineProperty({}, newCol, null));
+            });
+            updateDataR(newData);
+            setTimeout(function () {
+              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(newData), {
+                priority: "event"
+              });
+            }, 300);
           }
         }
       }
@@ -198047,6 +198259,191 @@ function PlotConfigurationTable(props) {
   })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (PlotConfigurationTable);
+
+/***/ }),
+
+/***/ "./srcjs/components/PlotGridsTable.js":
+/*!********************************************!*\
+  !*** ./srcjs/components/PlotGridsTable.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+// Import Custom Renderer
+
+
+// Utils
+
+function PlotGridsTable(props) {
+  // Data state
+  // const [dataR, updateDataR] = useState(props.data_scenarios);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
+      return [key, null];
+    }))] : props.data_scenarios),
+    _useState2 = _slicedToArray(_useState, 2),
+    dataR = _useState2[0],
+    updateDataR = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.column_headers),
+    _useState4 = _slicedToArray(_useState3, 2),
+    colNames = _useState4[0],
+    setColNames = _useState4[1];
+  // const col_names = Object.keys(dataR[0]);
+  var col_names = props.column_headers;
+  var onBeforeHotChange = function onBeforeHotChange(changes) {
+    if (changes === undefined) return;
+    if (changes === null) return;
+    if (!changes.length) return;
+    if (dataR[changes[0][0]][changes[0][1]] === changes[0][3]) {
+      // console.log("no change");
+      return;
+    } else {
+      setTimeout(function () {
+        // console.log(prepareShinyData(dataR));
+        // Send data to Shiny with the edited data
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+          priority: "event"
+        });
+      }, 500);
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
+    data: dataR,
+    colHeaders: col_names,
+    columns: colNames.map(function (col) {
+      return {
+        data: col
+      };
+    }),
+    rowHeaders: true,
+    autoWrapRow: true,
+    autoWrapCol: true,
+    width: "100%",
+    height: "100%",
+    licenseKey: "non-commercial-and-evaluation",
+    contextMenu: {
+      items: {
+        'cut': {
+          name: 'Clear'
+        },
+        'row_below': {
+          disabled: false
+        },
+        'row_above': {},
+        'remove_row': {
+          name: function name() {
+            // If only one row exists and the first one selected
+            if (this.countRows() === 1 && this.getSelectedLast()[0] === 0) {
+              return "Clear row content";
+            } else {
+              return "Remove row";
+            }
+          },
+          callback: function callback(key, selection, clickEvent) {
+            var selectedRow = this.getSelectedLast()[0];
+            if (this.countRows() === 1 && selectedRow === 0) {
+              // Cut all elements of the first row
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"])(this, selectedRow);
+            } else {
+              // Perform remove row operation
+              // Use Handsontable's built-in remove_row functionality for multiple selections
+              var startRow = selection[0].start.row;
+              var endRow = selection[0].end.row;
+              var numberOfRowsToRemove = endRow - startRow + 1;
+              if (this.countRows() === numberOfRowsToRemove) {
+                numberOfRowsToRemove = numberOfRowsToRemove - 1;
+              }
+              this.alter("remove_row", startRow, numberOfRowsToRemove);
+            }
+          }
+        },
+        'custom_add_col': {
+          name: 'Add Column',
+          callback: function callback() {
+            var newCol = prompt("Enter new column name:");
+            if (!newCol || colNames.includes(newCol)) return;
+            var newColNames = [].concat(_toConsumableArray(colNames), [newCol]);
+            setColNames(newColNames);
+            var newData = dataR.map(function (row) {
+              return _objectSpread(_objectSpread({}, row), {}, _defineProperty({}, newCol, null));
+            });
+            updateDataR(newData);
+            setTimeout(function () {
+              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(newData), {
+                priority: "event"
+              });
+            }, 300);
+          }
+        }
+      }
+    },
+    beforeChange: onBeforeHotChange,
+    afterCreateRow: function afterCreateRow(index, amount) {
+      // Send data to Shiny with the edited data
+      if (!Object.keys(dataR[0]).length) {
+        var empty_obj_with_keys = [Object.fromEntries(col_names.map(function (key) {
+          return [key, null];
+        }))];
+        // updateDataR(empty_obj_with_keys);
+        // props.updateGlobalDataR(empty_obj_with_keys);
+        // console.log("dataR", empty_obj_with_keys);
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(empty_obj_with_keys), {
+          priority: "event"
+        });
+        // props.updateGlobalDataR(empty_obj_with_keys);
+        updateDataR(empty_obj_with_keys);
+      } else {
+        // console.log("dataR", dataR);
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+          priority: "event"
+        });
+      }
+    },
+    afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
+      // Send data to Shiny with the edited data
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+        priority: "event"
+      });
+    }
+  }, col_names.map(function (col_name, col_index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+      key: col_index,
+      settings: {
+        data: col_name
+      }
+    });
+  }));
+}
+/* harmony default export */ __webpack_exports__["default"] = (PlotGridsTable);
 
 /***/ }),
 
@@ -198912,12 +199309,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ScenarioTable.js */ "./srcjs/components/ScenarioTable.js");
 /* harmony import */ var _components_HandsOnTableTemp_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/HandsOnTableTemp.js */ "./srcjs/components/HandsOnTableTemp.js");
-/* harmony import */ var _components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/OutputPathsTable.js */ "./srcjs/components/OutputPathsTable.js");
-/* harmony import */ var _components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/IndividualBiometricsTable.js */ "./srcjs/components/IndividualBiometricsTable.js");
-/* harmony import */ var _components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/DemographicsTable.js */ "./srcjs/components/DemographicsTable.js");
-/* harmony import */ var _components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/DataCombinedTable.js */ "./srcjs/components/DataCombinedTable.js");
-/* harmony import */ var _components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/PlotConfigurationTable.js */ "./srcjs/components/PlotConfigurationTable.js");
-/* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/utils.js */ "./srcjs/utils/utils.js");
+/* harmony import */ var _components_ExportConfigurationTable_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/ExportConfigurationTable.js */ "./srcjs/components/ExportConfigurationTable.js");
+/* harmony import */ var _components_PlotGridsTable_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/PlotGridsTable.js */ "./srcjs/components/PlotGridsTable.js");
+/* harmony import */ var _components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/OutputPathsTable.js */ "./srcjs/components/OutputPathsTable.js");
+/* harmony import */ var _components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/IndividualBiometricsTable.js */ "./srcjs/components/IndividualBiometricsTable.js");
+/* harmony import */ var _components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/DemographicsTable.js */ "./srcjs/components/DemographicsTable.js");
+/* harmony import */ var _components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/DataCombinedTable.js */ "./srcjs/components/DataCombinedTable.js");
+/* harmony import */ var _components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/PlotConfigurationTable.js */ "./srcjs/components/PlotConfigurationTable.js");
+/* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/utils.js */ "./srcjs/utils/utils.js");
+
+
 
 
 
@@ -198938,78 +199339,91 @@ var TableInput = function TableInput(_ref) {
   console.log(value);
   // console.log(JSON.parse(atob(value)));
   // console.log(JSON.parse(value));
-  console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value));
+  console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
-        individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.individual_id_dropdown),
-        population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_id_dropdown),
-        outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
-        steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
-        application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.application_protocol_dropdown),
-        model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.model_parameters_dropdown),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.individual_id_dropdown),
+        population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_id_dropdown),
+        outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
+        steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
+        application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.application_protocol_dropdown),
+        model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_parameters_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "OutputPaths".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
+      componentToRender = /*#__PURE__*/React.createElement(_components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "IndividualBiometrics".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
-        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.species_option_dropdown),
-        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_option_dropdown),
-        gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.gender_option_dropdown),
+      componentToRender = /*#__PURE__*/React.createElement(_components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
+        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
+        gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.gender_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "Demographics".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
-        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.species_option_dropdown),
-        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.population_option_dropdown),
-        weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.weight_unit_dropdown),
-        height_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.height_unit_dropdown),
-        bmi_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.bmi_unit_dropdown),
+      componentToRender = /*#__PURE__*/React.createElement(_components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
+        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
+        weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.weight_unit_dropdown),
+        height_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.height_unit_dropdown),
+        bmi_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.bmi_unit_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
-        datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.datatype_option_dropdown),
-        scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.scenario_option_dropdown),
-        path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.path_option_dropdown),
+      componentToRender = /*#__PURE__*/React.createElement(_components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datatype_option_dropdown),
+        scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.scenario_option_dropdown),
+        path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.path_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "plotConfiguration".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
-        datacombinedname_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.datacombinedname_option_dropdown),
-        plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.plottype_option_dropdown),
-        axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
-        aggregation_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["validateVectorInputR"])(configuration.aggregation_option_dropdown),
+      componentToRender = /*#__PURE__*/React.createElement(_components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        datacombinedname_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datacombinedname_option_dropdown),
+        plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plottype_option_dropdown),
+        axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
+        aggregation_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.aggregation_option_dropdown),
+        column_headers: configuration.column_headers,
+        shiny_el_id_name: configuration.shiny_el_id_name
+      });
+      break;
+    case configuration.sheet.toLowerCase() === "plotGrids".toLowerCase():
+      componentToRender = /*#__PURE__*/React.createElement(_components_PlotGridsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        column_headers: configuration.column_headers,
+        shiny_el_id_name: configuration.shiny_el_id_name
+      });
+      break;
+    case configuration.sheet.toLowerCase() === "exportConfiguration".toLowerCase():
+      componentToRender = /*#__PURE__*/React.createElement(_components_ExportConfigurationTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     default:
       componentToRender = /*#__PURE__*/React.createElement(_components_HandsOnTableTemp_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_9__["base64ToUtf8Json"])(value),
+        data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
         shiny_el_id_name: configuration.shiny_el_id_name,
-        column_headers: configuration.column_headers,
-        updateGlobalDataR: setValue
+        column_headers: configuration.column_headers
       });
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {

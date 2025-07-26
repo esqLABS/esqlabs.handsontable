@@ -10,10 +10,12 @@ import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableR
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 
 
-function HandsOnTableTemp(props) {
+function ExportConfigurationTable(props) {
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
   const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
+  const [colNames, setColNames] = useState(props.column_headers);
+
   // const col_names = Object.keys(dataR[0]);
   const col_names = props.column_headers;
 
@@ -38,7 +40,7 @@ function HandsOnTableTemp(props) {
     <HotTable
       data={dataR}
       colHeaders={col_names}
-      columns={!dataR.length ? col_names : false}
+      columns={colNames.map(col => ({ data: col }))}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
@@ -84,6 +86,23 @@ function HandsOnTableTemp(props) {
 
                     }
                 }
+            },
+            'custom_add_col': {
+              name: 'Add Column',
+              callback: function () {
+                const newCol = prompt("Enter new column name:");
+                if (!newCol || colNames.includes(newCol)) return;
+
+                const newColNames = [...colNames, newCol];
+                setColNames(newColNames);
+
+                const newData = dataR.map(row => ({ ...row, [newCol]: null }));
+                updateDataR(newData);
+
+                setTimeout(() => {
+                  Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(newData), { priority: "event" });
+                }, 300);
+              }
             }
         }
       }}
@@ -92,7 +111,11 @@ function HandsOnTableTemp(props) {
         // Send data to Shiny with the edited data
         if(!Object.keys(dataR[0]).length) {
           let empty_obj_with_keys = [Object.fromEntries(col_names.map(key => [key, null]))];
+          // updateDataR(empty_obj_with_keys);
+          // props.updateGlobalDataR(empty_obj_with_keys);
+          // console.log("dataR", empty_obj_with_keys);
           Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(empty_obj_with_keys), {priority: "event"});
+          // props.updateGlobalDataR(empty_obj_with_keys);
           updateDataR(empty_obj_with_keys);
         } else {
           // console.log("dataR", dataR);
@@ -123,4 +146,4 @@ function HandsOnTableTemp(props) {
   );
 }
 
-export default HandsOnTableTemp;
+export default ExportConfigurationTable;

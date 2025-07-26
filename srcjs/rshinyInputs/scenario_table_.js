@@ -2,6 +2,8 @@ import { reactShinyInput } from "reactR";
 import { useState } from "react";
 import ScenarioTable from "../components/ScenarioTable.js";
 import HandsOnTableTemp from "../components/HandsOnTableTemp.js";
+import ExportConfigurationTable from "../components/ExportConfigurationTable.js";
+import PlotGridsTable from "../components/PlotGridsTable.js";
 import OutputPathsTable from "../components/OutputPathsTable.js";
 import IndividualBiometricsTable from "../components/IndividualBiometricsTable.js";
 import DemographicsTable from "../components/DemographicsTable.js";
@@ -137,13 +139,30 @@ const TableInput = ({ configuration, value, setValue }) => {
         />
       );
       break;
+    case configuration.sheet.toLowerCase() === "plotGrids".toLowerCase():
+      componentToRender = (
+        <PlotGridsTable
+          data_scenarios={base64ToUtf8Json(value)}
+          column_headers={(configuration.column_headers)}
+          shiny_el_id_name={configuration.shiny_el_id_name}
+        />
+      );
+      break;
+    case configuration.sheet.toLowerCase() === "exportConfiguration".toLowerCase():
+      componentToRender = (
+        <ExportConfigurationTable
+          data_scenarios={base64ToUtf8Json(value)}
+          column_headers={(configuration.column_headers)}
+          shiny_el_id_name={configuration.shiny_el_id_name}
+        />
+      );
+      break;
     default:
       componentToRender = (
         <HandsOnTableTemp
           data_scenarios={base64ToUtf8Json(value)}
           shiny_el_id_name={configuration.shiny_el_id_name}
           column_headers={(configuration.column_headers)}
-          updateGlobalDataR={setValue}
         />
       );
   }
