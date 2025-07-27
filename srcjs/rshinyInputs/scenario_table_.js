@@ -143,6 +143,9 @@ const TableInput = ({ configuration, value, setValue }) => {
       componentToRender = (
         <PlotGridsTable
           data_scenarios={base64ToUtf8Json(value)}
+          plotids_options={
+            validateVectorInputR(configuration.plotids_option_dropdown)
+          }
           column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />

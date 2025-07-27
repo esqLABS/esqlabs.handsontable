@@ -5,20 +5,23 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
 import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
-
+// Import Custom HandsOntableEditor
+import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { processShinyData, prepareShinyData } from "../utils/plotsUtils";
+import { wrapIntoQuotes } from "../utils/utils";
 
 
 function PlotGridsTable(props) {
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
-  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : props.data_scenarios);
+  const [dataR, updateDataR] = useState(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(key => [key, null]))] : processShinyData(props.data_scenarios));
   const [colNames, setColNames] = useState(props.column_headers);
   // const col_names = Object.keys(dataR[0]);
   const col_names = props.column_headers;
 
-    const onBeforeHotChange = (changes) => {
+  const onBeforeHotChange = (changes) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -29,9 +32,22 @@ function PlotGridsTable(props) {
         setTimeout(() => {
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
-            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+            Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
         }, 500)
     }
+  };
+
+  const handleDropdownModalDataSubmit = (data, columNumber, rowNumber, oldCellValue) => {
+    console.log("handleDropdownModalDataSubmit called with data:", data, "columNumber:", columNumber, "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    console.log("dataR", dataR);
+    console.log(data);
+    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    // Do something with the submitted data
+    dataR[rowNumber][col_names[columNumber]] = data;
+    // In no change in the cell value stop function
+    if (oldCellValue === data) return;
+    // Send data to Shiny with the edited data
+    Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
   };
 
 
@@ -99,7 +115,7 @@ function PlotGridsTable(props) {
                 updateDataR(newData);
 
                 setTimeout(() => {
-                  Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(newData), { priority: "event" });
+                  Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(newData)), { priority: "event" });
                 }, 300);
               }
             }
@@ -113,32 +129,50 @@ function PlotGridsTable(props) {
           // updateDataR(empty_obj_with_keys);
           // props.updateGlobalDataR(empty_obj_with_keys);
           // console.log("dataR", empty_obj_with_keys);
-          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(empty_obj_with_keys), {priority: "event"});
+          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(empty_obj_with_keys)), {priority: "event"});
           // props.updateGlobalDataR(empty_obj_with_keys);
           updateDataR(empty_obj_with_keys);
         } else {
           // console.log("dataR", dataR);
-          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+          Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
         }
       }}
       afterRemoveRow={(index, amount, physicalRows) => {
         // Send data to Shiny with the edited data
-        Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
+        Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(prepareShinyData(dataR)), {priority: "event"});
       }}
     >
 
-      {
-        col_names.map((col_name, col_index) => {
-          return (
-              <HotColumn
-                key={col_index}
-                settings={{
-                  data: col_name,
-                }}
-              />
-          );
-        })
-      }
+      {col_names && col_names.length > 0 && col_names.map((col, index) => {
+        let columnSettings = { data: col, type: "text" };
+
+        switch (col) {
+          case "name":
+          case "title":
+            columnSettings.type = "text";
+            return <HotColumn key={index} settings={columnSettings} />;
+
+          case "plotIDs":
+            return (
+              <HotColumn key={index} settings={columnSettings}>
+                <DropDownEditor
+                  hot-editor
+                  titleName="Select plotID"
+                  dropdownOptions={wrapIntoQuotes(props.plotids_options)}
+                  enableSelectOrder={true}
+                  activeColumnName="plotID"
+                  placeHolderTitle="Plot ID"
+                  splitBySentence={true}
+                  handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
+                />
+              </HotColumn>
+            );
+
+          default:
+            columnSettings.type = "text";
+            return <HotColumn key={index} settings={columnSettings} />;
+        }
+      })}
 
 
     </HotTable>

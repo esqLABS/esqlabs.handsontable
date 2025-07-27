@@ -14,6 +14,16 @@ export function validateVectorInputR(input) {
   }
 }
 
+export function wrapIntoQuotes(input) {
+  return input
+    .filter(item => item != null && String(item).trim() !== "") // filter null, undefined, and empty strings
+    .map(item => {
+      const str = String(item).trim();
+      return /^".*"$/.test(str) ? str : `"${str}"`; // wrap if not quoted
+    });
+}
+
+
 
 export function base64ToUtf8Json(base64) {
   const binaryString = atob(base64);

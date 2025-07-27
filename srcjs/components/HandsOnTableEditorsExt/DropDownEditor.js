@@ -77,10 +77,23 @@ class DropDownEditor extends BaseEditorComponent {
 
   }
 
-  convertIntoArrType(value) {
-    return typeof value === "string" && value.length !== 0
-      ? value.split(",")
-      : value;
+
+  convertIntoArrType(value, smart = false) {
+    if (typeof value === "string" && value.length !== 0) {
+      if (smart) {
+        // Split on comma + optional space, but only between quoted strings
+        const quotedMatches = value.match(/"[^"]*"/g);
+        return quotedMatches
+          ? quotedMatches.map(s => s.trim()).filter(s => s !== "")
+          : [value.trim()];
+      } else {
+        return value
+          .split(",")
+          .map(s => s.trim())
+          .filter(s => s !== "");
+      }
+    }
+    return value;
   }
 
   saveChanges(value) {
@@ -113,7 +126,7 @@ class DropDownEditor extends BaseEditorComponent {
             onCloseModal={this.close.bind(this)}
             dropdownOptions={this.props.dropdownOptions}
             selectedValue={
-              this.convertIntoArrType(this.state.value) ||
+              this.convertIntoArrType(this.state.value, this.props.splitBySentence) ||
               []
             }
             saveChanges={this.saveChanges.bind(this)}

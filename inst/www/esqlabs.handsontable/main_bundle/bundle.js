@@ -196434,7 +196434,25 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
   }, {
     key: "convertIntoArrType",
     value: function convertIntoArrType(value) {
-      return typeof value === "string" && value.length !== 0 ? value.split(",") : value;
+      var smart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      if (typeof value === "string" && value.length !== 0) {
+        if (smart) {
+          // Split on comma + optional space, but only between quoted strings
+          var quotedMatches = value.match(/"[^"]*"/g);
+          return quotedMatches ? quotedMatches.map(function (s) {
+            return s.trim();
+          }).filter(function (s) {
+            return s !== "";
+          }) : [value.trim()];
+        } else {
+          return value.split(",").map(function (s) {
+            return s.trim();
+          }).filter(function (s) {
+            return s !== "";
+          });
+        }
+      }
+      return value;
     }
   }, {
     key: "saveChanges",
@@ -196459,7 +196477,7 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           showModal: this.state.modalVisible,
           onCloseModal: this.close.bind(this),
           dropdownOptions: this.props.dropdownOptions,
-          selectedValue: this.convertIntoArrType(this.state.value) || [],
+          selectedValue: this.convertIntoArrType(this.state.value, this.props.splitBySentence) || [],
           saveChanges: this.saveChanges.bind(this),
           enableSelectOrder: this.props.enableSelectOrder,
           activeColumnName: this.props.activeColumnName,
@@ -198310,7 +198328,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
-/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/plotsUtils */ "./srcjs/utils/plotsUtils.js");
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -198334,15 +198355,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Import Custom Renderer
 
+// Import Custom HandsOntableEditor
 
 // Utils
+
+
 
 function PlotGridsTable(props) {
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
       return [key, null];
-    }))] : props.data_scenarios),
+    }))] : Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198363,11 +198387,25 @@ function PlotGridsTable(props) {
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
           priority: "event"
         });
       }, 500);
     }
+  };
+  var handleDropdownModalDataSubmit = function handleDropdownModalDataSubmit(data, columNumber, rowNumber, oldCellValue) {
+    console.log("handleDropdownModalDataSubmit called with data:", data, "columNumber:", columNumber, "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    console.log("dataR", dataR);
+    console.log(data);
+    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    // Do something with the submitted data
+    dataR[rowNumber][col_names[columNumber]] = data;
+    // In no change in the cell value stop function
+    if (oldCellValue === data) return;
+    // Send data to Shiny with the edited data
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
+      priority: "event"
+    });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
@@ -198405,7 +198443,7 @@ function PlotGridsTable(props) {
             var selectedRow = this.getSelectedLast()[0];
             if (this.countRows() === 1 && selectedRow === 0) {
               // Cut all elements of the first row
-              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"])(this, selectedRow);
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"])(this, selectedRow);
             } else {
               // Perform remove row operation
               // Use Handsontable's built-in remove_row functionality for multiple selections
@@ -198431,7 +198469,7 @@ function PlotGridsTable(props) {
             });
             updateDataR(newData);
             setTimeout(function () {
-              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(newData), {
+              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(newData)), {
                 priority: "event"
               });
             }, 300);
@@ -198449,31 +198487,58 @@ function PlotGridsTable(props) {
         // updateDataR(empty_obj_with_keys);
         // props.updateGlobalDataR(empty_obj_with_keys);
         // console.log("dataR", empty_obj_with_keys);
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(empty_obj_with_keys), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(empty_obj_with_keys)), {
           priority: "event"
         });
         // props.updateGlobalDataR(empty_obj_with_keys);
         updateDataR(empty_obj_with_keys);
       } else {
         // console.log("dataR", dataR);
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
           priority: "event"
         });
       }
     },
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
         priority: "event"
       });
     }
-  }, col_names.map(function (col_name, col_index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
-      key: col_index,
-      settings: {
-        data: col_name
-      }
-    });
+  }, col_names && col_names.length > 0 && col_names.map(function (col, index) {
+    var columnSettings = {
+      data: col,
+      type: "text"
+    };
+    switch (col) {
+      case "name":
+      case "title":
+        columnSettings.type = "text";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+          key: index,
+          settings: columnSettings
+        });
+      case "plotIDs":
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+          key: index,
+          settings: columnSettings
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          "hot-editor": true,
+          titleName: "Select plotID",
+          dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_8__["wrapIntoQuotes"])(props.plotids_options),
+          enableSelectOrder: true,
+          activeColumnName: "plotID",
+          placeHolderTitle: "Plot ID",
+          splitBySentence: true,
+          handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
+        }));
+      default:
+        columnSettings.type = "text";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+          key: index,
+          settings: columnSettings
+        });
+    }
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (PlotGridsTable);
@@ -199441,6 +199506,7 @@ var TableInput = function TableInput(_ref) {
     case configuration.sheet.toLowerCase() === "plotGrids".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_PlotGridsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        plotids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotids_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
@@ -199546,6 +199612,86 @@ function forceCutRowContent(hot, rowIndex) {
       hot.render(); // Re-render to apply changes
     }, 50); // Small delay to allow the cut operation to complete
   }, 50);
+}
+
+/***/ }),
+
+/***/ "./srcjs/utils/plotsUtils.js":
+/*!***********************************!*\
+  !*** ./srcjs/utils/plotsUtils.js ***!
+  \***********************************/
+/*! exports provided: processShinyData, prepareShinyData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processShinyData", function() { return processShinyData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prepareShinyData", function() { return prepareShinyData; });
+// clean data received from shiny
+function processShinyData(data) {
+  if (data === undefined) return;
+  if (data === null) return;
+  return data.map(function (item) {
+    if (typeof item.plotIDs === "string") {
+      var trimmed = item.plotIDs.trim();
+      if (trimmed !== "") {
+        // Match fully quoted segments only, preserve quotes
+        var matches = trimmed.match(/"[^"]*"/g);
+        item.plotIDs = matches ? matches.map(function (s) {
+          return s.trim();
+        }).filter(function (s) {
+          return s !== "";
+        }) : [trimmed]; // fallback if input wasn't properly quoted
+      } else {
+        item.plotIDs = null;
+      }
+    }
+    return item;
+  });
+}
+
+// clean data before sending to shiny
+function prepareShinyData(data) {
+  var noneTypeColumns = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  if (data === undefined) return;
+  if (data === null) return;
+  return data.map(function (entry) {
+    var cleanedEntry = {};
+    for (var key in entry) {
+      if (Object.prototype.hasOwnProperty.call(entry, key)) {
+        if (key === "plotIDs") {
+          if (Array.isArray(entry[key]) && entry[key].length === 0) {
+            cleanedEntry[key] = null;
+          } else if (entry[key] === null) {
+            cleanedEntry[key] = null;
+          } else {
+            if (typeof entry[key] === "string" && entry[key].includes(",")) {
+              cleanedEntry[key] = entry[key];
+            } else {
+              try {
+                cleanedEntry[key] = entry[key] === "" ? null : entry[key].join(", ");
+              } catch (error) {
+                // Fallback in case entry[key] is not an array and `.join()` fails
+                cleanedEntry[key] = String(entry[key]);
+              }
+            }
+          }
+        } else {
+          // Convert "--NONE--" string to null values
+          if (noneTypeColumns.includes(key)) {
+            if (entry[key] === "--NONE--" || entry[key] === null) {
+              cleanedEntry[key] = null;
+            } else {
+              cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+            }
+          } else {
+            cleanedEntry[key] = entry[key] === "" ? null : entry[key];
+          }
+        }
+      }
+    }
+    return cleanedEntry;
+  });
 }
 
 /***/ }),
@@ -199945,12 +200091,13 @@ function _convertSimulationTimeToString() {
 /*!******************************!*\
   !*** ./srcjs/utils/utils.js ***!
   \******************************/
-/*! exports provided: validateVectorInputR, base64ToUtf8Json */
+/*! exports provided: validateVectorInputR, wrapIntoQuotes, base64ToUtf8Json */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateVectorInputR", function() { return validateVectorInputR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapIntoQuotes", function() { return wrapIntoQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "base64ToUtf8Json", function() { return base64ToUtf8Json; });
 function validateVectorInputR(input) {
   // Check if input is a string
@@ -199966,6 +200113,15 @@ function validateVectorInputR(input) {
     // Return empty array for other types or empty string
     return [];
   }
+}
+function wrapIntoQuotes(input) {
+  return input.filter(function (item) {
+    return item != null && String(item).trim() !== "";
+  }) // filter null, undefined, and empty strings
+  .map(function (item) {
+    var str = String(item).trim();
+    return /^".*"$/.test(str) ? str : "\"".concat(str, "\""); // wrap if not quoted
+  });
 }
 function base64ToUtf8Json(base64) {
   var binaryString = atob(base64);

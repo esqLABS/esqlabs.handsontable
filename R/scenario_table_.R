@@ -29,6 +29,7 @@ scenario_table_Input <- function(
     aggregation_options,
     application_protocol_options,
     plotgridnames_options,
+    plotids_options,
     sheet_name,
     column_headers
   ) {
@@ -64,6 +65,7 @@ scenario_table_Input <- function(
       aggregation_option_dropdown      = aggregation_options,
       application_protocol_dropdown    = application_protocol_options,
       plotgridnames_option_dropdown    = plotgridnames_options,
+      plotids_option_dropdown          = plotids_options,
       sheet                            = sheet_name,
       shiny_el_id_name                 = inputId,
       column_headers                   = column_headers
