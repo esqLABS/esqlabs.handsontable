@@ -196148,7 +196148,22 @@ function ExportConfigurationTable(props) {
 
   // const col_names = Object.keys(dataR[0]);
   var col_names = props.column_headers;
-  var onBeforeHotChange = function onBeforeHotChange(changes) {
+  // Constants
+  var DROPDOWN_TYPE_COLUMNS = ["plotGridName"];
+  var longestLabel = ["--NONE--"].concat(_toConsumableArray(props.plotgridnames_options)).reduce(function (a, b) {
+    return a.length > b.length ? a : b;
+  }, "");
+  var approxWidth = Math.min(1000, Math.max(400, longestLabel.length * 8)); // rough estimate
+
+  var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
+    if (source === 'edit') {
+      // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+      if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+        dataR[changes[0][0]][changes[0][1]] = null;
+      }
+    }
+  };
+  var onBeforeHotChange = function onBeforeHotChange(changes, source) {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -196157,6 +196172,7 @@ function ExportConfigurationTable(props) {
       return;
     } else {
       setTimeout(function () {
+        updateNoneSelectionValue(dataR, changes, source);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -196176,6 +196192,7 @@ function ExportConfigurationTable(props) {
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
+    autoColumnSize: true,
     width: "100%",
     height: "100%",
     licenseKey: "non-commercial-and-evaluation",
@@ -196263,12 +196280,28 @@ function ExportConfigurationTable(props) {
         priority: "event"
       });
     }
-  }, col_names.map(function (col_name, col_index) {
+  }, col_names && col_names.length > 0 && col_names.map(function (col, index) {
+    var columnSettings = {
+      data: col,
+      type: "text"
+    };
+    switch (col) {
+      case "outputName":
+      case "width":
+        columnSettings.type = "text";
+        break;
+      case "plotGridName":
+        columnSettings.type = "dropdown";
+        columnSettings.width = approxWidth;
+        columnSettings.className = "min-width-plotgrid-column";
+        columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.plotgridnames_options));
+        break;
+      default:
+        columnSettings.type = "text";
+    }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
-      key: col_index,
-      settings: {
-        data: col_name
-      }
+      key: index,
+      settings: columnSettings
     });
   }));
 }
@@ -199415,6 +199448,7 @@ var TableInput = function TableInput(_ref) {
     case configuration.sheet.toLowerCase() === "exportConfiguration".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ExportConfigurationTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
+        plotgridnames_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotgridnames_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });

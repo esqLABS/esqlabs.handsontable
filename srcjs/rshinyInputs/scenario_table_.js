@@ -152,6 +152,9 @@ const TableInput = ({ configuration, value, setValue }) => {
       componentToRender = (
         <ExportConfigurationTable
           data_scenarios={base64ToUtf8Json(value)}
+          plotgridnames_options={
+            validateVectorInputR(configuration.plotgridnames_option_dropdown)
+          }
           column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />

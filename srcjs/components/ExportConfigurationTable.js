@@ -18,8 +18,23 @@ function ExportConfigurationTable(props) {
 
   // const col_names = Object.keys(dataR[0]);
   const col_names = props.column_headers;
+  // Constants
+  const DROPDOWN_TYPE_COLUMNS = ["plotGridName"];
 
-    const onBeforeHotChange = (changes) => {
+  const longestLabel = ["--NONE--", ...props.plotgridnames_options].reduce((a, b) => (a.length > b.length ? a : b), "");
+  const approxWidth = Math.min(1000, Math.max(400, longestLabel.length * 8)); // rough estimate
+
+
+  const updateNoneSelectionValue = (dataR, changes, source) => {
+    if (source === 'edit') {
+        // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
+        if(DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
+          dataR[changes[0][0]][changes[0][1]] = null;
+        }
+    }
+  }
+
+  const onBeforeHotChange = (changes, source) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -28,6 +43,7 @@ function ExportConfigurationTable(props) {
         return;
     } else {
         setTimeout(() => {
+            updateNoneSelectionValue(dataR, changes, source);
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
             Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
@@ -44,6 +60,7 @@ function ExportConfigurationTable(props) {
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
+      autoColumnSize={true}
       width="100%"
       height="100%"
       licenseKey="non-commercial-and-evaluation"
@@ -128,18 +145,26 @@ function ExportConfigurationTable(props) {
       }}
     >
 
-      {
-        col_names.map((col_name, col_index) => {
-          return (
-              <HotColumn
-                key={col_index}
-                settings={{
-                  data: col_name,
-                }}
-              />
-          );
-        })
-      }
+        {col_names && col_names.length > 0 && col_names.map((col, index) => {
+          let columnSettings = { data: col, type: "text" };
+
+          switch (col) {
+            case "outputName":
+            case "width":
+              columnSettings.type = "text";
+              break;
+            case "plotGridName":
+              columnSettings.type = "dropdown";
+              columnSettings.width = approxWidth;
+              columnSettings.className = "min-width-plotgrid-column";
+              columnSettings.source = ["--NONE--", ...props.plotgridnames_options];
+              break;
+            default:
+              columnSettings.type = "text";
+          }
+
+          return <HotColumn key={index} settings={columnSettings} />;
+        })}
 
 
     </HotTable>
