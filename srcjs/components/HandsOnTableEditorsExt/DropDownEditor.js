@@ -77,20 +77,28 @@ class DropDownEditor extends BaseEditorComponent {
 
   }
 
-
   convertIntoArrType(value, smart = false) {
     if (typeof value === "string" && value.length !== 0) {
       if (smart) {
-        // Split on comma + optional space, but only between quoted strings
-        const quotedMatches = value.match(/"[^"]*"/g);
-        return quotedMatches
-          ? quotedMatches.map(s => s.trim()).filter(s => s !== "")
-          : [value.trim()];
+        // Match quoted strings or unquoted comma-separated chunks
+        const matches = value.match(/"[^"]*"|[^,]+/g);
+        return matches
+          ? matches
+              .map(s => {
+                const trimmed = s.trim();
+                // Add quotes if not already wrapped in double quotes
+                return /^".*"$/.test(trimmed) ? trimmed : `"${trimmed}"`;
+              })
+              .filter(s => s !== "")
+          : [`"${value.trim()}"`]; // fallback: quote the whole trimmed string
       } else {
         return value
           .split(",")
-          .map(s => s.trim())
-          .filter(s => s !== "");
+          .map(s => {
+            const trimmed = s.trim();
+            return trimmed === "" ? null : `"${trimmed}"`;
+          })
+          .filter(s => s);
       }
     }
     return value;

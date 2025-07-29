@@ -196437,18 +196437,21 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
       var smart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (typeof value === "string" && value.length !== 0) {
         if (smart) {
-          // Split on comma + optional space, but only between quoted strings
-          var quotedMatches = value.match(/"[^"]*"/g);
-          return quotedMatches ? quotedMatches.map(function (s) {
-            return s.trim();
+          // Match quoted strings or unquoted comma-separated chunks
+          var matches = value.match(/"[^"]*"|[^,]+/g);
+          return matches ? matches.map(function (s) {
+            var trimmed = s.trim();
+            // Add quotes if not already wrapped in double quotes
+            return /^".*"$/.test(trimmed) ? trimmed : "\"".concat(trimmed, "\"");
           }).filter(function (s) {
             return s !== "";
-          }) : [value.trim()];
+          }) : ["\"".concat(value.trim(), "\"")]; // fallback: quote the whole trimmed string
         } else {
           return value.split(",").map(function (s) {
-            return s.trim();
+            var trimmed = s.trim();
+            return trimmed === "" ? null : "\"".concat(trimmed, "\"");
           }).filter(function (s) {
-            return s !== "";
+            return s;
           });
         }
       }
@@ -199635,13 +199638,13 @@ function processShinyData(data) {
     if (typeof item.plotIDs === "string") {
       var trimmed = item.plotIDs.trim();
       if (trimmed !== "") {
-        // Match fully quoted segments only, preserve quotes
-        var matches = trimmed.match(/"[^"]*"/g);
+        // Match quoted strings OR unquoted chunks split by comma
+        var matches = trimmed.match(/"[^"]*"|[^,]+/g);
         item.plotIDs = matches ? matches.map(function (s) {
           return s.trim();
         }).filter(function (s) {
           return s !== "";
-        }) : [trimmed]; // fallback if input wasn't properly quoted
+        }) : [trimmed]; // fallback
       } else {
         item.plotIDs = null;
       }

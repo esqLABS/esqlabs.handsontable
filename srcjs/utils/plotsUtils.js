@@ -7,15 +7,20 @@ export function processShinyData(data) {
     if (typeof item.plotIDs === "string") {
       const trimmed = item.plotIDs.trim();
       if (trimmed !== "") {
-        // Match fully quoted segments only, preserve quotes
-        const matches = trimmed.match(/"[^"]*"/g);
+        // Match quoted strings OR unquoted chunks split by comma
+        const matches = trimmed.match(/"[^"]*"|[^,]+/g);
+
         item.plotIDs = matches
-          ? matches.map(s => s.trim()).filter(s => s !== "")
-          : [trimmed]; // fallback if input wasn't properly quoted
+          ? matches
+              .map(s => s.trim())
+              .filter(s => s !== "")
+          : [trimmed]; // fallback
+
       } else {
         item.plotIDs = null;
       }
     }
+
     return item;
   });
 
