@@ -157,9 +157,9 @@ function SimulationTimeModal(props, {
               rowHeaders={true}
               colHeaders={[
                 "Start",
-                "Time Unit",
+                "",
                 "End",
-                "Time Unit",
+                "",
                 "Resolution",
                 "",
               ]}

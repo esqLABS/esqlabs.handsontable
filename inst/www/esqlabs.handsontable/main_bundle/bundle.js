@@ -197478,7 +197478,7 @@ function SimulationTimeModal(props, _ref) {
     ref: hotRef,
     data: tableData,
     rowHeaders: true,
-    colHeaders: ["Start", "Time Unit", "End", "Time Unit", "Resolution", ""],
+    colHeaders: ["Start", "", "End", "", "Resolution", ""],
     autoWrapRow: true,
     autoWrapCol: true,
     columns: [{
@@ -198646,8 +198646,7 @@ var ScenarioTable = function ScenarioTable(props) {
     });
   };
   var handleDropdownModalDataSubmit = function handleDropdownModalDataSubmit(data, columNumber, rowNumber, oldCellValue) {
-    console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
-    console.log(data);
+    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
     // Do something with the submitted data
     dataR[rowNumber][col_names[columNumber]] = data;
     // In no change in the cell value stop function
