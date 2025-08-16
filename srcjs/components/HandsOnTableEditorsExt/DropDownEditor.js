@@ -4,6 +4,8 @@ import React from "react";
 import { BaseEditorComponent } from "@handsontable/react";
 // Components
 import ModalShowDropdownAndSortValue from "./ModalShowDropdownAndSortValue.js";
+// Utils
+import { splitOutsideQuotes } from "../../utils/utils.js";
 
 class DropDownEditor extends BaseEditorComponent {
   constructor(props) {
@@ -80,17 +82,15 @@ class DropDownEditor extends BaseEditorComponent {
   convertIntoArrType(value, smart = false) {
     if (typeof value === "string" && value.length !== 0) {
       if (smart) {
-        // Match quoted strings or unquoted comma-separated chunks
-        const matches = value.match(/"[^"]*"|[^,]+/g);
-        return matches
-          ? matches
-              .map(s => {
-                const trimmed = s.trim();
-                // Add quotes if not already wrapped in double quotes
-                return /^".*"$/.test(trimmed) ? trimmed : `"${trimmed}"`;
-              })
-              .filter(s => s !== "")
+
+        const matches = splitOutsideQuotes(value);
+        return matches.length > 0
+          ? matches.map(s => {
+              const trimmed = s.trim();
+              return /^".*"$/.test(trimmed) ? trimmed : `"${trimmed}"`;
+            })
           : [`"${value.trim()}"`]; // fallback: quote the whole trimmed string
+
       } else {
         return value
           .split(",")

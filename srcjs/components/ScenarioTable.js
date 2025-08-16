@@ -4,13 +4,16 @@ import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 import SimulationTimeModal from "./SimulationTimeModal";
-import { getSimulationTimeValue, processShinyData, prepareShinyData } from "../utils/simulationTime";
+import { getSimulationTimeValue, processShinyData, prepareShinyData } from "../utils/scenarioUtils";
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
 // Custom renderer
 import { scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer } from "./TableRenderer/TableRenderer";
+// Utils
+import { wrapIntoQuotes } from "../utils/utils";
+
 
 // register Handsontable's modules
 registerAllModules();
@@ -27,8 +30,7 @@ const ScenarioTable = (props) => {
   // SimulationTime Modal state
   const [simulationTimeModalVisible, setSimulationTimeModalVisible] = useState(false);
   const [simulationTimeModalData, setSimulationTimeModalData] = useState([]);
-  // Double-click detection state
-  const [lastClickTime, setLastClickTime] = useState(0);
+
 
   // ADD: Get duplicate Scenario_name values
   const getDuplicateScenarioNames = () => {
@@ -250,10 +252,11 @@ const ScenarioTable = (props) => {
           <DropDownEditor
             hot-editor
             titleName="Select path"
-            dropdownOptions={props.model_parameters_options}
+            dropdownOptions={wrapIntoQuotes(props.model_parameters_options)}
             enableSelectOrder={true}
             activeColumnName="Parameter set(s)"
             placeHolderTitle="Paremeter"
+            splitBySentence={true}
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
@@ -306,10 +309,11 @@ const ScenarioTable = (props) => {
           <DropDownEditor
             hot-editor
             titleName="Select path"
-            dropdownOptions={props.outputpath_ids_options}
+            dropdownOptions={wrapIntoQuotes(props.outputpath_ids_options)}
             enableSelectOrder={false}
             activeColumnName="OutputPathsIds"
             placeHolderTitle="PathId"
+            splitBySentence={true}
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
@@ -318,5 +322,6 @@ const ScenarioTable = (props) => {
     </>
   );
 };
+
 
 export default ScenarioTable;

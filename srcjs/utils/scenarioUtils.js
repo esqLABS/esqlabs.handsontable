@@ -1,3 +1,5 @@
+import { splitOutsideQuotes } from "./utils.js";
+
 // retrieve simulation time value (2.0)
 export function getSimulationTimeValue(dataSet, rowNum, colNum, colNames) {
 
@@ -44,11 +46,30 @@ export function processShinyData(data) {
 
     return data.map(item => {
       if (typeof item.OutputPathsIds === "string") {
-        item.OutputPathsIds = item.OutputPathsIds.trim() !== "" ? item.OutputPathsIds.split(", ") : null;
+        const trimmed = item.OutputPathsIds.trim();
+        if (trimmed !== "") {
+          const parts = splitOutsideQuotes(trimmed);
+          // Keep quoted tokens as-is (inside text untouched)
+          item.OutputPathsIds = parts.length ? parts : [trimmed]; // fallback
+
+        } else {
+          item.OutputPathsIds = null;
+        }
+
       }
+      // process "ModelParameterSheets" (Parameter Sets) column
       if (typeof item.ModelParameterSheets === "string") {
-        item.ModelParameterSheets = item.ModelParameterSheets.trim() !== "" ? item.ModelParameterSheets.split(", ") : null;
+        const trimmed = item.ModelParameterSheets.trim();
+        if (trimmed !== "") {
+          const parts = splitOutsideQuotes(trimmed);
+          // Keep quoted tokens as-is (inside text untouched)
+          item.ModelParameterSheets = parts.length ? parts : [trimmed]; // fallback
+
+        } else {
+          item.ModelParameterSheets = null;
+        }
       }
+
       // Convert "TRUE" and "FALSE" strings to boolean values
       if (item.SteadyState === "TRUE") {
         item.SteadyState = true;
@@ -86,6 +107,7 @@ export function prepareShinyData(data, noneTypeColumns = []) {
                         }
                     }
                 } else {
+
                     // Convert "--NONE--" string to null values
                     if(noneTypeColumns.includes(key)) {
                       if(entry[key] === "--NONE--" || entry[key] === null) {
@@ -96,6 +118,7 @@ export function prepareShinyData(data, noneTypeColumns = []) {
                     } else {
                       cleanedEntry[key] = entry[key] === "" ? null : entry[key];
                     }
+
                 }
             }
         }

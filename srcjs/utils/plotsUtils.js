@@ -1,3 +1,5 @@
+import { splitOutsideQuotes } from "./utils.js";
+
 // clean data received from shiny
 export function processShinyData(data) {
   if (data === undefined) return;
@@ -7,14 +9,10 @@ export function processShinyData(data) {
     if (typeof item.plotIDs === "string") {
       const trimmed = item.plotIDs.trim();
       if (trimmed !== "") {
-        // Match quoted strings OR unquoted chunks split by comma
-        const matches = trimmed.match(/"[^"]*"|[^,]+/g);
 
-        item.plotIDs = matches
-          ? matches
-              .map(s => s.trim())
-              .filter(s => s !== "")
-          : [trimmed]; // fallback
+        const parts = splitOutsideQuotes(trimmed);
+        // Keep quoted tokens as-is (inside text untouched)
+        item.plotIDs = parts.length ? parts : [trimmed];
 
       } else {
         item.plotIDs = null;

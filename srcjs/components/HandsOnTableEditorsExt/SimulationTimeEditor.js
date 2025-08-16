@@ -5,7 +5,7 @@ import { BaseEditorComponent } from "@handsontable/react";
 // Components
 import SimulationTimeModal from "./SimulationTimeModal.js";
 // Utils
-import { getSimulationTimeValue } from "../../utils/simulationTime";
+import { getSimulationTimeValue } from "../../utils/scenarioUtils";
 
 
 class SimulationTimeEditor extends BaseEditorComponent {

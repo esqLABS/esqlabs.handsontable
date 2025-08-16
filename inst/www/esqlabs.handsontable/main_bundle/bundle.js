@@ -196322,6 +196322,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var _ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalShowDropdownAndSortValue.js */ "./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js");
+/* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/utils.js */ "./srcjs/utils/utils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -196342,6 +196343,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 // HandsOnTable
 
 // Components
+
+// Utils
 
 var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
   _inherits(DropDownEditor, _BaseEditorComponent);
@@ -196437,14 +196440,10 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
       var smart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (typeof value === "string" && value.length !== 0) {
         if (smart) {
-          // Match quoted strings or unquoted comma-separated chunks
-          var matches = value.match(/"[^"]*"|[^,]+/g);
-          return matches ? matches.map(function (s) {
+          var matches = Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_3__["splitOutsideQuotes"])(value);
+          return matches.length > 0 ? matches.map(function (s) {
             var trimmed = s.trim();
-            // Add quotes if not already wrapped in double quotes
             return /^".*"$/.test(trimmed) ? trimmed : "\"".concat(trimmed, "\"");
-          }).filter(function (s) {
-            return s !== "";
           }) : ["\"".concat(value.trim(), "\"")]; // fallback: quote the whole trimmed string
         } else {
           return value.split(",").map(function (s) {
@@ -197155,7 +197154,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var _SimulationTimeModal_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SimulationTimeModal.js */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeModal.js");
-/* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
+/* harmony import */ var _utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/scenarioUtils */ "./srcjs/utils/scenarioUtils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -197259,7 +197258,7 @@ var SimulationTimeEditor = /*#__PURE__*/function (_BaseEditorComponent) {
       var _this2 = this;
       _get(_getPrototypeOf(SimulationTimeEditor.prototype), "prepare", this).call(this, row, col, prop, td, originalValue, cellProperties);
       this.setState({
-        cellData: Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_3__["getSimulationTimeValue"])(this.props.parentData, row, col, this.props.columnNames)
+        cellData: Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_3__["getSimulationTimeValue"])(this.props.parentData, row, col, this.props.columnNames)
       }, function () {
         console.log("State updated in prepare:", _this2.state.value);
       });
@@ -198563,11 +198562,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _SimulationTimeModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SimulationTimeModal */ "./srcjs/components/SimulationTimeModal.js");
-/* harmony import */ var _utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/simulationTime */ "./srcjs/utils/simulationTime.js");
+/* harmony import */ var _utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/scenarioUtils */ "./srcjs/utils/scenarioUtils.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
 /* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -198591,6 +198591,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Custom renderer
 
+// Utils
+
 
 // register Handsontable's modules
 Object(handsontable_registry__WEBPACK_IMPORTED_MODULE_2__["registerAllModules"])();
@@ -198602,7 +198604,7 @@ var ScenarioTable = function ScenarioTable(props) {
   // const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
       return [key, null];
-    }))] : Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
+    }))] : Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198616,11 +198618,6 @@ var ScenarioTable = function ScenarioTable(props) {
     _useState6 = _slicedToArray(_useState5, 2),
     simulationTimeModalData = _useState6[0],
     setSimulationTimeModalData = _useState6[1];
-  // Double-click detection state
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
-    _useState8 = _slicedToArray(_useState7, 2),
-    lastClickTime = _useState8[0],
-    setLastClickTime = _useState8[1];
 
   // ADD: Get duplicate Scenario_name values
   var getDuplicateScenarioNames = function getDuplicateScenarioNames() {
@@ -198644,18 +198641,19 @@ var ScenarioTable = function ScenarioTable(props) {
     if (oldCellValue === data) return;
     // console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
     });
   };
   var handleDropdownModalDataSubmit = function handleDropdownModalDataSubmit(data, columNumber, rowNumber, oldCellValue) {
-    // console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    console.log("handleDropdownModalDataSubmit called with data:", data, "columName:", col_names[columNumber], "rowNumber:", rowNumber, "oldCellValue:", oldCellValue);
+    console.log(data);
     // Do something with the submitted data
     dataR[rowNumber][col_names[columNumber]] = data;
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
     });
   };
@@ -198684,7 +198682,7 @@ var ScenarioTable = function ScenarioTable(props) {
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
           priority: "event"
         });
       }, 500);
@@ -198722,7 +198720,7 @@ var ScenarioTable = function ScenarioTable(props) {
 
       // Send data to Shiny
       setTimeout(function () {
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
           priority: "event"
         });
       }, 200);
@@ -198739,14 +198737,14 @@ var ScenarioTable = function ScenarioTable(props) {
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     },
     afterCreateRow: function afterCreateRow(index, amount) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_simulationTime__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     }
@@ -198844,10 +198842,11 @@ var ScenarioTable = function ScenarioTable(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
     titleName: "Select path",
-    dropdownOptions: props.model_parameters_options,
+    dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapIntoQuotes"])(props.model_parameters_options),
     enableSelectOrder: true,
     activeColumnName: "Parameter set(s)",
     placeHolderTitle: "Paremeter",
+    splitBySentence: true,
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -198906,10 +198905,11 @@ var ScenarioTable = function ScenarioTable(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
     titleName: "Select path",
-    dropdownOptions: props.outputpath_ids_options,
+    dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapIntoQuotes"])(props.outputpath_ids_options),
     enableSelectOrder: false,
     activeColumnName: "OutputPathsIds",
     placeHolderTitle: "PathId",
+    splitBySentence: true,
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   }))));
 };
@@ -199630,6 +199630,9 @@ function forceCutRowContent(hot, rowIndex) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processShinyData", function() { return processShinyData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prepareShinyData", function() { return prepareShinyData; });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./srcjs/utils/utils.js");
+
+
 // clean data received from shiny
 function processShinyData(data) {
   if (data === undefined) return;
@@ -199638,13 +199641,9 @@ function processShinyData(data) {
     if (typeof item.plotIDs === "string") {
       var trimmed = item.plotIDs.trim();
       if (trimmed !== "") {
-        // Match quoted strings OR unquoted chunks split by comma
-        var matches = trimmed.match(/"[^"]*"|[^,]+/g);
-        item.plotIDs = matches ? matches.map(function (s) {
-          return s.trim();
-        }).filter(function (s) {
-          return s !== "";
-        }) : [trimmed]; // fallback
+        var parts = Object(_utils_js__WEBPACK_IMPORTED_MODULE_0__["splitOutsideQuotes"])(trimmed);
+        // Keep quoted tokens as-is (inside text untouched)
+        item.plotIDs = parts.length ? parts : [trimmed];
       } else {
         item.plotIDs = null;
       }
@@ -199816,10 +199815,10 @@ function joinProteinOntogenyFromArray(nestedArray) {
 
 /***/ }),
 
-/***/ "./srcjs/utils/simulationTime.js":
-/*!***************************************!*\
-  !*** ./srcjs/utils/simulationTime.js ***!
-  \***************************************/
+/***/ "./srcjs/utils/scenarioUtils.js":
+/*!**************************************!*\
+  !*** ./srcjs/utils/scenarioUtils.js ***!
+  \**************************************/
 /*! exports provided: getSimulationTimeValue, processShinyData, prepareShinyData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -199828,6 +199827,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSimulationTimeValue", function() { return getSimulationTimeValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processShinyData", function() { return processShinyData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prepareShinyData", function() { return prepareShinyData; });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./srcjs/utils/utils.js");
+
+
 // retrieve simulation time value (2.0)
 function getSimulationTimeValue(dataSet, rowNum, colNum, colNames) {
   var col_name = colNames[colNum];
@@ -199869,11 +199871,27 @@ function processShinyData(data) {
   if (data === null) return;
   return data.map(function (item) {
     if (typeof item.OutputPathsIds === "string") {
-      item.OutputPathsIds = item.OutputPathsIds.trim() !== "" ? item.OutputPathsIds.split(", ") : null;
+      var trimmed = item.OutputPathsIds.trim();
+      if (trimmed !== "") {
+        var parts = Object(_utils_js__WEBPACK_IMPORTED_MODULE_0__["splitOutsideQuotes"])(trimmed);
+        // Keep quoted tokens as-is (inside text untouched)
+        item.OutputPathsIds = parts.length ? parts : [trimmed]; // fallback
+      } else {
+        item.OutputPathsIds = null;
+      }
     }
+    // process "ModelParameterSheets" (Parameter Sets) column
     if (typeof item.ModelParameterSheets === "string") {
-      item.ModelParameterSheets = item.ModelParameterSheets.trim() !== "" ? item.ModelParameterSheets.split(", ") : null;
+      var _trimmed = item.ModelParameterSheets.trim();
+      if (_trimmed !== "") {
+        var _parts = Object(_utils_js__WEBPACK_IMPORTED_MODULE_0__["splitOutsideQuotes"])(_trimmed);
+        // Keep quoted tokens as-is (inside text untouched)
+        item.ModelParameterSheets = _parts.length ? _parts : [_trimmed]; // fallback
+      } else {
+        item.ModelParameterSheets = null;
+      }
     }
+
     // Convert "TRUE" and "FALSE" strings to boolean values
     if (item.SteadyState === "TRUE") {
       item.SteadyState = true;
@@ -200094,12 +200112,13 @@ function _convertSimulationTimeToString() {
 /*!******************************!*\
   !*** ./srcjs/utils/utils.js ***!
   \******************************/
-/*! exports provided: validateVectorInputR, wrapIntoQuotes, base64ToUtf8Json */
+/*! exports provided: validateVectorInputR, splitOutsideQuotes, wrapIntoQuotes, base64ToUtf8Json */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateVectorInputR", function() { return validateVectorInputR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "splitOutsideQuotes", function() { return splitOutsideQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapIntoQuotes", function() { return wrapIntoQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "base64ToUtf8Json", function() { return base64ToUtf8Json; });
 function validateVectorInputR(input) {
@@ -200116,6 +200135,40 @@ function validateVectorInputR(input) {
     // Return empty array for other types or empty string
     return [];
   }
+}
+
+/**
+ * Split a CSV-like string(sentence) on commas **outside** double quotes.
+ * Preserves quoted sentences intact and trims outer whitespace of each token.
+ * Used by the multi-select dropdown (sortable) and Handsontable editors.
+ *
+ * Examples:
+ *  splitOutsideQuotes('Global, Joe')                     // ['Global', 'Joe']
+ *  splitOutsideQuotes('Global, "Hi, I am Joe"')          // ['Global', '"Hi, I am Joe"']
+ *
+ * @param {string} str - Comma-separated string, may include quoted parts.
+ * @returns {string[]} Tokens split on top-level commas; quoted tokens stay quoted.
+ */
+function splitOutsideQuotes(str) {
+  var out = [];
+  var cur = '';
+  var inside = false;
+  for (var i = 0; i < str.length; i++) {
+    var ch = str[i];
+    if (ch === '"') {
+      inside = !inside;
+      cur += ch; // keep the quote
+    } else if (ch === ',' && !inside) {
+      var t = cur.trim(); // trim ONLY outside whitespace
+      if (t) out.push(t);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  var last = cur.trim();
+  if (last) out.push(last);
+  return out;
 }
 function wrapIntoQuotes(input) {
   return input.filter(function (item) {

@@ -14,6 +14,42 @@ export function validateVectorInputR(input) {
   }
 }
 
+/**
+ * Split a CSV-like string(sentence) on commas **outside** double quotes.
+ * Preserves quoted sentences intact and trims outer whitespace of each token.
+ * Used by the multi-select dropdown (sortable) and Handsontable editors.
+ *
+ * Examples:
+ *  splitOutsideQuotes('Global, Joe')                     // ['Global', 'Joe']
+ *  splitOutsideQuotes('Global, "Hi, I am Joe"')          // ['Global', '"Hi, I am Joe"']
+ *
+ * @param {string} str - Comma-separated string, may include quoted parts.
+ * @returns {string[]} Tokens split on top-level commas; quoted tokens stay quoted.
+ */
+export function splitOutsideQuotes(str) {
+  const out = [];
+  let cur = '';
+  let inside = false;
+
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (ch === '"') {
+      inside = !inside;
+      cur += ch;               // keep the quote
+    } else if (ch === ',' && !inside) {
+      const t = cur.trim();    // trim ONLY outside whitespace
+      if (t) out.push(t);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  const last = cur.trim();
+  if (last) out.push(last);
+  return out;
+}
+
+
 export function wrapIntoQuotes(input) {
   return input
     .filter(item => item != null && String(item).trim() !== "") // filter null, undefined, and empty strings
