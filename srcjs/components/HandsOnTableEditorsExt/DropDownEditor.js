@@ -141,6 +141,10 @@ class DropDownEditor extends BaseEditorComponent {
             enableSelectOrder={this.props.enableSelectOrder}
             activeColumnName={this.props.activeColumnName}
             placeHolderTitle={this.props.placeHolderTitle}
+            enableListSecondaryText={this.props.enableListSecondaryText}
+            {...(this.props.enableListSecondaryText && {
+              listSecondaryDictionary: (this.props.listSecondaryDictionary),
+            })}
           />
 
         </div>

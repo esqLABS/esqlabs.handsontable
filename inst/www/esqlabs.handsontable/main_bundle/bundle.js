@@ -196324,6 +196324,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalShowDropdownAndSortValue.js */ "./srcjs/components/HandsOnTableEditorsExt/ModalShowDropdownAndSortValue.js");
 /* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/utils.js */ "./srcjs/utils/utils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -196475,7 +196476,7 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           style: this.editorContainerStyle,
           ref: this.editorRef,
           onMouseDown: this.stopMousedownPropagation
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalShowDropdownAndSortValue_js__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
           showModal: this.state.modalVisible,
           onCloseModal: this.close.bind(this),
           dropdownOptions: this.props.dropdownOptions,
@@ -196483,8 +196484,11 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           saveChanges: this.saveChanges.bind(this),
           enableSelectOrder: this.props.enableSelectOrder,
           activeColumnName: this.props.activeColumnName,
-          placeHolderTitle: this.props.placeHolderTitle
-        }));
+          placeHolderTitle: this.props.placeHolderTitle,
+          enableListSecondaryText: this.props.enableListSecondaryText
+        }, this.props.enableListSecondaryText && {
+          listSecondaryDictionary: this.props.listSecondaryDictionary
+        })));
       } else if (this.props.isRenderer) {
         var colorboxStyle = {
           //   background: this.props.value,
@@ -196758,6 +196762,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Chip__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @mui/material/Chip */ "./node_modules/@mui/material/Chip/index.js");
 /* harmony import */ var react_easy_sort__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react-easy-sort */ "./node_modules/react-easy-sort/index.module.js");
 /* harmony import */ var array_move__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! array-move */ "./node_modules/array-move/index.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -196830,9 +196835,11 @@ function SelectValueGroup(props) {
       value: element
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Checkbox__WEBPACK_IMPORTED_MODULE_12__["default"], {
       checked: item ? item.indexOf(element) > -1 : false
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_ListItemText__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_ListItemText__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({
       primary: element
-    }));
+    }, props.enableListSecondaryText && {
+      secondary: props.listSecondaryDictionary[element]
+    })));
   })));
 }
 function OrderItems(props) {
@@ -196948,12 +196955,15 @@ function ModalShowDropdownAndSortValue(props) {
   }, "Select ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Chip__WEBPACK_IMPORTED_MODULE_17__["default"], {
     label: props.activeColumnName,
     size: "small"
-  })), props.enableSelectOrder ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, {
+  })), props.enableSelectOrder ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, _extends({
     options: props.dropdownOptions,
     selectedOptions: valueSelected,
     setSelectedOptions: setItemsToSort,
-    placeHolderTitle: props.placeHolderTitle
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    placeHolderTitle: props.placeHolderTitle,
+    enableListSecondaryText: props.enableListSecondaryText
+  }, props.enableListSecondaryText && {
+    listSecondaryDictionary: props.listSecondaryDictionary
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], {
     style: {
       marginTop: '35px',
       marginBottom: '15px'
@@ -196961,12 +196971,15 @@ function ModalShowDropdownAndSortValue(props) {
   }, "Order List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(OrderItems, {
     selectedOptions: itemsToSort,
     setSelectedOptions: setFinalOrder
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SelectValueGroup, _extends({
     options: props.dropdownOptions,
     selectedOptions: valueSelected,
     setSelectedOptions: setFinalOrder,
-    placeHolderTitle: props.placeHolderTitle
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    placeHolderTitle: props.placeHolderTitle,
+    enableListSecondaryText: props.enableListSecondaryText
+  }, props.enableListSecondaryText && {
+    listSecondaryDictionary: props.listSecondaryDictionary
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_16__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
     autoFocus: true,
     disabled: disableSave,
     onClick: function onClick() {
@@ -198532,6 +198545,7 @@ function PlotGridsTable(props) {
           activeColumnName: "plotID",
           placeHolderTitle: "Plot ID",
           splitBySentence: true,
+          enableListSecondaryText: false,
           handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
         }));
       default:
@@ -198846,6 +198860,8 @@ var ScenarioTable = function ScenarioTable(props) {
     activeColumnName: "Parameter set(s)",
     placeHolderTitle: "Paremeter",
     splitBySentence: true,
+    enableListSecondaryText: false,
+    listSecondaryDictionary: props.outputpath_id_alias_options,
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -198909,6 +198925,8 @@ var ScenarioTable = function ScenarioTable(props) {
     activeColumnName: "OutputPathsIds",
     placeHolderTitle: "PathId",
     splitBySentence: true,
+    enableListSecondaryText: true,
+    listSecondaryDictionary: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapObjectKeysIntoQuotes"])(props.outputpath_id_alias_options),
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   }))));
 };
@@ -199441,6 +199459,8 @@ var TableInput = function TableInput(_ref) {
   // console.log(JSON.parse(value));
   console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
+  console.log('configuration.outputpath_id_alias_dropdown');
+  console.log(configuration.outputpath_id_alias_dropdown);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -199448,6 +199468,7 @@ var TableInput = function TableInput(_ref) {
         individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.individual_id_dropdown),
         population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_id_dropdown),
         outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
+        outputpath_id_alias_options: configuration.outputpath_id_alias_dropdown,
         steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
         application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.application_protocol_dropdown),
         model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_parameters_dropdown),
@@ -200111,7 +200132,7 @@ function _convertSimulationTimeToString() {
 /*!******************************!*\
   !*** ./srcjs/utils/utils.js ***!
   \******************************/
-/*! exports provided: validateVectorInputR, splitOutsideQuotes, wrapIntoQuotes, base64ToUtf8Json */
+/*! exports provided: validateVectorInputR, splitOutsideQuotes, wrapIntoQuotes, wrapObjectKeysIntoQuotes, base64ToUtf8Json */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200119,7 +200140,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validateVectorInputR", function() { return validateVectorInputR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "splitOutsideQuotes", function() { return splitOutsideQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapIntoQuotes", function() { return wrapIntoQuotes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapObjectKeysIntoQuotes", function() { return wrapObjectKeysIntoQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "base64ToUtf8Json", function() { return base64ToUtf8Json; });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function validateVectorInputR(input) {
   // Check if input is a string
   if (typeof input === 'string' && input.length === 0) {
@@ -200177,6 +200206,19 @@ function wrapIntoQuotes(input) {
     var str = String(item).trim();
     return /^".*"$/.test(str) ? str : "\"".concat(str, "\""); // wrap if not quoted
   });
+}
+function wrapObjectKeysIntoQuotes(obj) {
+  if (obj == null || _typeof(obj) !== "object") {
+    throw new TypeError("Input must be a non-null object");
+  }
+  return Object.fromEntries(Object.entries(obj).map(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      value = _ref2[1];
+    var trimmedKey = key.trim();
+    var newKey = /^".*"$/.test(trimmedKey) ? trimmedKey : "\"".concat(trimmedKey, "\"");
+    return [newKey, value];
+  }));
 }
 function base64ToUtf8Json(base64) {
   var binaryString = atob(base64);

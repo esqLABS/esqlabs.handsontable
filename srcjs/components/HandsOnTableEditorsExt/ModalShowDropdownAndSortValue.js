@@ -60,7 +60,12 @@ function SelectValueGroup(props) {
       {props.options.map((element) => (
         <MenuItem key={element} value={element}>
           <Checkbox checked={item ? item.indexOf(element) > -1 : false} />
-          <ListItemText primary={element} />
+          <ListItemText
+            primary={element}
+            {...(props.enableListSecondaryText && {
+                secondary: props.listSecondaryDictionary[(element)],
+            })}
+          />
         </MenuItem>
       ))}
     </Select>
@@ -178,6 +183,10 @@ function ModalShowDropdownAndSortValue(props) {
                 selectedOptions={valueSelected}
                 setSelectedOptions={setItemsToSort}
                 placeHolderTitle={props.placeHolderTitle}
+                enableListSecondaryText={props.enableListSecondaryText}
+                {...(props.enableListSecondaryText && {
+                  listSecondaryDictionary: props.listSecondaryDictionary,
+                })}
               />
 
               <Divider style={{marginTop: '35px', marginBottom: '15px'}}>Order List</Divider>
@@ -193,6 +202,10 @@ function ModalShowDropdownAndSortValue(props) {
                 selectedOptions={valueSelected}
                 setSelectedOptions={setFinalOrder}
                 placeHolderTitle={props.placeHolderTitle}
+                enableListSecondaryText={props.enableListSecondaryText}
+                {...(props.enableListSecondaryText && {
+                  listSecondaryDictionary: props.listSecondaryDictionary,
+                })}
               />
             </>
           )}

@@ -12,7 +12,7 @@ import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor"
 // Custom renderer
 import { scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer } from "./TableRenderer/TableRenderer";
 // Utils
-import { wrapIntoQuotes } from "../utils/utils";
+import { wrapIntoQuotes, wrapObjectKeysIntoQuotes } from "../utils/utils";
 
 
 // register Handsontable's modules
@@ -257,6 +257,8 @@ const ScenarioTable = (props) => {
             activeColumnName="Parameter set(s)"
             placeHolderTitle="Paremeter"
             splitBySentence={true}
+            enableListSecondaryText={false}
+            listSecondaryDictionary={props.outputpath_id_alias_options}
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
@@ -314,6 +316,8 @@ const ScenarioTable = (props) => {
             activeColumnName="OutputPathsIds"
             placeHolderTitle="PathId"
             splitBySentence={true}
+            enableListSecondaryText={true}
+            listSecondaryDictionary={wrapObjectKeysIntoQuotes(props.outputpath_id_alias_options)}
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>

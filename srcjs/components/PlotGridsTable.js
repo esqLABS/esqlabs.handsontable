@@ -163,6 +163,7 @@ function PlotGridsTable(props) {
                   activeColumnName="plotID"
                   placeHolderTitle="Plot ID"
                   splitBySentence={true}
+                  enableListSecondaryText={false}
                   handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
                 />
               </HotColumn>

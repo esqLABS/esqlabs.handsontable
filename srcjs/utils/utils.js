@@ -59,6 +59,19 @@ export function wrapIntoQuotes(input) {
     });
 }
 
+export function wrapObjectKeysIntoQuotes(obj) {
+  if (obj == null || typeof obj !== "object") {
+    throw new TypeError("Input must be a non-null object");
+  }
+
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => {
+      const trimmedKey = key.trim();
+      const newKey = /^".*"$/.test(trimmedKey) ? trimmedKey : `"${trimmedKey}"`;
+      return [newKey, value];
+    })
+  );
+}
 
 
 export function base64ToUtf8Json(base64) {

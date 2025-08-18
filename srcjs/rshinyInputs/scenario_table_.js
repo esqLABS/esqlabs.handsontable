@@ -35,6 +35,9 @@ const TableInput = ({ configuration, value, setValue }) => {
           outputpath_ids_options={
             validateVectorInputR(configuration.outputpath_id_dropdown)
           }
+          outputpath_id_alias_options={
+            configuration.outputpath_id_alias_dropdown
+          }
           steatystatetime_unit_options={
             validateVectorInputR(configuration.steatystatetime_unit_dropdown)
           }
