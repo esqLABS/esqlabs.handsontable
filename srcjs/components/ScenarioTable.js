@@ -318,6 +318,7 @@ const ScenarioTable = (props) => {
             splitBySentence={true}
             enableListSecondaryText={true}
             listSecondaryDictionary={wrapObjectKeysIntoQuotes(props.outputpath_id_alias_options)}
+            modalWindowTitle="Select Output Paths"
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>

@@ -159,7 +159,7 @@ function ModalShowDropdownAndSortValue(props) {
         onClose={props.onCloseModal}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          {`Select ${props.activeColumnName}`}
+          {props.modalWindowTitle || `Select ${props.activeColumnName}`}
         </DialogTitle>
         <IconButton
           aria-label="close"

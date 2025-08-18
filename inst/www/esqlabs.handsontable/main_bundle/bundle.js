@@ -196488,6 +196488,8 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           enableListSecondaryText: this.props.enableListSecondaryText
         }, this.props.enableListSecondaryText && {
           listSecondaryDictionary: this.props.listSecondaryDictionary
+        }, this.props.modalWindowTitle && {
+          modalWindowTitle: this.props.modalWindowTitle
         })));
       } else if (this.props.isRenderer) {
         var colorboxStyle = {
@@ -196936,7 +196938,7 @@ function ModalShowDropdownAndSortValue(props) {
       p: 2
     },
     id: "customized-dialog-title"
-  }, "Select ".concat(props.activeColumnName)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, props.modalWindowTitle || "Select ".concat(props.activeColumnName)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     "aria-label": "close",
     onClick: props.onCloseModal,
     sx: {
@@ -198927,6 +198929,7 @@ var ScenarioTable = function ScenarioTable(props) {
     splitBySentence: true,
     enableListSecondaryText: true,
     listSecondaryDictionary: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapObjectKeysIntoQuotes"])(props.outputpath_id_alias_options),
+    modalWindowTitle: "Select Output Paths",
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   }))));
 };
@@ -199459,8 +199462,6 @@ var TableInput = function TableInput(_ref) {
   // console.log(JSON.parse(value));
   console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
-  console.log('configuration.outputpath_id_alias_dropdown');
-  console.log(configuration.outputpath_id_alias_dropdown);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {

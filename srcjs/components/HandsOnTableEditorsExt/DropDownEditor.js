@@ -145,6 +145,9 @@ class DropDownEditor extends BaseEditorComponent {
             {...(this.props.enableListSecondaryText && {
               listSecondaryDictionary: (this.props.listSecondaryDictionary),
             })}
+            {...(this.props.modalWindowTitle && {
+              modalWindowTitle: (this.props.modalWindowTitle)
+            })}
           />
 
         </div>
