@@ -124,7 +124,13 @@ function DataCombinedTable(props) {
           source: ["--NONE--", ...props.path_options]
         }}
       />
-      <HotColumn settings={{ data: col_names[5], type: "text" }} />
+      <HotColumn
+        settings={{
+          data: col_names[5],
+          type: "dropdown",
+          source: ["--NONE--", ...props.datasets_options]
+        }}
+      />
       <HotColumn settings={{ data: col_names[6], type: "text" }} />
       <HotColumn settings={{ data: col_names[7], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[8], type: "text" }} />
