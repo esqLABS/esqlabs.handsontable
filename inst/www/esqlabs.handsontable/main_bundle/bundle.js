@@ -196448,10 +196448,9 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
           }) : ["\"".concat(value.trim(), "\"")]; // fallback: quote the whole trimmed string
         } else {
           return value.split(",").map(function (s) {
-            var trimmed = s.trim();
-            return trimmed === "" ? null : "\"".concat(trimmed, "\"");
+            return s.trim();
           }).filter(function (s) {
-            return s;
+            return s !== "";
           });
         }
       }
@@ -198922,13 +198921,13 @@ var ScenarioTable = function ScenarioTable(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
     "hot-editor": true,
     titleName: "Select path",
-    dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapIntoQuotes"])(props.outputpath_ids_options),
+    dropdownOptions: props.outputpath_ids_options,
     enableSelectOrder: false,
     activeColumnName: "OutputPathsIds",
     placeHolderTitle: "PathId",
-    splitBySentence: true,
+    splitBySentence: false,
     enableListSecondaryText: true,
-    listSecondaryDictionary: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapObjectKeysIntoQuotes"])(props.outputpath_id_alias_options),
+    listSecondaryDictionary: props.outputpath_id_alias_options,
     modalWindowTitle: "Select Output Paths",
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
   }))));

@@ -92,13 +92,12 @@ class DropDownEditor extends BaseEditorComponent {
           : [`"${value.trim()}"`]; // fallback: quote the whole trimmed string
 
       } else {
+
         return value
           .split(",")
-          .map(s => {
-            const trimmed = s.trim();
-            return trimmed === "" ? null : `"${trimmed}"`;
-          })
-          .filter(s => s);
+          .map(s => s.trim())
+          .filter(s => s !== "");
+
       }
     }
     return value;
