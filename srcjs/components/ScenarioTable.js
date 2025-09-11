@@ -311,13 +311,13 @@ const ScenarioTable = (props) => {
           <DropDownEditor
             hot-editor
             titleName="Select path"
-            dropdownOptions={wrapIntoQuotes(props.outputpath_ids_options)}
+            dropdownOptions={(props.outputpath_ids_options)}
             enableSelectOrder={false}
             activeColumnName="OutputPathsIds"
             placeHolderTitle="PathId"
-            splitBySentence={true}
+            splitBySentence={false}
             enableListSecondaryText={true}
-            listSecondaryDictionary={wrapObjectKeysIntoQuotes(props.outputpath_id_alias_options)}
+            listSecondaryDictionary={(props.outputpath_id_alias_options)}
             modalWindowTitle="Select Output Paths"
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
