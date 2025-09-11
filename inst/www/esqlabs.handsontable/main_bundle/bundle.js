@@ -195769,7 +195769,8 @@ function DataCombinedTable(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[5],
-      type: "text"
+      type: "dropdown",
+      source: ["--NONE--"].concat(_toConsumableArray(props.datasets_options))
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -199511,6 +199512,7 @@ var TableInput = function TableInput(_ref) {
         datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datatype_option_dropdown),
         scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.scenario_option_dropdown),
         path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.path_option_dropdown),
+        datasets_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datasets_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
