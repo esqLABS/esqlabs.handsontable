@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
+import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+// Import Custom Renderer
+import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
+
 
 function DataCombinedTable(props) {
   // Data state
@@ -12,9 +15,38 @@ function DataCombinedTable(props) {
 
   const col_names = Object.keys(dataR[0]);
   // Constants
-  const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4]];
+  const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4], col_names[5]];
+  const hotTableComponentRef = useRef(null);
 
-  console.log(col_names);
+  useEffect(() => {
+    const hot = hotTableComponentRef.current.hotInstance;
+
+    hot.updateSettings({
+      cells(row, col) {
+        const cellProperties = {};
+
+        if (col === col_names.indexOf("dataSet")) {
+          if (
+            hot.getData()[row][col - 4] &&
+            hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()
+          ) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = readOnlyStyleRenderer;
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--", ...props.datasets_options];
+            cellProperties.renderer = dropdownRenderer;
+          }
+        }
+
+        return cellProperties;
+
+      },
+    });
+  });
+
 
   const updateNoneSelectionValue = (dataR, changes, source) => {
     if (source === 'edit') {
@@ -25,6 +57,17 @@ function DataCombinedTable(props) {
     }
   }
 
+  const updateDataTypeSimulatedReadOnly = (changes, dataR) => {
+    // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
+    if (
+      changes[0][1] === "dataType" &&
+      changes[0][3] &&
+      changes[0][3].toLowerCase() !== "observed".toLowerCase()
+    ) {
+      dataR[changes[0][0]]["dataSet"] = null;
+    }
+  };
+
   const onBeforeHotChange = (changes, source) => {
     if (changes === undefined) return;
     if (changes === null) return;
@@ -34,6 +77,7 @@ function DataCombinedTable(props) {
         return;
     } else {
         setTimeout(() => {
+            updateDataTypeSimulatedReadOnly(changes, dataR);
             updateNoneSelectionValue(dataR, changes, source);
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
@@ -45,6 +89,7 @@ function DataCombinedTable(props) {
   return (
     <HotTable
       data={dataR}
+      ref={hotTableComponentRef}
       colHeaders={col_names}
       rowHeaders={true}
       autoWrapRow={true}

@@ -195624,8 +195624,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
-/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
-/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -195643,6 +195645,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Utils
 
+// Import Custom Renderer
+
 function DataCombinedTable(props) {
   // Data state
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
@@ -195653,14 +195657,41 @@ function DataCombinedTable(props) {
     updateDataR = _useState2[1];
   var col_names = Object.keys(dataR[0]);
   // Constants
-  var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4]];
-  console.log(col_names);
+  var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4], col_names[5]];
+  var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var hot = hotTableComponentRef.current.hotInstance;
+    hot.updateSettings({
+      cells: function cells(row, col) {
+        var cellProperties = {};
+        if (col === col_names.indexOf("dataSet")) {
+          if (hot.getData()[row][col - 4] && hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["readOnlyStyleRenderer"];
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.datasets_options));
+            cellProperties.renderer = handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__["dropdownRenderer"];
+          }
+        }
+        return cellProperties;
+      }
+    });
+  });
   var updateNoneSelectionValue = function updateNoneSelectionValue(dataR, changes, source) {
     if (source === 'edit') {
       // changes: Array [[<row_number>, <column_name>, <old_value>, <new_value>]]
       if (DROPDOWN_TYPE_COLUMNS.includes(changes[0][1]) && changes[0][3] === "--NONE--") {
         dataR[changes[0][0]][changes[0][1]] = null;
       }
+    }
+  };
+  var updateDataTypeSimulatedReadOnly = function updateDataTypeSimulatedReadOnly(changes, dataR) {
+    // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
+    if (changes[0][1] === "dataType" && changes[0][3] && changes[0][3].toLowerCase() !== "observed".toLowerCase()) {
+      dataR[changes[0][0]]["dataSet"] = null;
     }
   };
   var onBeforeHotChange = function onBeforeHotChange(changes, source) {
@@ -195672,6 +195703,7 @@ function DataCombinedTable(props) {
       return;
     } else {
       setTimeout(function () {
+        updateDataTypeSimulatedReadOnly(changes, dataR);
         updateNoneSelectionValue(dataR, changes, source);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
@@ -195683,6 +195715,7 @@ function DataCombinedTable(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
+    ref: hotTableComponentRef,
     colHeaders: col_names,
     rowHeaders: true,
     autoWrapRow: true,
@@ -195709,7 +195742,7 @@ function DataCombinedTable(props) {
             var selectedRow = this.getSelectedLast()[0];
             if (this.countRows() === 1 && selectedRow === 0) {
               // Cut all elements of the first row
-              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"])(this, selectedRow);
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"])(this, selectedRow);
             } else {
               // Perform remove row operation
               // Use Handsontable's built-in remove_row functionality for multiple selections
