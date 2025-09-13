@@ -195627,11 +195627,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/LoadDataMetaData */ "./srcjs/components/HandsOnTableEditorsExt/LoadDataMetaData.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -195645,7 +195648,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Utils
 
+
 // Import Custom Renderer
+
+// Modal
 
 function DataCombinedTable(props) {
   // Data state
@@ -195659,6 +195665,43 @@ function DataCombinedTable(props) {
   // Constants
   var DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4], col_names[5]];
   var hotTableComponentRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  var LOAD_DATA_COL_INDEX = col_names.indexOf(col_names[5]);
+  // Load Observed Data Modal
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    showMetaModal = _useState4[0],
+    setShowMetaModal = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+    _useState6 = _slicedToArray(_useState5, 2),
+    selectedDataset = _useState6[0],
+    setSelectedDataset = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Dataset metadata"),
+    _useState8 = _slicedToArray(_useState7, 2),
+    metaWindowTitle = _useState8[0],
+    setMetaWindowTitle = _useState8[1];
+  var openMetaDataModal = function openMetaDataModal(datasetName) {
+    var _props$loaddata_metad;
+    var raw = (_props$loaddata_metad = props.loaddata_metadata) === null || _props$loaddata_metad === void 0 ? void 0 : _props$loaddata_metad[datasetName];
+    // Normalize to an object
+    var obj = Array.isArray(raw) ? raw[0] : raw && _typeof(raw) === "object" ? raw : {};
+    // Transform into [{field, value}, …] and decode strings
+    var rows = Object.entries(obj).map(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+        key = _ref2[0],
+        val = _ref2[1];
+      return {
+        field: key,
+        value: typeof val === "string" ? Object(_utils_utils__WEBPACK_IMPORTED_MODULE_6__["decodeHtmlEntities"])(val) : val
+      };
+    });
+    setSelectedDataset(rows);
+    setMetaWindowTitle("Metadata: ".concat(datasetName));
+    setShowMetaModal(true);
+  };
+  var closeMetaDataModal = function closeMetaDataModal() {
+    setShowMetaModal(false);
+    setSelectedDataset(null);
+  };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var hot = hotTableComponentRef.current.hotInstance;
     hot.updateSettings({
@@ -195668,7 +195711,7 @@ function DataCombinedTable(props) {
           if (hot.getData()[row][col - 4] && hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
-            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["readOnlyStyleRenderer"];
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["readOnlyStyleRenderer"];
           } else {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
@@ -195713,7 +195756,7 @@ function DataCombinedTable(props) {
       }, 500);
     }
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     ref: hotTableComponentRef,
     colHeaders: col_names,
@@ -195754,6 +195797,44 @@ function DataCombinedTable(props) {
               }
               this.alter("remove_row", startRow, numberOfRowsToRemove);
             }
+          }
+        },
+        sep_details: {
+          name: "---------"
+        },
+        // View details only on col_names[5] ("dataPath")
+        show_details: {
+          name: "Show metadata",
+          hidden: function hidden() {
+            var _this$getSelectedRang, _range$highlight$col, _range$highlight, _range$from;
+            var range = (_this$getSelectedRang = this.getSelectedRangeLast) === null || _this$getSelectedRang === void 0 ? void 0 : _this$getSelectedRang.call(this);
+            if (!range) return true;
+            var col = (_range$highlight$col = (_range$highlight = range.highlight) === null || _range$highlight === void 0 ? void 0 : _range$highlight.col) !== null && _range$highlight$col !== void 0 ? _range$highlight$col : (_range$from = range.from) === null || _range$from === void 0 ? void 0 : _range$from.col;
+            return col !== LOAD_DATA_COL_INDEX;
+          },
+          disabled: function disabled() {
+            var _this$getSelectedRang2, _range$highlight$row, _range$highlight2, _range$from2;
+            var range = (_this$getSelectedRang2 = this.getSelectedRangeLast) === null || _this$getSelectedRang2 === void 0 ? void 0 : _this$getSelectedRang2.call(this);
+            if (!range) return true;
+            var row = (_range$highlight$row = (_range$highlight2 = range.highlight) === null || _range$highlight2 === void 0 ? void 0 : _range$highlight2.row) !== null && _range$highlight$row !== void 0 ? _range$highlight$row : (_range$from2 = range.from) === null || _range$from2 === void 0 ? void 0 : _range$from2.row;
+            var col = LOAD_DATA_COL_INDEX;
+            var value = this.getDataAtCell(row, col);
+            // disable if empty, null, undefined, or just whitespace
+            return value === null || value === undefined || String(value).trim() === "" || !props.datasets_options.includes(value);
+          },
+          callback: function callback(key, selection) {
+            var row = selection[0].start.row;
+            var col = LOAD_DATA_COL_INDEX;
+            // exact cell value for that column
+            var value = this.getDataAtCell(row, col);
+            openMetaDataModal(value);
+            console.log({
+              row: row,
+              col: col,
+              header: col_names[col],
+              value: value
+            });
+            //setIsDetailsOpen(true);
           }
         }
       }
@@ -195840,6 +195921,11 @@ function DataCombinedTable(props) {
       data: col_names[12],
       type: "numeric"
     }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    showModal: showMetaModal,
+    onCloseModal: closeMetaDataModal,
+    windowTitle: metaWindowTitle,
+    selectedValue: selectedDataset
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (DataCombinedTable);
@@ -196540,6 +196626,107 @@ var DropDownEditor = /*#__PURE__*/function (_BaseEditorComponent) {
   return DropDownEditor;
 }(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["BaseEditorComponent"]);
 /* harmony default export */ __webpack_exports__["default"] = (DropDownEditor);
+
+/***/ }),
+
+/***/ "./srcjs/components/HandsOnTableEditorsExt/LoadDataMetaData.js":
+/*!*********************************************************************!*\
+  !*** ./srcjs/components/HandsOnTableEditorsExt/LoadDataMetaData.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/index.js");
+/* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/index.js");
+/* harmony import */ var _mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/DialogTitle */ "./node_modules/@mui/material/DialogTitle/index.js");
+/* harmony import */ var _mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/material/DialogContent */ "./node_modules/@mui/material/DialogContent/index.js");
+/* harmony import */ var _mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/material/DialogActions */ "./node_modules/@mui/material/DialogActions/index.js");
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/index.js");
+/* harmony import */ var _mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material/Close */ "./node_modules/@mui/icons-material/Close.js");
+/* harmony import */ var _mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _mui_material_Divider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material/Divider */ "./node_modules/@mui/material/Divider/index.js");
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+// LoadDataMetaData.jsx
+
+
+
+
+
+
+
+
+
+
+// If you already registered modules elsewhere, you can remove this:
+// import { registerAllModules } from "handsontable/registry";
+// registerAllModules();
+
+function LoadDataMetaData(props) {
+  // Expect an array of rows (objects preferred)
+  var rows = Array.isArray(props.selectedValue) ? props.selectedValue : [];
+
+  // Derive column headers safely
+  var colNames = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
+    if (rows.length && rows[0] && _typeof(rows[0]) === "object" && !Array.isArray(rows[0])) {
+      return Object.keys(rows[0]);
+    }
+    // Fallback: no explicit headers (Handsontable will show A, B, C…)
+    return [];
+  }, [rows]);
+  var hotRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    fullWidth: true,
+    maxWidth: "md",
+    "aria-labelledby": "customized-dialog-title",
+    open: props.showModal,
+    onClose: props.onCloseModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogTitle__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sx: {
+      m: 0,
+      p: 2
+    },
+    id: "customized-dialog-title"
+  }, "Metadata"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    "aria-label": "close",
+    onClick: props.onCloseModal,
+    sx: {
+      position: "absolute",
+      right: 8,
+      top: 8,
+      color: function color(t) {
+        return t.palette.grey[500];
+      }
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_7___default.a, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogContent__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_9__["HotTable"], {
+    id: "hot3",
+    ref: hotRef,
+    data: props.selectedValue || [],
+    columns: [{
+      data: "field",
+      readOnly: true
+    }, {
+      data: "value",
+      readOnly: true
+    }],
+    colHeaders: ["Metadata", "Value"],
+    colWidths: [150, 250],
+    rowHeaders: true,
+    readOnly: true,
+    autoWrapRow: true,
+    autoWrapCol: true,
+    licenseKey: "non-commercial-and-evaluation"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Divider__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_DialogActions__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    autoFocus: true,
+    onClick: props.onCloseModal
+  }, "OK")));
+}
+/* harmony default export */ __webpack_exports__["default"] = (LoadDataMetaData);
 
 /***/ }),
 
@@ -199495,6 +199682,9 @@ var TableInput = function TableInput(_ref) {
   // console.log(JSON.parse(value));
   console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
+  // MetaData
+  console.log("Metadata");
+  console.log(configuration.loaddata_metadata);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -199546,6 +199736,7 @@ var TableInput = function TableInput(_ref) {
         scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.scenario_option_dropdown),
         path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.path_option_dropdown),
         datasets_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datasets_option_dropdown),
+        loaddata_metadata: configuration.loaddata_metadata,
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
@@ -200167,7 +200358,7 @@ function _convertSimulationTimeToString() {
 /*!******************************!*\
   !*** ./srcjs/utils/utils.js ***!
   \******************************/
-/*! exports provided: validateVectorInputR, splitOutsideQuotes, wrapIntoQuotes, wrapObjectKeysIntoQuotes, base64ToUtf8Json */
+/*! exports provided: validateVectorInputR, splitOutsideQuotes, wrapIntoQuotes, wrapObjectKeysIntoQuotes, base64ToUtf8Json, decodeHtmlEntities */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200177,6 +200368,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapIntoQuotes", function() { return wrapIntoQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapObjectKeysIntoQuotes", function() { return wrapObjectKeysIntoQuotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "base64ToUtf8Json", function() { return base64ToUtf8Json; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decodeHtmlEntities", function() { return decodeHtmlEntities; });
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -200265,6 +200457,13 @@ function base64ToUtf8Json(base64) {
   var jsonString = utf8Decoder.decode(bytes);
   return JSON.parse(jsonString);
 }
+function decodeHtmlEntities(str) {
+  if (typeof str !== "string") return str;
+  var el = document.createElement("textarea");
+  el.innerHTML = str;
+  return el.value;
+}
+;
 
 /***/ }),
 

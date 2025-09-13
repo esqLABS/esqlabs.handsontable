@@ -5,9 +5,11 @@ import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { decodeHtmlEntities } from "../utils/utils";
 // Import Custom Renderer
 import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
-
+// Modal
+import LoadDataMetaData from "./HandsOnTableEditorsExt/LoadDataMetaData";
 
 function DataCombinedTable(props) {
   // Data state
@@ -17,6 +19,37 @@ function DataCombinedTable(props) {
   // Constants
   const DROPDOWN_TYPE_COLUMNS = [col_names[1], col_names[3], col_names[4], col_names[5]];
   const hotTableComponentRef = useRef(null);
+  const LOAD_DATA_COL_INDEX = col_names.indexOf(col_names[5]);
+  // Load Observed Data Modal
+  const [showMetaModal, setShowMetaModal] = useState(false);
+  const [selectedDataset, setSelectedDataset] = useState(null);
+  const [metaWindowTitle, setMetaWindowTitle] = useState("Dataset metadata");
+
+
+  const openMetaDataModal = (datasetName) => {
+    const raw = props.loaddata_metadata?.[datasetName];
+    // Normalize to an object
+    const obj = Array.isArray(raw)
+      ? raw[0]
+      : (raw && typeof raw === "object" ? raw : {});
+    // Transform into [{field, value}, …] and decode strings
+    const rows = Object.entries(obj).map(([key, val]) => ({
+      field: key,
+      value: typeof val === "string" ? decodeHtmlEntities(val) : val
+    }));
+
+    setSelectedDataset(rows);
+    setMetaWindowTitle(`Metadata: ${datasetName}`);
+    setShowMetaModal(true);
+  };
+
+
+  const closeMetaDataModal = () => {
+    setShowMetaModal(false);
+    setSelectedDataset(null);
+  };
+
+
 
   useEffect(() => {
     const hot = hotTableComponentRef.current.hotInstance;
@@ -87,6 +120,7 @@ function DataCombinedTable(props) {
   };
 
   return (
+    <>
     <HotTable
       data={dataR}
       ref={hotTableComponentRef}
@@ -133,7 +167,46 @@ function DataCombinedTable(props) {
 
                     }
                 }
-            }
+            },
+            sep_details: {
+              name: "---------"
+            },
+            // View details only on col_names[5] ("dataPath")
+            show_details: {
+              name: "Show metadata",
+              hidden() {
+                const range = this.getSelectedRangeLast?.();
+                if (!range) return true;
+                const col = range.highlight?.col ?? range.from?.col;
+                return col !== LOAD_DATA_COL_INDEX;
+              },
+              disabled() {
+                const range = this.getSelectedRangeLast?.();
+                if (!range) return true;
+                const row = range.highlight?.row ?? range.from?.row;
+                const col = LOAD_DATA_COL_INDEX;
+                const value = this.getDataAtCell(row, col);
+                // disable if empty, null, undefined, or just whitespace
+                return value === null || value === undefined || String(value).trim() === "" || !(props.datasets_options.includes(value));
+              },
+              callback(key, selection) {
+                const row = selection[0].start.row;
+                const col = LOAD_DATA_COL_INDEX;
+                // exact cell value for that column
+                const value = this.getDataAtCell(row, col);
+
+                openMetaDataModal(value);
+
+                console.log({
+                  row,
+                  col,
+                  header: col_names[col],
+                  value,
+                });
+                //setIsDetailsOpen(true);
+              },
+            },
+
         }
       }}
       beforeChange={onBeforeHotChange}
@@ -184,6 +257,15 @@ function DataCombinedTable(props) {
       <HotColumn settings={{ data: col_names[11], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[12], type: "numeric" }} />
     </HotTable>
+
+    <LoadDataMetaData
+      showModal={showMetaModal}
+      onCloseModal={closeMetaDataModal}
+      windowTitle={metaWindowTitle}
+      selectedValue={selectedDataset}
+    />
+
+    </>
   );
 }
 

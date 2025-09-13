@@ -84,3 +84,11 @@ export function base64ToUtf8Json(base64) {
   const jsonString = utf8Decoder.decode(bytes);
   return JSON.parse(jsonString);
 }
+
+
+export function decodeHtmlEntities(str) {
+  if (typeof str !== "string") return str;
+  const el = document.createElement("textarea");
+  el.innerHTML = str;
+  return el.value;
+};

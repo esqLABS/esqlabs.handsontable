@@ -33,6 +33,7 @@ scenario_table_Input <- function(
     plotids_options,
     datasets_options,
     sheet_name,
+    loaddata_metadata,
     column_headers
   ) {
   reactR::createReactShinyInput(
@@ -70,6 +71,7 @@ scenario_table_Input <- function(
       plotgridnames_option_dropdown    = plotgridnames_options,
       plotids_option_dropdown          = plotids_options,
       datasets_option_dropdown         = datasets_options,
+      loaddata_metadata                = loaddata_metadata,
       sheet                            = sheet_name,
       shiny_el_id_name                 = inputId,
       column_headers                   = column_headers

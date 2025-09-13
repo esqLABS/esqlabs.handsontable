@@ -119,6 +119,9 @@ const TableInput = ({ configuration, value, setValue }) => {
           datasets_options={
             validateVectorInputR(configuration.datasets_option_dropdown)
           }
+          loaddata_metadata={
+            configuration.loaddata_metadata
+          }
           column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />
