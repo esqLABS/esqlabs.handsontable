@@ -199682,9 +199682,6 @@ var TableInput = function TableInput(_ref) {
   // console.log(JSON.parse(value));
   console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
   console.log(configuration.column_headers);
-  // MetaData
-  console.log("Metadata");
-  console.log(configuration.loaddata_metadata);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
       componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
