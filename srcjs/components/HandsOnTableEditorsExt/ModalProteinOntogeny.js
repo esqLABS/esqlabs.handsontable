@@ -17,6 +17,7 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { ospsuite_standard_ontogeny } from "../../utils/config.js";
+import { forceCutRowContent } from "../../utils/handsOnTableUtils.js";
 // Hooks
 import useProteinOntogenyValidate from "../../hooks/useProteinOntogenyValidate.js";
 
@@ -41,22 +42,30 @@ function ModalProteinOntogeny(props) {
   useEffect(() => {
     if (!tableData) return;
 
+
+    // --- Special case: exactly 1 row and both cells empty -> enable Save
+    if (
+      Array.isArray(tableData) &&
+      tableData.length === 1 &&
+      (tableData[0]?.[0] == null || tableData[0][0] === "") &&
+      (tableData[0]?.[1] == null || tableData[0][1] === "")
+    ) {
+      setDisableSave(false);
+      return; // don't run the rest
+    }
+
     let inValidItems = [];
 
     tableData.forEach((arr) => {
       arr.forEach((el, index) => {
         if (index === 0) {
-          if (
-            (!el)
-          ) {
+          if (!el) {
             inValidItems.push(el);
           } else {
             return;
           }
         } else {
-          if (
-            (el == null || !(ospsuite_standard_ontogeny || []).includes(el)) && index === 1
-          ) {
+          if ((el == null || !(ospsuite_standard_ontogeny || []).includes(el)) && index === 1) {
             inValidItems.push(el);
           } else {
             return;
@@ -65,12 +74,16 @@ function ModalProteinOntogeny(props) {
       });
     }); // end of forEach
 
-    if (inValidItems.length > 0) {
-      setDisableSave(true);
-    } else {
+
+    // rule: no invalids
+    if (inValidItems.length === 0) {
       setDisableSave(false);
+    } else {
+      setDisableSave(true);
     }
   }, [tableData]);
+
+
 
   return (
     <Dialog
@@ -109,6 +122,32 @@ function ModalProteinOntogeny(props) {
               ref={hotRef}
               // data={tableData}
               data={tableData}
+
+              afterCreateRow={(index, amount) => {
+                const hot = hotRef.current?.hotInstance;
+                if (!hot) return;
+                // pull the live grid back into React state
+                setTableData(hot.getData());
+              }}
+
+              afterRemoveRow={(index, amount, physicalRows) => {
+                const hot = hotRef.current?.hotInstance;
+                if (!hot) return;
+                setTableData(hot.getData());
+              }}
+
+              // validation also fires on undo/redo that affects rows
+              afterUndo={() => {
+                const hot = hotRef.current?.hotInstance;
+                if (!hot) return;
+                setTableData(hot.getData());
+              }}
+              afterRedo={() => {
+                const hot = hotRef.current?.hotInstance;
+                if (!hot) return;
+                setTableData(hot.getData());
+              }}
+
               rowHeaders={true}
               colHeaders={[
                 "Protein",

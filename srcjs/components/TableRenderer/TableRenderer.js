@@ -26,6 +26,22 @@ export function invalidCellRenderer(
   td.style.background = "#ffbeba";
 }
 
+
+export function invalidDropdownCellRenderer(
+  instance,
+  td,
+  row,
+  col,
+  prop,
+  value,
+  cellProperties
+) {
+  autocompleteRenderer.apply(this, arguments);
+  td.style.background = "#ffbeba";
+}
+
+
+
 export function proteinOntogenyAlwaysDoubleClickRenderer(instance, td, row, col, prop, value, cellProperties) {
   // Always render "DOUBLE CLICK" no matter the real value
   td.innerHTML = "DOUBLE CLICK";

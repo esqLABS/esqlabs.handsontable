@@ -196755,7 +196755,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_config_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../utils/config.js */ "./srcjs/utils/config.js");
-/* harmony import */ var _hooks_useProteinOntogenyValidate_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../hooks/useProteinOntogenyValidate.js */ "./srcjs/hooks/useProteinOntogenyValidate.js");
+/* harmony import */ var _utils_handsOnTableUtils_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../utils/handsOnTableUtils.js */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _hooks_useProteinOntogenyValidate_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../hooks/useProteinOntogenyValidate.js */ "./srcjs/hooks/useProteinOntogenyValidate.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -196785,6 +196786,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Utils
 
+
 // Hooks
 
 
@@ -196804,14 +196806,21 @@ function ModalProteinOntogeny(props) {
     setTableData = _useState4[1];
   var hotRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   // Apply cell validation
-  Object(_hooks_useProteinOntogenyValidate_js__WEBPACK_IMPORTED_MODULE_14__["default"])(hotRef);
+  Object(_hooks_useProteinOntogenyValidate_js__WEBPACK_IMPORTED_MODULE_15__["default"])(hotRef);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setTableData(props.cellData);
   }, [props.cellData]);
 
   // Validate table data
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _tableData$, _tableData$2;
     if (!tableData) return;
+
+    // --- Special case: exactly 1 row and both cells empty -> enable Save
+    if (Array.isArray(tableData) && tableData.length === 1 && (((_tableData$ = tableData[0]) === null || _tableData$ === void 0 ? void 0 : _tableData$[0]) == null || tableData[0][0] === "") && (((_tableData$2 = tableData[0]) === null || _tableData$2 === void 0 ? void 0 : _tableData$2[1]) == null || tableData[0][1] === "")) {
+      setDisableSave(false);
+      return; // don't run the rest
+    }
     var inValidItems = [];
     tableData.forEach(function (arr) {
       arr.forEach(function (el, index) {
@@ -196831,10 +196840,11 @@ function ModalProteinOntogeny(props) {
       });
     }); // end of forEach
 
-    if (inValidItems.length > 0) {
-      setDisableSave(true);
-    } else {
+    // rule: no invalids
+    if (inValidItems.length === 0) {
       setDisableSave(false);
+    } else {
+      setDisableSave(true);
     }
   }, [tableData]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -196877,6 +196887,34 @@ function ModalProteinOntogeny(props) {
     // data={tableData}
     ,
     data: tableData,
+    afterCreateRow: function afterCreateRow(index, amount) {
+      var _hotRef$current;
+      var hot = (_hotRef$current = hotRef.current) === null || _hotRef$current === void 0 ? void 0 : _hotRef$current.hotInstance;
+      if (!hot) return;
+      // pull the live grid back into React state
+      setTableData(hot.getData());
+    },
+    afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
+      var _hotRef$current2;
+      var hot = (_hotRef$current2 = hotRef.current) === null || _hotRef$current2 === void 0 ? void 0 : _hotRef$current2.hotInstance;
+      if (!hot) return;
+      setTableData(hot.getData());
+    }
+
+    // validation also fires on undo/redo that affects rows
+    ,
+    afterUndo: function afterUndo() {
+      var _hotRef$current3;
+      var hot = (_hotRef$current3 = hotRef.current) === null || _hotRef$current3 === void 0 ? void 0 : _hotRef$current3.hotInstance;
+      if (!hot) return;
+      setTableData(hot.getData());
+    },
+    afterRedo: function afterRedo() {
+      var _hotRef$current4;
+      var hot = (_hotRef$current4 = hotRef.current) === null || _hotRef$current4 === void 0 ? void 0 : _hotRef$current4.hotInstance;
+      if (!hot) return;
+      setTableData(hot.getData());
+    },
     rowHeaders: true,
     colHeaders: ["Protein", "Ontogeny"],
     colWidths: [250, 150] // widths for each column
@@ -196908,7 +196946,7 @@ function ModalProteinOntogeny(props) {
             var selectedRow = this.getSelectedLast()[0];
             if (this.countRows() === 1 && selectedRow === 0) {
               // Cut all elements of the first row
-              forceCutRowContent(this, selectedRow);
+              Object(_utils_handsOnTableUtils_js__WEBPACK_IMPORTED_MODULE_14__["forceCutRowContent"])(this, selectedRow);
             } else {
               // Perform remove row operation
               // Use Handsontable's built-in remove_row functionality for multiple selections
@@ -199410,13 +199448,14 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, invalidDropdownCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readOnlyStyleRenderer", function() { return readOnlyStyleRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidCellRenderer", function() { return invalidCellRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidDropdownCellRenderer", function() { return invalidDropdownCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proteinOntogenyAlwaysDoubleClickRenderer", function() { return proteinOntogenyAlwaysDoubleClickRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scenarioNameCellRenderer", function() { return scenarioNameCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownValidationRenderer", function() { return dropdownValidationRenderer; });
@@ -199429,6 +199468,10 @@ function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperti
 }
 function invalidCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
+  td.style.background = "#ffbeba";
+}
+function invalidDropdownCellRenderer(instance, td, row, col, prop, value, cellProperties) {
+  handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["autocompleteRenderer"].apply(this, arguments);
   td.style.background = "#ffbeba";
 }
 function proteinOntogenyAlwaysDoubleClickRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -199512,17 +199555,33 @@ var useProteinOntogenyValidate = function useProteinOntogenyValidate(hotRef) {
     var hot = hotRef.current.hotInstance;
     hot.updateSettings({
       cells: function cells(row, col) {
+        var _hot$getData, _data$, _data$2;
         var cellProperties = {};
+        var data = ((_hot$getData = hot.getData) === null || _hot$getData === void 0 ? void 0 : _hot$getData.call(hot)) || [];
+
+        // Helpers
+        var isEmpty = function isEmpty(v) {
+          return v == null || typeof v === "string" && v.trim() === "";
+        };
+        var singleRowBothEmpty = Array.isArray(data) && data.length === 1 && isEmpty((_data$ = data[0]) === null || _data$ === void 0 ? void 0 : _data$[0]) && isEmpty((_data$2 = data[0]) === null || _data$2 === void 0 ? void 0 : _data$2[1]);
+
+        // Special case: exactly 1 row and both cells empty -> no invalid styling
+        if (singleRowBothEmpty) return cellProperties;
         if (col === 0) {
+          var _data$row;
           cellProperties.type = "text";
-          if (!hot.getData()[row][col]) {
+          // Protein invalid if empty (except special case handled above)
+          if (isEmpty((_data$row = data[row]) === null || _data$row === void 0 ? void 0 : _data$row[col])) {
             cellProperties.renderer = _components_TableRenderer_TableRenderer_js__WEBPACK_IMPORTED_MODULE_2__["invalidCellRenderer"];
           }
         }
         if (col === 1) {
-          var cellValue = hot.getData()[row][col];
-          if (cellValue != null && !_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["ospsuite_standard_ontogeny"].includes(cellValue)) {
-            cellProperties.renderer = _components_TableRenderer_TableRenderer_js__WEBPACK_IMPORTED_MODULE_2__["invalidCellRenderer"];
+          var _data$row2;
+          var cellValue = (_data$row2 = data[row]) === null || _data$row2 === void 0 ? void 0 : _data$row2[col];
+          cellProperties.type = "dropdown";
+          // Ontogeny invalid if empty OR not in allowed list (except special case)
+          if (isEmpty(cellValue) || !(_utils_config_js__WEBPACK_IMPORTED_MODULE_1__["ospsuite_standard_ontogeny"] || []).includes(cellValue)) {
+            cellProperties.renderer = _components_TableRenderer_TableRenderer_js__WEBPACK_IMPORTED_MODULE_2__["invalidDropdownCellRenderer"];
           }
         }
         return cellProperties;
