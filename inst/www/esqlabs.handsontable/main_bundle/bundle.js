@@ -199168,7 +199168,13 @@ var ScenarioTable = function ScenarioTable(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: "ModelFile",
-      type: "text"
+      type: "autocomplete",
+      source: props.model_files_options,
+      strict: false,
+      // allow values not in the list (manual typing)
+      filter: true,
+      // filter suggestions as the user types
+      allowInvalid: true // don’t mark custom entries as invalid
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"]
   // width={75}
@@ -199752,6 +199758,7 @@ var TableInput = function TableInput(_ref) {
         steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
         application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.application_protocol_dropdown),
         model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_parameters_dropdown),
+        model_files_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_files_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });

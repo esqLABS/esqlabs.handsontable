@@ -47,6 +47,9 @@ const TableInput = ({ configuration, value, setValue }) => {
           model_parameters_options={
             validateVectorInputR(configuration.model_parameters_dropdown)
           }
+          model_files_options={
+            validateVectorInputR(configuration.model_files_dropdown)
+          }
           column_headers={(configuration.column_headers)}
           shiny_el_id_name={configuration.shiny_el_id_name}
         />

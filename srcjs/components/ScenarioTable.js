@@ -300,7 +300,16 @@ const ScenarioTable = (props) => {
             type: "dropdown",
             source: ["--NONE--", ...props.steatystatetime_unit_options]
           }} />
-        <HotColumn settings={{ data: "ModelFile", type: "text" }} />
+        <HotColumn
+          settings={{
+            data: "ModelFile",
+            type: "autocomplete",
+            source: props.model_files_options,
+            strict: false,        // allow values not in the list (manual typing)
+            filter: true,         // filter suggestions as the user types
+            allowInvalid: true,   // don’t mark custom entries as invalid
+          }}
+        />
         <HotColumn
           // width={75}
           settings={{
