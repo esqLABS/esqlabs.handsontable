@@ -84,6 +84,10 @@ function DemographicsTable(props) {
         updateNeighbourReadOnly(changes, dataR);
         updateNoneSelectionValue(dataR, changes, source);
         setTimeout(() => {
+            const hot = hotTableComponentRef.current?.hotInstance;
+            if (!hot) return;
+            const current = hot.getSourceData(); // <- get current HOT data
+            updateDataR(current);
             // console.log(prepareShinyData(dataR));
             // Send data to Shiny with the edited data
             Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});

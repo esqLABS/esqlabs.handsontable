@@ -21,7 +21,9 @@ function ExportConfigurationTable(props) {
   // Constants
   const DROPDOWN_TYPE_COLUMNS = ["plotGridName"];
 
-  const longestLabel = ["--NONE--", ...props.plotgridnames_options].reduce((a, b) => (a.length > b.length ? a : b), "");
+  const longestLabel = ["--NONE--", ...(props.plotgridnames_options || [])]
+                          .filter(v => typeof v === "string")            // remove null/undefined
+                          .reduce((a, b) => (a.length > b.length ? a : b), "");
   const approxWidth = Math.min(1000, Math.max(400, longestLabel.length * 8)); // rough estimate
 
 

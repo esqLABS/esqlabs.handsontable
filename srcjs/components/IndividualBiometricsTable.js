@@ -124,6 +124,11 @@ function IndividualBiometricsTable(props) {
       trackIndividualId(changes);
 
       setTimeout(() => {
+        const hot = hotTableComponentRef.current?.hotInstance;
+        if (!hot) return;
+
+        const current = hot.getSourceData(); // <- get current HOT data
+        updateDataR(current);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue(

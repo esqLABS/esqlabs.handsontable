@@ -196036,6 +196036,11 @@ function DemographicsTable(props) {
       updateNeighbourReadOnly(changes, dataR);
       updateNoneSelectionValue(dataR, changes, source);
       setTimeout(function () {
+        var _hotTableComponentRef;
+        var hot = (_hotTableComponentRef = hotTableComponentRef.current) === null || _hotTableComponentRef === void 0 ? void 0 : _hotTableComponentRef.hotInstance;
+        if (!hot) return;
+        var current = hot.getSourceData(); // <- get current HOT data
+        updateDataR(current);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -196270,7 +196275,10 @@ function ExportConfigurationTable(props) {
   var col_names = props.column_headers;
   // Constants
   var DROPDOWN_TYPE_COLUMNS = ["plotGridName"];
-  var longestLabel = ["--NONE--"].concat(_toConsumableArray(props.plotgridnames_options)).reduce(function (a, b) {
+  var longestLabel = ["--NONE--"].concat(_toConsumableArray(props.plotgridnames_options || [])).filter(function (v) {
+    return typeof v === "string";
+  }) // remove null/undefined
+  .reduce(function (a, b) {
     return a.length > b.length ? a : b;
   }, "");
   var approxWidth = Math.min(1000, Math.max(400, longestLabel.length * 8)); // rough estimate
@@ -198099,6 +198107,11 @@ function IndividualBiometricsTable(props) {
       updateNoneSelectionValue(dataR, changes, source);
       trackIndividualId(changes);
       setTimeout(function () {
+        var _hotTableComponentRef;
+        var hot = (_hotTableComponentRef = hotTableComponentRef.current) === null || _hotTableComponentRef === void 0 ? void 0 : _hotTableComponentRef.hotInstance;
+        if (!hot) return;
+        var current = hot.getSourceData(); // <- get current HOT data
+        updateDataR(current);
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
         Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
@@ -199538,6 +199551,97 @@ function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellPro
 
 /***/ }),
 
+/***/ "./srcjs/context/tablePropsStore.js":
+/*!******************************************!*\
+  !*** ./srcjs/context/tablePropsStore.js ***!
+  \******************************************/
+/*! exports provided: setTableProps, getTableProps, subscribeTableProps */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTableProps", function() { return setTableProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTableProps", function() { return getTableProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeTableProps", function() { return subscribeTableProps; });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var state = {}; // { [tableKey]: { ...props } }
+var listeners = new Set();
+function setTableProps(tableKey, nextProps) {
+  state = _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, tableKey, _objectSpread(_objectSpread({}, state[tableKey] || {}), nextProps)));
+  listeners.forEach(function (l) {
+    return l();
+  });
+}
+function getTableProps() {
+  return state;
+}
+function subscribeTableProps(listener) {
+  listeners.add(listener);
+  return function () {
+    return listeners["delete"](listener);
+  };
+}
+
+/***/ }),
+
+/***/ "./srcjs/context/useTableProps.js":
+/*!****************************************!*\
+  !*** ./srcjs/context/useTableProps.js ***!
+  \****************************************/
+/*! exports provided: useTableProps */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTableProps", function() { return useTableProps; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _tablePropsStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tablePropsStore */ "./srcjs/context/tablePropsStore.js");
+
+
+function useTableProps(tableKey) {
+  var snapshot = Object(react__WEBPACK_IMPORTED_MODULE_0__["useSyncExternalStore"])(_tablePropsStore__WEBPACK_IMPORTED_MODULE_1__["subscribeTableProps"], _tablePropsStore__WEBPACK_IMPORTED_MODULE_1__["getTableProps"], _tablePropsStore__WEBPACK_IMPORTED_MODULE_1__["getTableProps"]);
+  return snapshot && snapshot[tableKey] || {}; // never undefined
+}
+
+/***/ }),
+
+/***/ "./srcjs/context/withTableProps.js":
+/*!*****************************************!*\
+  !*** ./srcjs/context/withTableProps.js ***!
+  \*****************************************/
+/*! exports provided: withTableProps */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withTableProps", function() { return withTableProps; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _useTableProps__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useTableProps */ "./srcjs/context/useTableProps.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+// Usage: withTableProps("scenarios", { individual_ids_options: [] })(ScenarioTable)
+var withTableProps = function withTableProps(tableKey) {
+  var defaults = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return function (Component) {
+    return function (props) {
+      var injected = Object(_useTableProps__WEBPACK_IMPORTED_MODULE_1__["useTableProps"])(tableKey) || {};
+      // defaults first, then injected store values, then explicit props from parent (parent wins)
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, _extends({}, defaults, injected, props));
+    };
+  };
+};
+
+/***/ }),
+
 /***/ "./srcjs/hooks/useProteinOntogenyValidate.js":
 /*!***************************************************!*\
   !*** ./srcjs/hooks/useProteinOntogenyValidate.js ***!
@@ -199723,6 +199827,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/DataCombinedTable.js */ "./srcjs/components/DataCombinedTable.js");
 /* harmony import */ var _components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/PlotConfigurationTable.js */ "./srcjs/components/PlotConfigurationTable.js");
 /* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/utils.js */ "./srcjs/utils/utils.js");
+/* harmony import */ var _context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../context/tablePropsStore */ "./srcjs/context/tablePropsStore.js");
+/* harmony import */ var _context_withTableProps__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../context/withTableProps */ "./srcjs/context/withTableProps.js");
 
 
 
@@ -199736,29 +199842,151 @@ __webpack_require__.r(__webpack_exports__);
 
 // Utils
 
+// Store
+
+
+
+// Scenarios
+var ScenarioTableWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("scenarios", {
+  individual_ids_options: [],
+  population_ids_options: [],
+  outputpath_ids_options: [],
+  outputpath_id_alias_options: [],
+  steatystatetime_unit_options: [],
+  application_protocol_options: [],
+  model_parameters_options: [],
+  model_files_options: []
+})(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+// OutputPaths
+var OutputPathsWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("outputpaths", {})(_components_OutputPathsTable_js__WEBPACK_IMPORTED_MODULE_6__["default"]);
+
+// IndividualBiometrics
+var IndividualBiometricsWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("individualbiometrics", {
+  species_options: [],
+  population_options: [],
+  gender_options: []
+})(_components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_7__["default"]);
+
+// Demographics
+var DemographicsWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("demographics", {
+  species_options: [],
+  population_options: [],
+  weight_unit_options: [],
+  height_unit_options: [],
+  bmi_unit_options: []
+})(_components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_8__["default"]);
+
+// DataCombined
+var DataCombinedWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("datacombined", {
+  datatype_options: [],
+  scenario_options: [],
+  path_options: [],
+  datasets_options: [],
+  loaddata_metadata: {} // safe object default
+})(_components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_9__["default"]);
+
+// PlotConfiguration
+var PlotConfigurationWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("plotconfiguration", {
+  datacombinedname_options: [],
+  plottype_options: [],
+  axisscale_options: [],
+  aggregation_options: []
+})(_components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_10__["default"]);
+
+// PlotGrids
+var PlotGridsWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("plotgrids", {
+  plotids_options: []
+})(_components_PlotGridsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"]);
+
+// ExportConfiguration
+var ExportConfigurationWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("exportconfiguration", {
+  plotgridnames_options: []
+})(_components_ExportConfigurationTable_js__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+// HandsOnTableTemp (wrap with empty defaults so it stays uniform)
+var HandsOnTableWithProps = Object(_context_withTableProps__WEBPACK_IMPORTED_MODULE_13__["withTableProps"])("handson", {})(_components_HandsOnTableTemp_js__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var TableInput = function TableInput(_ref) {
   var configuration = _ref.configuration,
     value = _ref.value,
     setValue = _ref.setValue;
   var componentToRender;
   console.log(configuration);
-  console.log(value);
+  // console.log(value);
   // console.log(JSON.parse(atob(value)));
   // console.log(JSON.parse(value));
   console.log(Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value));
-  console.log(configuration.column_headers);
+  // console.log((configuration.column_headers));
+
+  // console.log(configuration.sheet)
+  // console.log(configuration.individual_id_dropdown)
+
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Scenarios
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("scenarios", {
+      individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.individual_id_dropdown),
+      population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_id_dropdown),
+      outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
+      outputpath_id_alias_options: configuration.outputpath_id_alias_dropdown,
+      steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
+      application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.application_protocol_dropdown),
+      model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_parameters_dropdown),
+      model_files_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_files_dropdown)
+    });
+
+    // OutputPaths (nothing yet, keep hook for symmetry)
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("outputpaths", {});
+
+    // IndividualBiometrics
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("individualbiometrics", {
+      species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
+      population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
+      gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.gender_option_dropdown)
+    });
+
+    // Demographics
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("demographics", {
+      species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
+      population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
+      weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.weight_unit_dropdown),
+      height_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.height_unit_dropdown),
+      bmi_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.bmi_unit_dropdown)
+    });
+
+    // DataCombined
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("datacombined", {
+      datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datatype_option_dropdown),
+      scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.scenario_option_dropdown),
+      path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.path_option_dropdown),
+      datasets_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datasets_option_dropdown),
+      loaddata_metadata: configuration.loaddata_metadata
+    });
+
+    // PlotConfiguration
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("plotconfiguration", {
+      datacombinedname_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datacombinedname_option_dropdown),
+      plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plottype_option_dropdown),
+      axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
+      aggregation_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.aggregation_option_dropdown)
+    });
+
+    // PlotGrids
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("plotgrids", {
+      plotids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotids_option_dropdown)
+    });
+
+    // ExportConfiguration
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("exportconfiguration", {
+      plotgridnames_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotgridnames_option_dropdown)
+    });
+
+    // HandsOn (none)
+    Object(_context_tablePropsStore__WEBPACK_IMPORTED_MODULE_12__["setTableProps"])("handson", {});
+  }, [configuration]);
   switch (true) {
     case configuration.sheet.toLowerCase() === "Scenarios".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_ScenarioTable_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(ScenarioTableWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        individual_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.individual_id_dropdown),
-        population_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_id_dropdown),
-        outputpath_ids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.outputpath_id_dropdown),
-        outputpath_id_alias_options: configuration.outputpath_id_alias_dropdown,
-        steatystatetime_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.steatystatetime_unit_dropdown),
-        application_protocol_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.application_protocol_dropdown),
-        model_parameters_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_parameters_dropdown),
-        model_files_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.model_files_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
@@ -199771,62 +199999,43 @@ var TableInput = function TableInput(_ref) {
       });
       break;
     case configuration.sheet.toLowerCase() === "IndividualBiometrics".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_IndividualBiometricsTable_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(IndividualBiometricsWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
-        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
-        gender_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.gender_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "Demographics".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_DemographicsTable_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(DemographicsWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        species_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.species_option_dropdown),
-        population_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.population_option_dropdown),
-        weight_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.weight_unit_dropdown),
-        height_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.height_unit_dropdown),
-        bmi_unit_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.bmi_unit_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "DataCombined".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_DataCombinedTable_js__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(DataCombinedWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        datatype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datatype_option_dropdown),
-        scenario_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.scenario_option_dropdown),
-        path_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.path_option_dropdown),
-        datasets_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datasets_option_dropdown),
-        loaddata_metadata: configuration.loaddata_metadata,
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "plotConfiguration".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_PlotConfigurationTable_js__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(PlotConfigurationWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        datacombinedname_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.datacombinedname_option_dropdown),
-        plottype_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plottype_option_dropdown),
-        axisscale_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.axisscale_option_dropdown),
-        aggregation_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.aggregation_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "plotGrids".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_PlotGridsTable_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(PlotGridsWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        plotids_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotids_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
       break;
     case configuration.sheet.toLowerCase() === "exportConfiguration".toLowerCase():
-      componentToRender = /*#__PURE__*/React.createElement(_components_ExportConfigurationTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      componentToRender = /*#__PURE__*/React.createElement(ExportConfigurationWithProps, {
         data_scenarios: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["base64ToUtf8Json"])(value),
-        plotgridnames_options: Object(_utils_utils_js__WEBPACK_IMPORTED_MODULE_11__["validateVectorInputR"])(configuration.plotgridnames_option_dropdown),
         column_headers: configuration.column_headers,
         shiny_el_id_name: configuration.shiny_el_id_name
       });
