@@ -4,7 +4,7 @@ import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
+import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
@@ -37,7 +37,10 @@ function HandsOnTableTemp(props) {
   return (
     <HotTable
       data={dataR}
-      colHeaders={col_names}
+      colHeaders={[
+        ...col_names,
+        "Actions"
+      ]}
       columns={!dataR.length ? col_names : false}
       rowHeaders={true}
       autoWrapRow={true}
@@ -118,6 +121,14 @@ function HandsOnTableTemp(props) {
         })
       }
 
+      {/* Action buttons column */}
+      <HotColumn
+        width={90}
+        readOnly={true}
+        renderer={(instance, td, row, col, prop, value, cellProps) =>
+          actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+        }
+      />
 
     </HotTable>
   );

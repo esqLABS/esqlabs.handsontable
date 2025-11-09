@@ -7,7 +7,7 @@ import "handsontable/dist/handsontable.full.min.css";
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 import { decodeHtmlEntities } from "../utils/utils";
 // Import Custom Renderer
-import { readOnlyStyleRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 // Modal
 import LoadDataMetaData from "./HandsOnTableEditorsExt/LoadDataMetaData";
 
@@ -124,7 +124,10 @@ function DataCombinedTable(props) {
     <HotTable
       data={dataR}
       ref={hotTableComponentRef}
-      colHeaders={col_names}
+      colHeaders={[
+          ...col_names,
+          "Actions"
+        ]}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
@@ -256,6 +259,14 @@ function DataCombinedTable(props) {
       <HotColumn settings={{ data: col_names[10], type: "text" }} />
       <HotColumn settings={{ data: col_names[11], type: "numeric" }} />
       <HotColumn settings={{ data: col_names[12], type: "numeric" }} />
+      {/* Action buttons column */}
+      <HotColumn
+        width={90}
+        readOnly={true}
+        renderer={(instance, td, row, col, prop, value, cellProps) =>
+          actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+        }
+      />
     </HotTable>
 
     <LoadDataMetaData

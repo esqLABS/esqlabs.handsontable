@@ -5,6 +5,9 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+// Import Custom Renderer
+import { actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+
 
 function PlotConfigurationTable(props) {
   // Data state
@@ -49,7 +52,10 @@ function PlotConfigurationTable(props) {
     <>
       <HotTable
         data={dataR}
-        colHeaders={col_names}
+        colHeaders={[
+          ...col_names,
+          "Actions"
+        ]}
         columns={colNames.map(col => ({ data: col }))}
         rowHeaders={true}
         autoWrapRow={true}
@@ -164,6 +170,15 @@ function PlotConfigurationTable(props) {
 
           return <HotColumn key={index} settings={columnSettings} />;
         })}
+
+        {/* Action buttons column */}
+        <HotColumn
+          width={90}
+          readOnly={true}
+          renderer={(instance, td, row, col, prop, value, cellProps) =>
+            actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+          }
+        />
 
       </HotTable>
     </>

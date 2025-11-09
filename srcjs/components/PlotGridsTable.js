@@ -4,7 +4,7 @@ import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
+import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 // Import Custom HandsOntableEditor
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 // Utils
@@ -54,7 +54,10 @@ function PlotGridsTable(props) {
   return (
     <HotTable
       data={dataR}
-      colHeaders={col_names}
+      colHeaders={[
+        ...col_names,
+        "Actions"
+      ]}
       columns={colNames.map(col => ({ data: col }))}
       rowHeaders={true}
       autoWrapRow={true}
@@ -175,6 +178,14 @@ function PlotGridsTable(props) {
         }
       })}
 
+      {/* Action buttons column */}
+      <HotColumn
+        width={90}
+        readOnly={true}
+        renderer={(instance, td, row, col, prop, value, cellProps) =>
+          actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+        }
+      />
 
     </HotTable>
   );

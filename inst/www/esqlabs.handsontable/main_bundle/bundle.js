@@ -26100,6 +26100,30 @@ function useTextNavigation(callback) {
 
 /***/ }),
 
+/***/ "./node_modules/@mui/icons-material/Add.js":
+/*!*************************************************!*\
+  !*** ./node_modules/@mui/icons-material/Add.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+"use client";
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/icons-material/utils/createSvgIcon.js"));
+var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _default = exports["default"] = (0, _createSvgIcon["default"])( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+  d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+}), 'Add');
+
+/***/ }),
+
 /***/ "./node_modules/@mui/icons-material/Close.js":
 /*!***************************************************!*\
   !*** ./node_modules/@mui/icons-material/Close.js ***!
@@ -26121,6 +26145,30 @@ var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/r
 var _default = exports["default"] = (0, _createSvgIcon["default"])( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
   d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
 }), 'Close');
+
+/***/ }),
+
+/***/ "./node_modules/@mui/icons-material/Delete.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@mui/icons-material/Delete.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+"use client";
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/icons-material/utils/createSvgIcon.js"));
+var _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _default = exports["default"] = (0, _createSvgIcon["default"])( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+  d: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
+}), 'Delete');
 
 /***/ }),
 
@@ -172543,6 +172591,39 @@ module.exports = Function.call.bind(Object.prototype.hasOwnProperty);
 
 /***/ }),
 
+/***/ "./node_modules/react-dom/client.js":
+/*!******************************************!*\
+  !*** ./node_modules/react-dom/client.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var m = __webpack_require__(/*! react-dom */ "react-dom");
+if (false) {} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function (c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function (c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./node_modules/react-easy-sort/index.module.js":
 /*!******************************************************!*\
   !*** ./node_modules/react-easy-sort/index.module.js ***!
@@ -195759,7 +195840,7 @@ function DataCombinedTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     ref: hotTableComponentRef,
-    colHeaders: col_names,
+    colHeaders: [].concat(col_names, ["Actions"]),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -195921,6 +196002,12 @@ function DataCombinedTable(props) {
       data: col_names[12],
       type: "numeric"
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"]);
+    }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_8__["default"], {
     showModal: showMetaModal,
     onCloseModal: closeMetaDataModal,
@@ -196052,7 +196139,7 @@ function DemographicsTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     ref: hotTableComponentRef,
-    colHeaders: col_names,
+    colHeaders: [].concat(col_names, ["Actions"]),
     rowHeaders: true,
     width: "100%",
     height: "100%",
@@ -196209,7 +196296,13 @@ function DemographicsTable(props) {
     "hot-editor": true,
     activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
-  })));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"]);
+    }
+  }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (DemographicsTable);
 
@@ -196311,7 +196404,7 @@ function ExportConfigurationTable(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
-    colHeaders: col_names,
+    colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -196431,6 +196524,12 @@ function ExportConfigurationTable(props) {
       key: index,
       settings: columnSettings
     });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"]);
+    }
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ExportConfigurationTable);
@@ -197832,6 +197931,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -197878,7 +197981,7 @@ function HandsOnTableTemp(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
-    colHeaders: col_names,
+    colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
     columns: !dataR.length ? col_names : false,
     rowHeaders: true,
     autoWrapRow: true,
@@ -197955,6 +198058,12 @@ function HandsOnTableTemp(props) {
         data: col_name
       }
     });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"]);
+    }
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (HandsOnTableTemp);
@@ -198123,7 +198232,7 @@ function IndividualBiometricsTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     ref: hotTableComponentRef,
-    colHeaders: col_names,
+    colHeaders: [].concat(col_names, ["Actions"]),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -198258,7 +198367,13 @@ function IndividualBiometricsTable(props) {
     "hot-editor": true,
     activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
-  })));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"]);
+    }
+  }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (IndividualBiometricsTable);
 
@@ -198279,6 +198394,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -198291,6 +198407,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
+// Custom renderer
 
 function OutputPathsTable(props) {
   // Data state
@@ -198321,7 +198439,7 @@ function OutputPathsTable(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
-    colHeaders: col_names,
+    colHeaders: [].concat(col_names, ["Actions"]),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -198386,6 +198504,12 @@ function OutputPathsTable(props) {
       data: "OutputPath",
       type: "text"
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
+    }
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (OutputPathsTable);
@@ -198407,6 +198531,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -198429,6 +198554,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
+// Import Custom Renderer
 
 function PlotConfigurationTable(props) {
   // Data state
@@ -198475,7 +198602,7 @@ function PlotConfigurationTable(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
-    colHeaders: col_names,
+    colHeaders: [].concat(col_names, ["Actions"]),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -198595,6 +198722,12 @@ function PlotConfigurationTable(props) {
       key: index,
       settings: columnSettings
     });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
+    }
   })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (PlotConfigurationTable);
@@ -198697,7 +198830,7 @@ function PlotGridsTable(props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
-    colHeaders: col_names,
+    colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -198828,6 +198961,12 @@ function PlotGridsTable(props) {
           settings: columnSettings
         });
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"]);
+    }
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (PlotGridsTable);
@@ -198845,16 +198984,23 @@ function PlotGridsTable(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
-/* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
-/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
-/* harmony import */ var _SimulationTimeModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SimulationTimeModal */ "./srcjs/components/SimulationTimeModal.js");
-/* harmony import */ var _utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/scenarioUtils */ "./srcjs/utils/scenarioUtils.js");
-/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
-/* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
-/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
-/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/index.js");
+/* harmony import */ var _mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/icons-material/Delete */ "./node_modules/@mui/icons-material/Delete.js");
+/* harmony import */ var _mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Delete__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/icons-material/Add */ "./node_modules/@mui/icons-material/Add.js");
+/* harmony import */ var _mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Add__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _handsontable_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @handsontable/react */ "./node_modules/@handsontable/react/es/react-handsontable.mjs");
+/* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
+/* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
+/* harmony import */ var _SimulationTimeModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SimulationTimeModal */ "./srcjs/components/SimulationTimeModal.js");
+/* harmony import */ var _utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/scenarioUtils */ "./srcjs/utils/scenarioUtils.js");
+/* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
+/* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -198873,6 +199019,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
 // Import Custom HandsOntableEditor
 
 
@@ -198882,7 +199031,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // register Handsontable's modules
-Object(handsontable_registry__WEBPACK_IMPORTED_MODULE_2__["registerAllModules"])();
+Object(handsontable_registry__WEBPACK_IMPORTED_MODULE_6__["registerAllModules"])();
 var ScenarioTable = function ScenarioTable(props) {
   // props: data_scenarios, individual_ids_options
   // Constants
@@ -198891,7 +199040,7 @@ var ScenarioTable = function ScenarioTable(props) {
   // const [dataR, updateDataR] = useState(processShinyData(props.data_scenarios));
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
       return [key, null];
-    }))] : Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["processShinyData"])(props.data_scenarios)),
+    }))] : Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198928,7 +199077,7 @@ var ScenarioTable = function ScenarioTable(props) {
     if (oldCellValue === data) return;
     // console.log(prepareShinyData(dataR, DROPDOWN_TYPE_COLUMNS));
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
     });
   };
@@ -198939,7 +199088,7 @@ var ScenarioTable = function ScenarioTable(props) {
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
       priority: "event"
     });
   };
@@ -198968,19 +199117,20 @@ var ScenarioTable = function ScenarioTable(props) {
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
           priority: "event"
         });
       }, 500);
     }
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotTable"], {
     data: dataR
     // colHeaders={col_names}
+    //colHeaders={col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col)}
     ,
-    colHeaders: col_names.map(function (col) {
+    colHeaders: [].concat(_toConsumableArray(col_names.map(function (col) {
       return col === "ModelParameterSheets" ? "Parameter sets" : col;
-    }),
+    })), ["Actions"]),
     ref: hotTableComponentRef,
     fixedColumnsStart: 1,
     width: "100%",
@@ -199006,7 +199156,7 @@ var ScenarioTable = function ScenarioTable(props) {
 
       // Send data to Shiny
       setTimeout(function () {
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
           priority: "event"
         });
       }, 200);
@@ -199023,14 +199173,14 @@ var ScenarioTable = function ScenarioTable(props) {
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     },
     afterCreateRow: function afterCreateRow(index, amount) {
       //console.log(prepareShinyData(dataR));
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_5__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_scenarioUtils__WEBPACK_IMPORTED_MODULE_9__["prepareShinyData"])(dataR, DROPDOWN_TYPE_COLUMNS)), {
         priority: "event"
       });
     }
@@ -199039,9 +199189,9 @@ var ScenarioTable = function ScenarioTable(props) {
     ,
     cells: function cells(row, col) {
       var cellProperties = {};
+      // check duplicates
       var duplicates = getDuplicateScenarioNames();
       var currentRow = dataR[row];
-
       // Apply class to all cells in the row if Scenario_name is duplicated
       if (duplicates.has(currentRow === null || currentRow === void 0 ? void 0 : currentRow.Scenario_name)) {
         cellProperties.className = 'duplicate-row';
@@ -199075,7 +199225,7 @@ var ScenarioTable = function ScenarioTable(props) {
             var selectedRow = this.getSelectedLast()[0];
             if (this.countRows() === 1 && selectedRow === 0) {
               // Cut all elements of the first row
-              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__["forceCutRowContent"])(this, selectedRow);
+              Object(_utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_10__["forceCutRowContent"])(this, selectedRow);
             } else {
               // Perform remove row operation
               // Use Handsontable's built-in remove_row functionality for multiple selections
@@ -199091,44 +199241,44 @@ var ScenarioTable = function ScenarioTable(props) {
         }
       }
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     width: 450,
     settings: {
       data: "Scenario_name",
       type: "text",
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["scenarioNameCellRenderer"] // custom cell renderer
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__["scenarioNameCellRenderer"] // custom cell renderer
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "IndividualId",
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.individual_ids_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["dropdownValidationRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__["dropdownValidationRenderer"]
       //source: ["pop1", "pop2", "pop3"],
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "PopulationId",
       type: "dropdown",
       strict: true,
       source: ["--NONE--"].concat(_toConsumableArray(props.population_ids_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["dropdownValidationRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__["dropdownValidationRenderer"]
       //source: ["pop1", "pop2", "pop3"],
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "ReadPopulationFromCSV",
       type: "checkbox"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "ModelParameterSheets",
       type: "text"
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_11__["default"], {
     "hot-editor": true,
     titleName: "Select path",
-    dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_10__["wrapIntoQuotes"])(props.model_parameters_options),
+    dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_14__["wrapIntoQuotes"])(props.model_parameters_options),
     enableSelectOrder: true,
     activeColumnName: "Parameter set(s)",
     placeHolderTitle: "Paremeter",
@@ -199136,49 +199286,49 @@ var ScenarioTable = function ScenarioTable(props) {
     enableListSecondaryText: false,
     listSecondaryDictionary: props.outputpath_id_alias_options,
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "ApplicationProtocol",
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.application_protocol_options))
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"]
   // width={75}
   , {
     settings: {
       data: "SimulationTime",
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_9__["simulationTimeCellRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__["simulationTimeCellRenderer"]
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_12__["default"], {
     "hot-editor": true,
     titleName: "Enter Simulation Time",
     parentData: dataR,
     columnNames: col_names,
     handleSimulationTimeModalDataSubmit: handleSimulationTimeModalDataSubmit
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "SimulationTimeUnit",
       type: "text",
       readOnly: true
       // source: ["h", "m", "s"],
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "SteadyState",
       type: "checkbox"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "SteadyStateTime",
       type: "numeric"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "SteadyStateTimeUnit",
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.steatystatetime_unit_options))
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
     settings: {
       data: "ModelFile",
       type: "autocomplete",
@@ -199189,14 +199339,14 @@ var ScenarioTable = function ScenarioTable(props) {
       // filter suggestions as the user types
       allowInvalid: true // don’t mark custom entries as invalid
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"]
   // width={75}
   , {
     settings: {
       data: "OutputPathsIds",
       type: "text"
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_11__["default"], {
     "hot-editor": true,
     titleName: "Select path",
     dropdownOptions: props.outputpath_ids_options,
@@ -199208,7 +199358,13 @@ var ScenarioTable = function ScenarioTable(props) {
     listSecondaryDictionary: props.outputpath_id_alias_options,
     modalWindowTitle: "Select Output Paths",
     handleDropdownModalDataSubmit: handleDropdownModalDataSubmit
-  }))));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_5__["HotColumn"], {
+    width: 90,
+    readOnly: true,
+    renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_10__["forceCutRowContent"]);
+    }
+  })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (ScenarioTable);
 
@@ -199467,7 +199623,7 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, invalidDropdownCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, invalidDropdownCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer, actionButtonsCellRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -199479,7 +199635,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scenarioNameCellRenderer", function() { return scenarioNameCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownValidationRenderer", function() { return dropdownValidationRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "simulationTimeCellRenderer", function() { return simulationTimeCellRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actionButtonsCellRenderer", function() { return actionButtonsCellRenderer; });
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 
 function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
@@ -199546,6 +199704,75 @@ function dropdownValidationRenderer(instance, td, row, col, prop, value, cellPro
 function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
   td.title = "Double click on cell to open Enter Simulation Time modal";
+  return td;
+}
+
+// Add/Delete buttons as the last column
+function actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent) {
+  td.innerHTML = "";
+  td.className = (td.className || "") + " htCenter htMiddle";
+  var wrap = document.createElement("div");
+  wrap.style.display = "flex";
+  wrap.style.gap = "6px";
+  wrap.style.justifyContent = "center";
+
+  // Add button
+  var addBtn = document.createElement("button");
+  addBtn.title = "Add row below";
+  addBtn.style.border = "none";
+  addBtn.style.background = "transparent";
+  addBtn.style.cursor = "pointer";
+  addBtn.style.display = "flex";
+  addBtn.style.alignItems = "center";
+  addBtn.style.justifyContent = "center";
+  addBtn.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\"\n         viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#bbbbbb\"\n         stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line>\n      <line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line>\n    </svg>\n  ";
+  addBtn.addEventListener("mousedown", function (e) {
+    return e.stopPropagation();
+  });
+  addBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    instance.alter("insert_row_below", row + 1, 1);
+  });
+
+  // Delete button
+  var delBtn = document.createElement("button");
+  delBtn.title = "Delete row";
+  delBtn.style.border = "none";
+  delBtn.style.background = "transparent";
+  delBtn.style.cursor = "pointer";
+  delBtn.style.display = "flex";
+  delBtn.style.alignItems = "center";
+  delBtn.style.justifyContent = "center";
+
+  // insert inline SVG icon
+  delBtn.innerHTML = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\"\n         viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#c0392b\"\n         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <polyline points=\"3 6 5 6 21 6\"></polyline>\n      <path d=\"M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6\"></path>\n      <path d=\"M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2\"></path>\n    </svg>\n  ";
+  delBtn.addEventListener("mousedown", function (e) {
+    return e.stopPropagation();
+  });
+  delBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var rowCount = instance.countRows();
+    if (rowCount === 1) {
+      try {
+        forceCutRowContent(instance, 0);
+      } catch (_unused) {
+        var rowData = instance.getSourceDataAtRow(0);
+        if (rowData && _typeof(rowData) === "object") {
+          Object.keys(rowData).forEach(function (k) {
+            return rowData[k] = null;
+          });
+          instance.render();
+        }
+      }
+    } else {
+      instance.alter("remove_row", row, 1);
+    }
+  });
+  wrap.appendChild(addBtn);
+  wrap.appendChild(delBtn);
+  td.appendChild(wrap);
   return td;
 }
 

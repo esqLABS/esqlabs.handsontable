@@ -4,7 +4,7 @@ import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
+import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
@@ -57,7 +57,10 @@ function ExportConfigurationTable(props) {
   return (
     <HotTable
       data={dataR}
-      colHeaders={col_names}
+      colHeaders={[
+          ...col_names,
+          "Actions"
+        ]}
       columns={colNames.map(col => ({ data: col }))}
       rowHeaders={true}
       autoWrapRow={true}
@@ -150,6 +153,7 @@ function ExportConfigurationTable(props) {
         {col_names && col_names.length > 0 && col_names.map((col, index) => {
           let columnSettings = { data: col, type: "text" };
 
+
           switch (col) {
             case "outputName":
             case "width":
@@ -168,6 +172,14 @@ function ExportConfigurationTable(props) {
           return <HotColumn key={index} settings={columnSettings} />;
         })}
 
+      {/* Action buttons column */}
+      <HotColumn
+        width={90}
+        readOnly={true}
+        renderer={(instance, td, row, col, prop, value, cellProps) =>
+          actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+        }
+      />
 
     </HotTable>
   );

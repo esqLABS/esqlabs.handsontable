@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createRoot } from "react-dom/client";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
@@ -10,13 +13,19 @@ import { forceCutRowContent } from "../utils/handsOnTableUtils";
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 import SimulationTimeEditor from "./HandsOnTableEditorsExt/SimulationTimeEditor";
 // Custom renderer
-import { scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer } from "./TableRenderer/TableRenderer";
+import {
+  scenarioNameCellRenderer,
+  dropdownValidationRenderer,
+  simulationTimeCellRenderer,
+  actionButtonsCellRenderer
+} from "./TableRenderer/TableRenderer";
 // Utils
 import { wrapIntoQuotes, wrapObjectKeysIntoQuotes } from "../utils/utils";
 
 
 // register Handsontable's modules
 registerAllModules();
+
 
 const ScenarioTable = (props) => {
   // props: data_scenarios, individual_ids_options
@@ -100,7 +109,12 @@ const ScenarioTable = (props) => {
       <HotTable
         data={dataR}
         // colHeaders={col_names}
-        colHeaders={col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col)}
+        //colHeaders={col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col)}
+        colHeaders={[
+          ...col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col),
+          "Actions"
+        ]}
+
         ref={hotTableComponentRef}
         fixedColumnsStart={1}
         width="100%"
@@ -160,14 +174,13 @@ const ScenarioTable = (props) => {
         // ADD: Highlight duplicate Scenario_name rows
         cells={(row, col) => {
           const cellProperties = {};
+          // check duplicates
           const duplicates = getDuplicateScenarioNames();
           const currentRow = dataR[row];
-
           // Apply class to all cells in the row if Scenario_name is duplicated
           if (duplicates.has(currentRow?.Scenario_name)) {
             cellProperties.className = 'duplicate-row';
           }
-
           return cellProperties;
         }}
 
@@ -331,6 +344,14 @@ const ScenarioTable = (props) => {
             handleDropdownModalDataSubmit={handleDropdownModalDataSubmit}
           />
         </HotColumn>
+        {/* Action buttons column */}
+        <HotColumn
+          width={90}
+          readOnly={true}
+          renderer={(instance, td, row, col, prop, value, cellProps) =>
+            actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+          }
+        />
       </HotTable>
 
     </>

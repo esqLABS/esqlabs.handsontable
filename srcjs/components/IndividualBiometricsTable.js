@@ -4,7 +4,7 @@ import { registerAllModules } from "handsontable/registry";
 import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
@@ -144,7 +144,10 @@ function IndividualBiometricsTable(props) {
     <HotTable
       data={dataR}
       ref={hotTableComponentRef}
-      colHeaders={col_names}
+      colHeaders={[
+        ...col_names,
+        "Actions"
+      ]}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
@@ -276,6 +279,14 @@ function IndividualBiometricsTable(props) {
           windowTitle="Map Protein to Ontogeny"
         />
       </HotColumn>
+      {/* Action buttons column */}
+      <HotColumn
+        width={90}
+        readOnly={true}
+        renderer={(instance, td, row, col, prop, value, cellProps) =>
+          actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProps, forceCutRowContent)
+        }
+      />
     </HotTable>
   );
 }
