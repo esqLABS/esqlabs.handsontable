@@ -6,7 +6,7 @@ import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom Renderer
-import { actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+import { actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 
 
 function PlotConfigurationTable(props) {
@@ -144,19 +144,23 @@ function PlotConfigurationTable(props) {
             case "DataCombinedName":
               columnSettings.type = "dropdown";
               columnSettings.source = ["--NONE--", ...props.datacombinedname_options];
+              columnSettings.renderer = dropdownTooltipRenderer;
               break;
             case "plotType":
               columnSettings.type = "dropdown";
               columnSettings.source = ["--NONE--", ...props.plottype_options];
+              columnSettings.renderer = dropdownTooltipRenderer;
               break;
             case "xAxisScale":
             case "yAxisScale":
               columnSettings.type = "dropdown";
               columnSettings.source = ["--NONE--", ...props.axisscale_options];
+              columnSettings.renderer = dropdownTooltipRenderer;
               break;
             case "aggregation":
               columnSettings.type = "dropdown";
               columnSettings.source = ["--NONE--", ...props.aggregation_options];
+              columnSettings.renderer = dropdownTooltipRenderer;
               break;
             case "xAxisLimits":
             case "yAxisLimits":

@@ -4,7 +4,7 @@ import { HotTable, HotColumn } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
@@ -164,6 +164,7 @@ function ExportConfigurationTable(props) {
               columnSettings.width = approxWidth;
               columnSettings.className = "min-width-plotgrid-column";
               columnSettings.source = ["--NONE--", ...props.plotgridnames_options];
+              columnSettings.renderer = dropdownTooltipRenderer;
               break;
             default:
               columnSettings.type = "text";

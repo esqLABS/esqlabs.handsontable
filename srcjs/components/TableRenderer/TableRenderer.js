@@ -11,6 +11,7 @@ export function readOnlyStyleRenderer(
 ) {
   textRenderer.apply(this, arguments);
   td.style.background = "#eeeeee";
+  td.title = '';
 }
 
 export function invalidCellRenderer(
@@ -106,6 +107,37 @@ export function dropdownValidationRenderer(instance, td, row, col, prop, value, 
 export function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   textRenderer.apply(this, arguments);
   td.title = `Double click on cell to open Enter Simulation Time modal`;
+  return td;
+}
+
+// Renderer for dropdown cells that validates and shows tooltip
+export function dropdownTooltipRenderer(instance, td, row, col, prop, value, cellProperties) {
+  autocompleteRenderer.apply(this, arguments);
+
+  // Get the valid dropdown options
+  const validSource = cellProperties.source || [];
+
+  // Skip validation for empty values or --NONE--
+  if (value === null || value === undefined || value === '' || value === '--NONE--') {
+    td.style.background = "#ffffff";
+    td.title = '';
+    return td;
+  }
+
+  // Check if the value exists in the dropdown options
+  const isValid = validSource.includes(value);
+
+  if (!isValid) {
+    // Highlight in red if value doesn't match dropdown options
+    td.style.background = "#ffbeba";
+    td.style.color = "#000000";
+    td.title = `Warning: "${value}" is not in the available options list. This value may be invalid.`;
+  } else {
+    // Valid value - show normal background with no tooltip
+    td.style.background = "#ffffff";
+    td.title = '';
+  }
+
   return td;
 }
 

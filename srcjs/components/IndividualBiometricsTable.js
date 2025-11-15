@@ -4,7 +4,7 @@ import { registerAllModules } from "handsontable/registry";
 import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
@@ -248,6 +248,7 @@ function IndividualBiometricsTable(props) {
           data: col_names[1],
           type: "dropdown",
           source: ["--NONE--", ...props.species_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn
@@ -255,6 +256,7 @@ function IndividualBiometricsTable(props) {
           data: col_names[2],
           type: "dropdown",
           source: ["--NONE--", ...props.population_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn
@@ -262,6 +264,7 @@ function IndividualBiometricsTable(props) {
           data: col_names[3],
           type: "dropdown",
           source: ["--NONE--", ...props.gender_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[4], type: "numeric" }} />

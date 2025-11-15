@@ -4,7 +4,7 @@ import { registerAllModules } from "handsontable/registry";
 import { dropdownRenderer } from "handsontable/renderers";
 import "handsontable/dist/handsontable.full.min.css";
 // Import Custom Renderer
-import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 // Import Custom HandsOntableEditor
@@ -171,14 +171,16 @@ function DemographicsTable(props) {
         settings={{
           data: col_names[1],
           type: "dropdown",
-          source: ["--NONE--", ...props.species_options]
+          source: ["--NONE--", ...props.species_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn
         settings={{
           data: col_names[2],
           type: "dropdown",
-          source: ["--NONE--", ...props.population_options]
+          source: ["--NONE--", ...props.population_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[3], type: "numeric" }} />
@@ -189,7 +191,8 @@ function DemographicsTable(props) {
         settings={{
           data: col_names[7],
           type: "dropdown",
-          source: ["--NONE--", ...props.weight_unit_options]
+          source: ["--NONE--", ...props.weight_unit_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[8], type: "numeric" }} />
@@ -198,7 +201,8 @@ function DemographicsTable(props) {
         settings={{
           data: col_names[10],
           type: "dropdown",
-          source: ["--NONE--", ...props.height_unit_options]
+          source: ["--NONE--", ...props.height_unit_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[11], type: "numeric" }} />
@@ -209,7 +213,8 @@ function DemographicsTable(props) {
         settings={{
           data: col_names[15],
           type: "dropdown",
-          source: ["--NONE--", ...props.bmi_unit_options]
+          source: ["--NONE--", ...props.bmi_unit_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn

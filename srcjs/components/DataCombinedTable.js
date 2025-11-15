@@ -7,7 +7,7 @@ import "handsontable/dist/handsontable.full.min.css";
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 import { decodeHtmlEntities } from "../utils/utils";
 // Import Custom Renderer
-import { readOnlyStyleRenderer, actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
+import { readOnlyStyleRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 // Modal
 import LoadDataMetaData from "./HandsOnTableEditorsExt/LoadDataMetaData";
 
@@ -70,7 +70,7 @@ function DataCombinedTable(props) {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
             cellProperties.source = ["--NONE--", ...props.datasets_options];
-            cellProperties.renderer = dropdownRenderer;
+            cellProperties.renderer = dropdownTooltipRenderer;
           }
         }
 
@@ -227,7 +227,8 @@ function DataCombinedTable(props) {
         settings={{
           data: col_names[1],
           type: "dropdown",
-          source: ["--NONE--", ...props.datatype_options]
+          source: ["--NONE--", ...props.datatype_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[2], type: "text" }} />
@@ -235,21 +236,24 @@ function DataCombinedTable(props) {
         settings={{
           data: col_names[3],
           type: "dropdown",
-          source: ["--NONE--", ...props.scenario_options]
+          source: ["--NONE--", ...props.scenario_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn
         settings={{
           data: col_names[4],
           type: "dropdown",
-          source: ["--NONE--", ...props.path_options]
+          source: ["--NONE--", ...props.path_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn
         settings={{
           data: col_names[5],
           type: "dropdown",
-          source: ["--NONE--", ...props.datasets_options]
+          source: ["--NONE--", ...props.datasets_options],
+          renderer: dropdownTooltipRenderer
         }}
       />
       <HotColumn settings={{ data: col_names[6], type: "text" }} />

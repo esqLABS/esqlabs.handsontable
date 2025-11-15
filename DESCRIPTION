@@ -1,17 +1,27 @@
 Package: esqlabs.handsontable
-Title: ESQLabs HandsonTable: Interactive react.js table library
-Version: 0.0.5.9003
-Authors@R: 
-    person("Anastasiia", "Kostiv", , "anastasiia.kostiv.ext@esqlabs.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: The "ESQLabs HandsonTable" package serves as an extension to the ShinyScenarioEditor package, enhancing its functionality by providing advanced table input capabilities. With intuitive features and interactive elements, this integration enables streamlined data manipulation and input management within Shiny applications, offering users a seamless experience for editing and presenting tabular data.
+Title: Interactive Excel-like Tables for Shiny Applications
+Version: 0.0.5.9004
+Authors@R:
+    person("Anastasiia", "Kostiv", , "anastasiia.kostiv.ext@esqlabs.com", role = c("aut", "cre"))
+Description: Provides advanced interactive table input capabilities for Shiny
+    applications using the Handsontable.js library wrapped in React components.
+    Designed as an extension to the ESQapp package, it offers
+    Excel-like spreadsheet functionality with features including keyboard navigation,
+    copy/paste, dynamic dropdowns, custom cell editors, and real-time validation.
+    The package supports multiple specialized table types for different data domains
+    such as scenarios, demographics, plot configurations, and more. Bidirectional
+    data flow between R and JavaScript ensures seamless reactive updates.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Imports: 
+Imports:
     htmltools,
     reactR,
     shiny,
     jsonlite,
     base64enc
+Suggests:
+    testthat
+URL: https://github.com/esqLABS/esqlabs.handsontable
+BugReports: https://github.com/esqLABS/esqlabs.handsontable/issues

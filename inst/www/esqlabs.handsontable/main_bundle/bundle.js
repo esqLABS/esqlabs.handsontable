@@ -195797,7 +195797,7 @@ function DataCombinedTable(props) {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
             cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.datasets_options));
-            cellProperties.renderer = handsontable_renderers__WEBPACK_IMPORTED_MODULE_3__["dropdownRenderer"];
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"];
           }
         }
         return cellProperties;
@@ -195942,7 +195942,8 @@ function DataCombinedTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.datatype_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.datatype_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195953,19 +195954,22 @@ function DataCombinedTable(props) {
     settings: {
       data: col_names[3],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.scenario_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.scenario_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[4],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.path_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.path_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[5],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.datasets_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.datasets_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196211,13 +196215,15 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.species_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.species_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[2],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.population_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196243,7 +196249,8 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[7],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.weight_unit_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.weight_unit_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196259,7 +196266,8 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[10],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.height_unit_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.height_unit_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196285,7 +196293,8 @@ function DemographicsTable(props) {
     settings: {
       data: col_names[15],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.bmi_unit_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.bmi_unit_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196516,6 +196525,7 @@ function ExportConfigurationTable(props) {
         columnSettings.width = approxWidth;
         columnSettings.className = "min-width-plotgrid-column";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.plotgridnames_options));
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__["dropdownTooltipRenderer"];
         break;
       default:
         columnSettings.type = "text";
@@ -198329,19 +198339,22 @@ function IndividualBiometricsTable(props) {
     settings: {
       data: col_names[1],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.species_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.species_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[2],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.population_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.population_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[3],
       type: "dropdown",
-      source: ["--NONE--"].concat(_toConsumableArray(props.gender_options))
+      source: ["--NONE--"].concat(_toConsumableArray(props.gender_options)),
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -198695,19 +198708,23 @@ function PlotConfigurationTable(props) {
       case "DataCombinedName":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.datacombinedname_options));
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
         break;
       case "plotType":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.plottype_options));
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
         break;
       case "xAxisScale":
       case "yAxisScale":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.axisscale_options));
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
         break;
       case "aggregation":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.aggregation_options));
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
         break;
       case "xAxisLimits":
       case "yAxisLimits":
@@ -199623,7 +199640,7 @@ function SimulationTimeModal(_ref) {
 /*!*********************************************************!*\
   !*** ./srcjs/components/TableRenderer/TableRenderer.js ***!
   \*********************************************************/
-/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, invalidDropdownCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer, actionButtonsCellRenderer */
+/*! exports provided: readOnlyStyleRenderer, invalidCellRenderer, invalidDropdownCellRenderer, proteinOntogenyAlwaysDoubleClickRenderer, scenarioNameCellRenderer, dropdownValidationRenderer, simulationTimeCellRenderer, dropdownTooltipRenderer, actionButtonsCellRenderer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -199635,6 +199652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scenarioNameCellRenderer", function() { return scenarioNameCellRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownValidationRenderer", function() { return dropdownValidationRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "simulationTimeCellRenderer", function() { return simulationTimeCellRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdownTooltipRenderer", function() { return dropdownTooltipRenderer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actionButtonsCellRenderer", function() { return actionButtonsCellRenderer; });
 /* harmony import */ var handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handsontable/renderers */ "./node_modules/handsontable/renderers/index.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -199642,6 +199660,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function readOnlyStyleRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
   td.style.background = "#eeeeee";
+  td.title = '';
 }
 function invalidCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
@@ -199704,6 +199723,35 @@ function dropdownValidationRenderer(instance, td, row, col, prop, value, cellPro
 function simulationTimeCellRenderer(instance, td, row, col, prop, value, cellProperties) {
   handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["textRenderer"].apply(this, arguments);
   td.title = "Double click on cell to open Enter Simulation Time modal";
+  return td;
+}
+
+// Renderer for dropdown cells that validates and shows tooltip
+function dropdownTooltipRenderer(instance, td, row, col, prop, value, cellProperties) {
+  handsontable_renderers__WEBPACK_IMPORTED_MODULE_0__["autocompleteRenderer"].apply(this, arguments);
+
+  // Get the valid dropdown options
+  var validSource = cellProperties.source || [];
+
+  // Skip validation for empty values or --NONE--
+  if (value === null || value === undefined || value === '' || value === '--NONE--') {
+    td.style.background = "#ffffff";
+    td.title = '';
+    return td;
+  }
+
+  // Check if the value exists in the dropdown options
+  var isValid = validSource.includes(value);
+  if (!isValid) {
+    // Highlight in red if value doesn't match dropdown options
+    td.style.background = "#ffbeba";
+    td.style.color = "#000000";
+    td.title = "Warning: \"".concat(value, "\" is not in the available options list. This value may be invalid.");
+  } else {
+    // Valid value - show normal background with no tooltip
+    td.style.background = "#ffffff";
+    td.title = '';
+  }
   return td;
 }
 
