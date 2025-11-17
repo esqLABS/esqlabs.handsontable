@@ -9,6 +9,7 @@ import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } f
 import DropDownEditor from "./HandsOnTableEditorsExt/DropDownEditor";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 import { processShinyData, prepareShinyData } from "../utils/plotsUtils";
 import { wrapIntoQuotes } from "../utils/utils";
 
@@ -58,6 +59,7 @@ function PlotGridsTable(props) {
         ...col_names,
         "Actions"
       ]}
+      afterGetColHeader={createColumnHeaderHook()}
       columns={colNames.map(col => ({ data: col }))}
       rowHeaders={true}
       autoWrapRow={true}

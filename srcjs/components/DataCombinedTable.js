@@ -6,6 +6,7 @@ import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
 import { decodeHtmlEntities } from "../utils/utils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 // Import Custom Renderer
 import { readOnlyStyleRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 // Modal
@@ -128,6 +129,7 @@ function DataCombinedTable(props) {
           ...col_names,
           "Actions"
         ]}
+      afterGetColHeader={createColumnHeaderHook()}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}

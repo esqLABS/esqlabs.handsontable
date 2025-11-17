@@ -8,6 +8,7 @@ import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer, dr
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 
 
 function ExportConfigurationTable(props) {
@@ -61,6 +62,7 @@ function ExportConfigurationTable(props) {
           ...col_names,
           "Actions"
         ]}
+      afterGetColHeader={createColumnHeaderHook()}
       columns={colNames.map(col => ({ data: col }))}
       rowHeaders={true}
       autoWrapRow={true}

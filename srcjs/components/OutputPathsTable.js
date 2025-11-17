@@ -5,6 +5,7 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 // Custom renderer
 import { actionButtonsCellRenderer } from "./TableRenderer/TableRenderer";
 
@@ -38,6 +39,7 @@ function OutputPathsTable(props) {
           ...col_names,
           "Actions"
         ]}
+      afterGetColHeader={createColumnHeaderHook()}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}

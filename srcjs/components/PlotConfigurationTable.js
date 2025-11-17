@@ -5,6 +5,7 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 // Import Custom Renderer
 import { actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 
@@ -56,6 +57,7 @@ function PlotConfigurationTable(props) {
           ...col_names,
           "Actions"
         ]}
+        afterGetColHeader={createColumnHeaderHook()}
         columns={colNames.map(col => ({ data: col }))}
         rowHeaders={true}
         autoWrapRow={true}

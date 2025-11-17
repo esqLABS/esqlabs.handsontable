@@ -21,6 +21,7 @@ import {
 } from "./TableRenderer/TableRenderer";
 // Utils
 import { wrapIntoQuotes, wrapObjectKeysIntoQuotes } from "../utils/utils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 
 
 // register Handsontable's modules
@@ -114,7 +115,7 @@ const ScenarioTable = (props) => {
           ...col_names.map(col => col === "ModelParameterSheets" ? "Parameter sets" : col),
           "Actions"
         ]}
-
+        afterGetColHeader={createColumnHeaderHook()}
         ref={hotTableComponentRef}
         fixedColumnsStart={1}
         width="100%"

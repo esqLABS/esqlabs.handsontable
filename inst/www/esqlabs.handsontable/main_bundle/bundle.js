@@ -195709,8 +195709,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
-/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
-/* harmony import */ var _HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/LoadDataMetaData */ "./srcjs/components/HandsOnTableEditorsExt/LoadDataMetaData.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/LoadDataMetaData */ "./srcjs/components/HandsOnTableEditorsExt/LoadDataMetaData.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -195728,6 +195729,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 
 // Import Custom Renderer
@@ -195792,12 +195794,12 @@ function DataCombinedTable(props) {
           if (hot.getData()[row][col - 4] && hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
-            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["readOnlyStyleRenderer"];
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["readOnlyStyleRenderer"];
           } else {
             cellProperties.readOnly = false;
             cellProperties.type = "dropdown";
             cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.datasets_options));
-            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"];
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"];
           }
         }
         return cellProperties;
@@ -195841,6 +195843,7 @@ function DataCombinedTable(props) {
     data: dataR,
     ref: hotTableComponentRef,
     colHeaders: [].concat(col_names, ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__["createColumnHeaderHook"])(),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -195943,7 +195946,7 @@ function DataCombinedTable(props) {
       data: col_names[1],
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.datatype_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -195955,21 +195958,21 @@ function DataCombinedTable(props) {
       data: col_names[3],
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.scenario_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[4],
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.path_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
       data: col_names[5],
       type: "dropdown",
       source: ["--NONE--"].concat(_toConsumableArray(props.datasets_options)),
-      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["dropdownTooltipRenderer"]
+      renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"]
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     settings: {
@@ -196010,9 +196013,9 @@ function DataCombinedTable(props) {
     width: 90,
     readOnly: true,
     renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
-      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_7__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"]);
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__["forceCutRowContent"]);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_LoadDataMetaData__WEBPACK_IMPORTED_MODULE_9__["default"], {
     showModal: showMetaModal,
     onCloseModal: closeMetaDataModal,
     windowTitle: metaWindowTitle,
@@ -196040,7 +196043,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -196059,6 +196063,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Import Custom Renderer
 
 // Utils
+
 
 // Import Custom HandsOntableEditor
 
@@ -196144,6 +196149,7 @@ function DemographicsTable(props) {
     data: dataR,
     ref: hotTableComponentRef,
     colHeaders: [].concat(col_names, ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__["createColumnHeaderHook"])(),
     rowHeaders: true,
     width: "100%",
     height: "100%",
@@ -196301,7 +196307,7 @@ function DemographicsTable(props) {
       data: col_names[16],
       renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["proteinOntogenyAlwaysDoubleClickRenderer"]
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_8__["default"], {
     "hot-editor": true,
     activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
@@ -196333,6 +196339,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -196358,6 +196365,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 function ExportConfigurationTable(props) {
   // Data state
@@ -196414,6 +196422,7 @@ function ExportConfigurationTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_6__["createColumnHeaderHook"])(),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -197941,6 +197950,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -197960,6 +197970,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 function HandsOnTableTemp(props) {
   // Data state
@@ -197992,6 +198003,7 @@ function HandsOnTableTemp(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_6__["createColumnHeaderHook"])(),
     columns: !dataR.length ? col_names : false,
     rowHeaders: true,
     autoWrapRow: true,
@@ -198097,7 +198109,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/ProteinOntogenyEditor */ "./srcjs/components/HandsOnTableEditorsExt/ProteinOntogenyEditor.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -198116,6 +198129,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Import Custom Renderer
 
 // Utils
+
 
 // Import Custom HandsOntableEditor
 
@@ -198243,6 +198257,7 @@ function IndividualBiometricsTable(props) {
     data: dataR,
     ref: hotTableComponentRef,
     colHeaders: [].concat(col_names, ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__["createColumnHeaderHook"])(),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -198376,7 +198391,7 @@ function IndividualBiometricsTable(props) {
       data: col_names[7],
       renderer: _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["proteinOntogenyAlwaysDoubleClickRenderer"]
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_ProteinOntogenyEditor__WEBPACK_IMPORTED_MODULE_8__["default"], {
     "hot-editor": true,
     activeColumnName: "Protein Ontogenies",
     windowTitle: "Map Protein to Ontogeny"
@@ -198407,7 +198422,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -198420,6 +198436,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 // Custom renderer
 
@@ -198453,6 +198470,7 @@ function OutputPathsTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: [].concat(col_names, ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_5__["createColumnHeaderHook"])(),
     rowHeaders: true,
     autoWrapRow: true,
     autoWrapCol: true,
@@ -198521,7 +198539,7 @@ function OutputPathsTable(props) {
     width: 90,
     readOnly: true,
     renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
-      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
     }
   }));
 }
@@ -198544,7 +198562,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var handsontable_registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! handsontable/registry */ "./node_modules/handsontable/registry.mjs");
 /* harmony import */ var handsontable_dist_handsontable_full_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! handsontable/dist/handsontable.full.min.css */ "./node_modules/handsontable/dist/handsontable.full.min.css");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -198567,6 +198586,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 // Utils
+
 
 // Import Custom Renderer
 
@@ -198616,6 +198636,7 @@ function PlotConfigurationTable(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: [].concat(col_names, ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_5__["createColumnHeaderHook"])(),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -198708,23 +198729,23 @@ function PlotConfigurationTable(props) {
       case "DataCombinedName":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.datacombinedname_options));
-        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["dropdownTooltipRenderer"];
         break;
       case "plotType":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.plottype_options));
-        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["dropdownTooltipRenderer"];
         break;
       case "xAxisScale":
       case "yAxisScale":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.axisscale_options));
-        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["dropdownTooltipRenderer"];
         break;
       case "aggregation":
         columnSettings.type = "dropdown";
         columnSettings.source = ["--NONE--"].concat(_toConsumableArray(props.aggregation_options));
-        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["dropdownTooltipRenderer"];
+        columnSettings.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["dropdownTooltipRenderer"];
         break;
       case "xAxisLimits":
       case "yAxisLimits":
@@ -198743,7 +198764,7 @@ function PlotConfigurationTable(props) {
     width: 90,
     readOnly: true,
     renderer: function renderer(instance, td, row, col, prop, value, cellProps) {
-      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_5__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
+      return Object(_TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_6__["actionButtonsCellRenderer"])(instance, td, row, col, prop, value, cellProps, _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_4__["forceCutRowContent"]);
     }
   })));
 }
@@ -198768,8 +198789,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/DropDownEditor */ "./srcjs/components/HandsOnTableEditorsExt/DropDownEditor.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
-/* harmony import */ var _utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/plotsUtils */ "./srcjs/utils/plotsUtils.js");
-/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+/* harmony import */ var _utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/plotsUtils */ "./srcjs/utils/plotsUtils.js");
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -198799,12 +198821,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function PlotGridsTable(props) {
   // Data state
   // const [dataR, updateDataR] = useState(props.data_scenarios);
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!props.data_scenarios.length ? [Object.fromEntries(props.column_headers.map(function (key) {
       return [key, null];
-    }))] : Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["processShinyData"])(props.data_scenarios)),
+    }))] : Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["processShinyData"])(props.data_scenarios)),
     _useState2 = _slicedToArray(_useState, 2),
     dataR = _useState2[0],
     updateDataR = _useState2[1];
@@ -198825,7 +198848,7 @@ function PlotGridsTable(props) {
       setTimeout(function () {
         // console.log(prepareShinyData(dataR));
         // Send data to Shiny with the edited data
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(dataR)), {
           priority: "event"
         });
       }, 500);
@@ -198841,13 +198864,14 @@ function PlotGridsTable(props) {
     // In no change in the cell value stop function
     if (oldCellValue === data) return;
     // Send data to Shiny with the edited data
-    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
+    Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(dataR)), {
       priority: "event"
     });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotTable"], {
     data: dataR,
     colHeaders: [].concat(_toConsumableArray(col_names), ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_7__["createColumnHeaderHook"])(),
     columns: colNames.map(function (col) {
       return {
         data: col
@@ -198907,7 +198931,7 @@ function PlotGridsTable(props) {
             });
             updateDataR(newData);
             setTimeout(function () {
-              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(newData)), {
+              Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(newData)), {
                 priority: "event"
               });
             }, 300);
@@ -198925,21 +198949,21 @@ function PlotGridsTable(props) {
         // updateDataR(empty_obj_with_keys);
         // props.updateGlobalDataR(empty_obj_with_keys);
         // console.log("dataR", empty_obj_with_keys);
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(empty_obj_with_keys)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(empty_obj_with_keys)), {
           priority: "event"
         });
         // props.updateGlobalDataR(empty_obj_with_keys);
         updateDataR(empty_obj_with_keys);
       } else {
         // console.log("dataR", dataR);
-        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
+        Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(dataR)), {
           priority: "event"
         });
       }
     },
     afterRemoveRow: function afterRemoveRow(index, amount, physicalRows) {
       // Send data to Shiny with the edited data
-      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_7__["prepareShinyData"])(dataR)), {
+      Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(Object(_utils_plotsUtils__WEBPACK_IMPORTED_MODULE_8__["prepareShinyData"])(dataR)), {
         priority: "event"
       });
     }
@@ -198963,7 +198987,7 @@ function PlotGridsTable(props) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HandsOnTableEditorsExt_DropDownEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
           "hot-editor": true,
           titleName: "Select plotID",
-          dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_8__["wrapIntoQuotes"])(props.plotids_options),
+          dropdownOptions: Object(_utils_utils__WEBPACK_IMPORTED_MODULE_9__["wrapIntoQuotes"])(props.plotids_options),
           enableSelectOrder: true,
           activeColumnName: "plotID",
           placeHolderTitle: "Plot ID",
@@ -199018,6 +199042,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HandsOnTableEditorsExt_SimulationTimeEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./HandsOnTableEditorsExt/SimulationTimeEditor */ "./srcjs/components/HandsOnTableEditorsExt/SimulationTimeEditor.js");
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utils/utils */ "./srcjs/utils/utils.js");
+/* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -199045,6 +199070,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Custom renderer
 
 // Utils
+
 
 
 // register Handsontable's modules
@@ -199148,6 +199174,7 @@ var ScenarioTable = function ScenarioTable(props) {
     colHeaders: [].concat(_toConsumableArray(col_names.map(function (col) {
       return col === "ModelParameterSheets" ? "Parameter sets" : col;
     })), ["Actions"]),
+    afterGetColHeader: Object(_utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_15__["createColumnHeaderHook"])(),
     ref: hotTableComponentRef,
     fixedColumnsStart: 1,
     width: "100%",
@@ -199826,6 +199853,226 @@ function actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProp
 
 /***/ }),
 
+/***/ "./srcjs/config/columnDescriptions.js":
+/*!********************************************!*\
+  !*** ./srcjs/config/columnDescriptions.js ***!
+  \********************************************/
+/*! exports provided: COLUMN_DESCRIPTIONS_BY_SHEET, getColumnDescription, getColumnDescriptionBySheet, hasColumnDescription, getSheetColumnDescriptions, getAvailableSheets */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COLUMN_DESCRIPTIONS_BY_SHEET", function() { return COLUMN_DESCRIPTIONS_BY_SHEET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getColumnDescription", function() { return getColumnDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getColumnDescriptionBySheet", function() { return getColumnDescriptionBySheet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasColumnDescription", function() { return hasColumnDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSheetColumnDescriptions", function() { return getSheetColumnDescriptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAvailableSheets", function() { return getAvailableSheets; });
+/**
+ * Column Descriptions Configuration
+ *
+ * This file contains descriptions for all columns used in the Handsontable components.
+ * Descriptions are extracted from the official esqlabsR documentation:
+ * - https://esqlabs.github.io/esqlabsR/articles/design-scenarios.html
+ * - https://esqlabs.github.io/esqlabsR/articles/plot-results.html
+ *
+ */
+
+var COLUMN_DESCRIPTIONS_BY_SHEET = {
+  // ============================================================================
+  // SCENARIOS SHEET (from Scenarios.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/design-scenarios.html
+  // ============================================================================
+  "Scenarios": {
+    "Scenario_name": "Unique name of the scenario. The name must be a valid R variables name. This name retrieves simulation results later (e.g., in figure definitions).",
+    "IndividualId": "References individual biometric properties and individual-specific model parameters from Individuals.xlsx. May be empty (uses default simulation individual). Enables cross-species scaling to: Beagle, Dog, Minipig, Mouse, Rat, Rabbit, or Monkey. Creates individual-specific sheets with the same structure as ModelParameters.xlsx.",
+    "PopulationId": "References population demographics from PopulationParameters.xlsx Demographics sheet. If empty, individual simulation runs. Same population usable across multiple scenarios. Can combine with IndividualId (individual parameters apply first, then population parameters override matching physiological parameters).",
+    "ReadPopulationFromCSV": "Additional information required",
+    "Parameter sets": "A list of sheet names from the ModelParameter.xlsx file, separated by a comma. Each sheet contains: Container Path, Parameter Name, Value, Units. Application order matters.",
+    "ApplicationProtocol": "Name of application protocol defined in ApplicationParameters.xlsx. Sheet name from ApplicationParameters.xlsx containing application parameters with same structure as ModelParameters.xlsx. Requires simulations with all possible applications (dose, start time) as toggleable parameters.",
+    "SimulationTime": "Time intervals as triplets: <StartTime, EndTime, Resolution>; separated by semicolons. Resolution = simulated points per time unit. Example: 0, 10, 1 for 10 minutes at 1 point/minute. Complex example: 0, 20, 60; 20, 504, 1; 504, 552, 10 simulates 20 hours (60 points/hour), then 484 hours (1 point/hour), then 48 hours (10 points/hour).",
+    "SimulationTimeUnit": "Unit for SimulationTime values (supported units: see ospsuite::ospUnits documentation).",
+    "SteadyState": "Boolean flag for steady-state simulation. If TRUE, simulates for sufficiently long (1000 minutes default).",
+    "SteadyStateTime": "Duration for steady-state simulation.",
+    "SteadyStateTimeUnit": "Unit for SteadyStateTime.",
+    "ModelFile": "Name of the pkml file with the simulation. .pkml file name located in ProjectConfiguration$modelFolder (in the Models/Simulations folder).",
+    "OutputPathsIds": "IDs of all paths the outputs should be generated for, separated by a comma. Comma-separated acronyms defined in the OutputPaths sheet."
+  },
+  // ============================================================================
+  // OUTPUTPATHS SHEET (from Scenarios.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/design-scenarios.html
+  // ============================================================================
+  "OutputPaths": {
+    "OutputPathId": "Unique identifier for output path. Acronym used in the OutputPathsIds column of the Scenarios sheet.",
+    "OutputPath": "Full path to the molecules/parameters for which outputs will be simulated. Example: Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood) or Organism|Fat|Intracellular|Aciclovir|Concentration in container."
+  },
+  // ============================================================================
+  // INDIVIDUALBIOMETRICS SHEET (from Individuals.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/design-scenarios.html
+  // ============================================================================
+  "IndividualBiometrics": {
+    "IndividualId": "Unique identifier for the individual. Referenced in the Scenarios sheet IndividualId column.",
+    "Species": "Species of the individual. Supports: Human, Beagle, Dog, Minipig, Mouse, Rat, Rabbit, or Monkey.",
+    "Population": "Population group (only applicable for Human species). Must match PK-Sim database populations.",
+    "Gender": "Gender of the individual. Affects physiological parameters.",
+    "Age [year(s)]": "Age value of the individual.",
+    "Height [cm]": "Height value of the individual.",
+    "Weight [kg]": "Weight/body mass value of the individual.",
+    "Protein Ontogenies": "Column containing a list (separated by a comma) of <Protein>:<Ontogeny> values. Ontogeny values must match standard PK-Sim database ontogenies. Example: CYP3A4_alternative:CYP3A4, CYP2D6_alternative:CYP2D6."
+  },
+  // ============================================================================
+  // DEMOGRAPHICS SHEET (from PopulationParameters.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/design-scenarios.html
+  // ============================================================================
+  "Demographics": {
+    "PopulationName": "Unique identifier for the population. Referenced in the Scenarios sheet PopulationId column.",
+    "species": "Species for the population (e.g., Human, Mouse, Rat).",
+    "population": "Population group (only for Human species). Must match PK-Sim database populations.",
+    "numberOfIndividuals": "Total number of individuals to generate in the population simulation.",
+    "proportionOfFemales": "Proportion of females in the population, as a decimal between 0 and 1.",
+    "ageMin": "Minimum age in the population distribution.",
+    "ageMax": "Maximum age in the population distribution.",
+    "weightMin": "Minimum weight in the population distribution.",
+    "weightMax": "Maximum weight in the population distribution.",
+    "weightUnit": "Unit for weight values.",
+    "heightMin": "Minimum height in the population distribution.",
+    "heightMax": "Maximum height in the population distribution.",
+    "heightUnit": "Unit for height values.",
+    "BMIMin": "Minimum Body Mass Index in the population distribution.",
+    "BMIMax": "Maximum Body Mass Index in the population distribution.",
+    "BMIUnit": "Unit for BMI values.",
+    "Protein Ontogenies": "Column containing a list (separated by a comma) of <Protein>:<Ontogeny> values. Ontogeny values must match standard PK-Sim database ontogenies."
+  },
+  // ============================================================================
+  // DATACOMBINED SHEET (from Plots.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/plot-results.html
+  // ============================================================================
+  "DataCombined": {
+    "DataCombinedName": "Plot storage unique name.",
+    "dataType": "Either simulated or observed. Specifies whether this row represents simulated or observed data.",
+    "label": "A descriptor for the data source within the combined set.",
+    "scenario": "The name of the scenario to retrieve results from (for simulated data).",
+    "path": "The simulation output location (for simulated data).",
+    "dataSet": "The name of the dataset to include (for observed data).",
+    "group": "Links both datasets (simulated and observed) together those share the same value.",
+    "xOffsets": "Numerical offset to apply to x-axis values. Part of data transformation properties (refer to ospsuite documentation for details).",
+    "xOffsetsUnits": "Unit for the x-axis offset value.",
+    "yOffsets": "Numerical offset to apply to y-axis values. Part of data transformation properties (refer to ospsuite documentation for details).",
+    "yOffsetsUnits": "Unit for the y-axis offset value.",
+    "xScaleFactors": "Additional information required",
+    "yScaleFactors": "Additional information required"
+  },
+  // ============================================================================
+  // PLOTCONFIGURATION SHEET (from Plots.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/plot-results.html
+  // ============================================================================
+  "plotConfiguration": {
+    "plotID": "Unique identifier for the plot configuration. Referenced in plotGrids sheet.",
+    "DataCombinedName": "References which DataCombined set to use for this plot.",
+    "plotType": "Type of plot to generate (e.g., individual, population, observedVsSimulated, residualVsSimulated, residualsVsTime).",
+    "title": "Main title text displayed at the top of the plot.",
+    "xUnit": "Unit label for x-axis.",
+    "yUnit": "Unit label for y-axis.",
+    "xAxisScale": "Scale for x-axis (e.g., linear, log).",
+    "yAxisScale": "Scale for y-axis (e.g., linear, log).",
+    "xValuesLimits": "Axis limits specified as comma-separated values; use parentheses if values contain commas.",
+    "yValuesLimits": "Axis limits specified as comma-separated values; use parentheses if values contain commas.",
+    "aggregation": "Aggregation method for data (e.g., mean, median).",
+    "quantiles": "Quantile values for ribbons or confidence intervals.",
+    "nsd": "Additional information required",
+    "foldDistance": "Fold distance for reference lines.",
+    "subtitle": "Custom subtitle for the plot."
+  },
+  // ============================================================================
+  // PLOTGRIDS SHEET (from Plots.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/plot-results.html
+  // ============================================================================
+  "plotGrids": {
+    "name": "Unique identifier for the plot grid.",
+    "plotIDs": "Single plot ID or comma-separated multiple IDs for multi-panel figures. Lists which plots to include in the grid.",
+    "title": "Main title for the multi-panel figure.",
+    "subtitle": "Custom subtitle for the plot."
+  },
+  // ============================================================================
+  // EXPORTCONFIGURATION SHEET (from Plots.xlsx)
+  // Official documentation: https://esqlabs.github.io/esqlabsR/articles/plot-results.html
+  // ============================================================================
+  "exportConfiguration": {
+    "plotGridName": "Reference to plotGrid sheet. Name of the plot grid to export (must match a name from the plotGrids sheet).",
+    "outputName": "Output filename. The filename for the exported plot file.",
+    "width": "Width for the exported plot. Alternative to heightPerRow; set heightPerRow to NULL when using this."
+  },
+  // ============================================================================
+  // HANDSONTEMP (Generic table used for ModelParameters, ApplicationParameters, etc.)
+  // ============================================================================
+  "HandsOnTableTemp": {
+    "Container Path": "Path to the container in the model structure.",
+    "Parameter Name": "Name of the parameter to be modified.",
+    "Value": "The value to set for the parameter.",
+    "Units": "The unit of measurement for the parameter value."
+  }
+};
+
+/**
+ * Get the description for a given column name
+ * Searches across all sheets to find the column description
+ * @param {string} columnName - The name of the column
+ * @returns {string|null} The description or null if not found
+ */
+function getColumnDescription(columnName) {
+  // Search through all sheets for the column name
+  for (var sheet in COLUMN_DESCRIPTIONS_BY_SHEET) {
+    if (COLUMN_DESCRIPTIONS_BY_SHEET[sheet][columnName]) {
+      return COLUMN_DESCRIPTIONS_BY_SHEET[sheet][columnName];
+    }
+  }
+  return null;
+}
+
+/**
+ * Get the description for a column in a specific sheet
+ * @param {string} sheetName - The name of the sheet
+ * @param {string} columnName - The name of the column
+ * @returns {string|null} The description or null if not found
+ */
+function getColumnDescriptionBySheet(sheetName, columnName) {
+  var _COLUMN_DESCRIPTIONS_;
+  return ((_COLUMN_DESCRIPTIONS_ = COLUMN_DESCRIPTIONS_BY_SHEET[sheetName]) === null || _COLUMN_DESCRIPTIONS_ === void 0 ? void 0 : _COLUMN_DESCRIPTIONS_[columnName]) || null;
+}
+
+/**
+ * Check if a column has a description
+ * @param {string} columnName - The name of the column
+ * @returns {boolean} True if description exists
+ */
+function hasColumnDescription(columnName) {
+  for (var sheet in COLUMN_DESCRIPTIONS_BY_SHEET) {
+    if (COLUMN_DESCRIPTIONS_BY_SHEET[sheet][columnName]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Get all column descriptions for a specific sheet
+ * @param {string} sheetName - The name of the sheet
+ * @returns {Object|null} Object with column descriptions or null if sheet not found
+ */
+function getSheetColumnDescriptions(sheetName) {
+  return COLUMN_DESCRIPTIONS_BY_SHEET[sheetName] || null;
+}
+
+/**
+ * Get list of all available sheet names
+ * @returns {string[]} Array of sheet names
+ */
+function getAvailableSheets() {
+  return Object.keys(COLUMN_DESCRIPTIONS_BY_SHEET);
+}
+
+/***/ }),
+
 /***/ "./srcjs/context/tablePropsStore.js":
 /*!******************************************!*\
   !*** ./srcjs/context/tablePropsStore.js ***!
@@ -200328,6 +200575,47 @@ var TableInput = function TableInput(_ref) {
 };
 function initScenarioTable() {
   return Object(reactR__WEBPACK_IMPORTED_MODULE_0__["reactShinyInput"])(".scenario_table_", "esqlabs.handsontable.scenario_table_", TableInput);
+}
+
+/***/ }),
+
+/***/ "./srcjs/utils/columnHeaderUtils.js":
+/*!******************************************!*\
+  !*** ./srcjs/utils/columnHeaderUtils.js ***!
+  \******************************************/
+/*! exports provided: createColumnHeaderHook */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createColumnHeaderHook", function() { return createColumnHeaderHook; });
+/* harmony import */ var _config_columnDescriptions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config/columnDescriptions */ "./srcjs/config/columnDescriptions.js");
+
+
+/**
+ * Generate afterGetColHeader hook for Handsontable
+ * This hook adds tooltips to column headers using title attribute
+ * @returns {Function} Hook function for Handsontable
+ */
+function createColumnHeaderHook() {
+  return function (col, TH) {
+    var _TH$querySelector;
+    // Get the header text
+    var headerText = ((_TH$querySelector = TH.querySelector('.colHeader')) === null || _TH$querySelector === void 0 ? void 0 : _TH$querySelector.textContent) || TH.textContent;
+
+    // Skip if no header text or if it's the Actions column
+    if (!headerText || headerText === 'Actions') {
+      return;
+    }
+
+    // Get description for this column
+    var description = Object(_config_columnDescriptions__WEBPACK_IMPORTED_MODULE_0__["getColumnDescription"])(headerText);
+    if (description) {
+      // Add tooltip using title attribute (browser native tooltip)
+      TH.setAttribute('title', description);
+      TH.style.cursor = 'help';
+    }
+  };
 }
 
 /***/ }),

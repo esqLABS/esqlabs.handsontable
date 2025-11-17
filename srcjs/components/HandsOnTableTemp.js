@@ -8,6 +8,7 @@ import { proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer } f
 
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 
 
 function HandsOnTableTemp(props) {
@@ -41,6 +42,7 @@ function HandsOnTableTemp(props) {
         ...col_names,
         "Actions"
       ]}
+      afterGetColHeader={createColumnHeaderHook()}
       columns={!dataR.length ? col_names : false}
       rowHeaders={true}
       autoWrapRow={true}

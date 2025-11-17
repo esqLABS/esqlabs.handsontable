@@ -7,6 +7,7 @@ import "handsontable/dist/handsontable.full.min.css";
 import { readOnlyStyleRenderer, proteinOntogenyAlwaysDoubleClickRenderer, actionButtonsCellRenderer, dropdownTooltipRenderer } from "./TableRenderer/TableRenderer";
 // Utils
 import { forceCutRowContent } from "../utils/handsOnTableUtils";
+import { createColumnHeaderHook } from "../utils/columnHeaderUtils";
 // Import Custom HandsOntableEditor
 import ProteinOntogenyEditor from "./HandsOnTableEditorsExt/ProteinOntogenyEditor";
 
@@ -148,6 +149,7 @@ function IndividualBiometricsTable(props) {
         ...col_names,
         "Actions"
       ]}
+      afterGetColHeader={createColumnHeaderHook()}
       rowHeaders={true}
       autoWrapRow={true}
       autoWrapCol={true}
