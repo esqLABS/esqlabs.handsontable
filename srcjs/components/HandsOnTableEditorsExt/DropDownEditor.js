@@ -6,6 +6,8 @@ import { BaseEditorComponent } from "@handsontable/react";
 import ModalShowDropdownAndSortValue from "./ModalShowDropdownAndSortValue.js";
 // Utils
 import { splitOutsideQuotes } from "../../utils/utils.js";
+// Store - for subscribing to latest dropdown options
+import { getTableProps, subscribeTableProps } from "../../context/tablePropsStore";
 
 class DropDownEditor extends BaseEditorComponent {
   constructor(props) {
@@ -17,7 +19,9 @@ class DropDownEditor extends BaseEditorComponent {
       renderResult: null,
       value: null,
       modalVisible: false,
-      cellData: null
+      cellData: null,
+      // Capture dropdown options when modal opens to ensure latest data
+      currentDropdownOptions: null
     };
 
     // Preserve original finishEditing
@@ -46,13 +50,47 @@ class DropDownEditor extends BaseEditorComponent {
   }
 
   open() {
-    // Open modal window
-    this.setState({ modalVisible: true });
+    // Open modal window and capture current dropdown options at open time
+    // This ensures we always have the latest options even if props were stale
+    // If storeKey and optionsKey are provided, fetch from store for latest data
+    let latestOptions = this.props.dropdownOptions;
+
+    if (this.props.storeKey && this.props.optionsKey) {
+      const storeState = getTableProps();
+      const tableState = storeState[this.props.storeKey];
+
+      // Debug logging
+      console.log(`[DropDownEditor] open() called for ${this.props.optionsKey}`);
+      console.log(`[DropDownEditor] storeKey: ${this.props.storeKey}`);
+      console.log(`[DropDownEditor] Full store state:`, storeState);
+      console.log(`[DropDownEditor] Table state:`, tableState);
+      console.log(`[DropDownEditor] Raw options from store:`, tableState?.[this.props.optionsKey]);
+      console.log(`[DropDownEditor] Props dropdownOptions:`, this.props.dropdownOptions);
+
+      if (tableState && tableState[this.props.optionsKey]) {
+        // Apply transformation if provided (e.g., wrapIntoQuotes)
+        const rawOptions = tableState[this.props.optionsKey];
+        latestOptions = this.props.transformOptions
+          ? this.props.transformOptions(rawOptions)
+          : rawOptions;
+        console.log(`[DropDownEditor] Using store options (transformed):`, latestOptions);
+      } else {
+        console.log(`[DropDownEditor] Store options not found, using props`);
+      }
+    }
+
+    this.setState({
+      modalVisible: true,
+      currentDropdownOptions: latestOptions
+    });
   }
 
   close() {
-    // Close modal window
-    this.setState({ modalVisible: false });
+    // Close modal window and clear captured options
+    this.setState({
+      modalVisible: false,
+      currentDropdownOptions: null
+    });
   }
 
       // Override `finishEditing` to no-op until explicitly called
@@ -131,7 +169,7 @@ class DropDownEditor extends BaseEditorComponent {
           <ModalShowDropdownAndSortValue
             showModal={this.state.modalVisible}
             onCloseModal={this.close.bind(this)}
-            dropdownOptions={this.props.dropdownOptions}
+            dropdownOptions={this.state.currentDropdownOptions || this.props.dropdownOptions}
             selectedValue={
               this.convertIntoArrType(this.state.value, this.props.splitBySentence) ||
               []

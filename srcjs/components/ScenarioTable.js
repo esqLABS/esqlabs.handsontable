@@ -267,6 +267,9 @@ const ScenarioTable = (props) => {
             hot-editor
             titleName="Select path"
             dropdownOptions={wrapIntoQuotes(props.model_parameters_options)}
+            storeKey="scenarios"
+            optionsKey="model_parameters_options"
+            transformOptions={wrapIntoQuotes}
             enableSelectOrder={true}
             activeColumnName="Parameter set(s)"
             placeHolderTitle="Paremeter"
@@ -335,6 +338,8 @@ const ScenarioTable = (props) => {
             hot-editor
             titleName="Select path"
             dropdownOptions={(props.outputpath_ids_options)}
+            storeKey="scenarios"
+            optionsKey="outputpath_ids_options"
             enableSelectOrder={false}
             activeColumnName="OutputPathsIds"
             placeHolderTitle="PathId"

@@ -164,6 +164,9 @@ function PlotGridsTable(props) {
                   hot-editor
                   titleName="Select plotID"
                   dropdownOptions={wrapIntoQuotes(props.plotids_options)}
+                  storeKey="plotgrids"
+                  optionsKey="plotids_options"
+                  transformOptions={wrapIntoQuotes}
                   enableSelectOrder={true}
                   activeColumnName="plotID"
                   placeHolderTitle="Plot ID"
