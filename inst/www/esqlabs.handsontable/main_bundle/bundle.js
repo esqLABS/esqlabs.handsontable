@@ -202015,7 +202015,7 @@ function actionButtonsCellRenderer(instance, td, row, col, prop, value, cellProp
   addBtn.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    instance.alter("insert_row_below", row + 1, 1);
+    instance.alter("insert_row_below", row, 1);
   });
 
   // Delete button
