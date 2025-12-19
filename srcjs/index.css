@@ -4,10 +4,32 @@
 
 .esqlabs-handsontable-container {
   position: flex;
-  height: 70vh;
+  height: 55vh;
 }
 
 /* Highlight duplicate rows across all overlays */
 .ht_master .duplicate-row {
   background-color: #efd7d7 !important;
+}
+
+/* Horizontal scrollbar for wide tables */
+.esqlabs-handsontable-container {
+  overflow-x: auto;
+}
+
+.esqlabs-handsontable-container::-webkit-scrollbar {
+  height: 10px;
+}
+
+.esqlabs-handsontable-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.esqlabs-handsontable-container::-webkit-scrollbar-thumb {
+  background: #2bc1ca;
+  border-radius: 5px;
+}
+
+.esqlabs-handsontable-container::-webkit-scrollbar-thumb:hover {
+  background: #25a8b0;
 }
