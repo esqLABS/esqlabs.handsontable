@@ -58,12 +58,40 @@ function DataCombinedTable(props) {
     hot.updateSettings({
       cells(row, col) {
         const cellProperties = {};
+        const dataTypeColIndex = col_names.indexOf("dataType");
+        const dataTypeValue = hot.getData()[row][dataTypeColIndex];
+        const isObserved = dataTypeValue && dataTypeValue.toLowerCase() === "observed".toLowerCase();
 
+        // Disable scenario and path columns when dataType is "observed"
+        if (col === col_names.indexOf("scenario")) {
+          if (isObserved) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = readOnlyStyleRenderer;
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--", ...props.scenario_options];
+            cellProperties.renderer = dropdownTooltipRenderer;
+          }
+        }
+
+        if (col === col_names.indexOf("path")) {
+          if (isObserved) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = readOnlyStyleRenderer;
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--", ...props.path_options];
+            cellProperties.renderer = dropdownTooltipRenderer;
+          }
+        }
+
+        // Disable dataSet column when dataType is NOT "observed"
         if (col === col_names.indexOf("dataSet")) {
-          if (
-            hot.getData()[row][col - 4] &&
-            hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()
-          ) {
+          if (!isObserved) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
             cellProperties.renderer = readOnlyStyleRenderer;
@@ -93,12 +121,16 @@ function DataCombinedTable(props) {
 
   const updateDataTypeSimulatedReadOnly = (changes, dataR) => {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
-    if (
-      changes[0][1] === "dataType" &&
-      changes[0][3] &&
-      changes[0][3].toLowerCase() !== "observed".toLowerCase()
-    ) {
-      dataR[changes[0][0]]["dataSet"] = null;
+    if (changes[0][1] === "dataType" && changes[0][3]) {
+      const isObserved = changes[0][3].toLowerCase() === "observed".toLowerCase();
+      if (isObserved) {
+        // Clear scenario and path when dataType is "observed"
+        dataR[changes[0][0]]["scenario"] = null;
+        dataR[changes[0][0]]["path"] = null;
+      } else {
+        // Clear dataSet when dataType is NOT "observed"
+        dataR[changes[0][0]]["dataSet"] = null;
+      }
     }
   };
 

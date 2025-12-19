@@ -197831,8 +197831,39 @@ function DataCombinedTable(props) {
     hot.updateSettings({
       cells: function cells(row, col) {
         var cellProperties = {};
+        var dataTypeColIndex = col_names.indexOf("dataType");
+        var dataTypeValue = hot.getData()[row][dataTypeColIndex];
+        var isObserved = dataTypeValue && dataTypeValue.toLowerCase() === "observed".toLowerCase();
+
+        // Disable scenario and path columns when dataType is "observed"
+        if (col === col_names.indexOf("scenario")) {
+          if (isObserved) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["readOnlyStyleRenderer"];
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.scenario_options));
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"];
+          }
+        }
+        if (col === col_names.indexOf("path")) {
+          if (isObserved) {
+            cellProperties.readOnly = true;
+            cellProperties.type = "text";
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["readOnlyStyleRenderer"];
+          } else {
+            cellProperties.readOnly = false;
+            cellProperties.type = "dropdown";
+            cellProperties.source = ["--NONE--"].concat(_toConsumableArray(props.path_options));
+            cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["dropdownTooltipRenderer"];
+          }
+        }
+
+        // Disable dataSet column when dataType is NOT "observed"
         if (col === col_names.indexOf("dataSet")) {
-          if (hot.getData()[row][col - 4] && hot.getData()[row][col - 4].toLowerCase() !== "observed".toLowerCase()) {
+          if (!isObserved) {
             cellProperties.readOnly = true;
             cellProperties.type = "text";
             cellProperties.renderer = _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_8__["readOnlyStyleRenderer"];
@@ -197857,8 +197888,16 @@ function DataCombinedTable(props) {
   };
   var updateDataTypeSimulatedReadOnly = function updateDataTypeSimulatedReadOnly(changes, dataR) {
     // changes: [[<row_number>, <column_name>, <previous_value>, <new_value>]]
-    if (changes[0][1] === "dataType" && changes[0][3] && changes[0][3].toLowerCase() !== "observed".toLowerCase()) {
-      dataR[changes[0][0]]["dataSet"] = null;
+    if (changes[0][1] === "dataType" && changes[0][3]) {
+      var isObserved = changes[0][3].toLowerCase() === "observed".toLowerCase();
+      if (isObserved) {
+        // Clear scenario and path when dataType is "observed"
+        dataR[changes[0][0]]["scenario"] = null;
+        dataR[changes[0][0]]["path"] = null;
+      } else {
+        // Clear dataSet when dataType is NOT "observed"
+        dataR[changes[0][0]]["dataSet"] = null;
+      }
     }
   };
   var onBeforeHotChange = function onBeforeHotChange(changes, source) {
