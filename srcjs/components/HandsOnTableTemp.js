@@ -112,11 +112,21 @@ function HandsOnTableTemp(props) {
 
       {
         col_names.map((col_name, col_index) => {
+          // Add numeric validation for "Value" column (issue #208)
+          const isValueColumn = col_name === 'Value';
           return (
               <HotColumn
                 key={col_index}
                 settings={{
                   data: col_name,
+                  ...(isValueColumn && {
+                    type: 'numeric',
+                    numericFormat: {
+                      pattern: '0[.][00000000000000000000]',
+                      culture: 'en-US'
+                    },
+                    allowInvalid: false
+                  })
                 }}
               />
           );
