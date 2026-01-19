@@ -1,6 +1,6 @@
 Package: esqlabs.handsontable
 Title: Interactive Excel-like Tables for Shiny Applications
-Version: 0.0.5.9005
+Version: 0.0.5.9006
 Authors@R:
     person("Anastasiia", "Kostiv", , "anastasiia.kostiv.ext@esqlabs.com", role = c("aut", "cre"))
 Description: Provides advanced interactive table input capabilities for Shiny
