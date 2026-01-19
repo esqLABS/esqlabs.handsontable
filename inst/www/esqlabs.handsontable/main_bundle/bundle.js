@@ -200190,6 +200190,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TableRenderer_TableRenderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TableRenderer/TableRenderer */ "./srcjs/components/TableRenderer/TableRenderer.js");
 /* harmony import */ var _utils_handsOnTableUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/handsOnTableUtils */ "./srcjs/utils/handsOnTableUtils.js");
 /* harmony import */ var _utils_columnHeaderUtils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/columnHeaderUtils */ "./srcjs/utils/columnHeaderUtils.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -200222,6 +200228,21 @@ function HandsOnTableTemp(props) {
     updateDataR = _useState2[1];
   // const col_names = Object.keys(dataR[0]);
   var col_names = props.column_headers;
+
+  // Show toast notification for validation errors
+  var showToast = function showToast(message) {
+    // Remove existing toast if any
+    var existingToast = document.getElementById('hot-validation-toast');
+    if (existingToast) existingToast.remove();
+    var toast = document.createElement('div');
+    toast.id = 'hot-validation-toast';
+    toast.textContent = message;
+    toast.style.cssText = "\n      position: fixed;\n      bottom: 20px;\n      left: 50%;\n      transform: translateX(-50%);\n      background: #c0392b;\n      color: white;\n      padding: 12px 24px;\n      border-radius: 6px;\n      font-size: 14px;\n      z-index: 10000;\n      box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n    ";
+    document.body.appendChild(toast);
+    setTimeout(function () {
+      return toast.remove();
+    }, 3000);
+  };
   var onBeforeHotChange = function onBeforeHotChange(changes) {
     if (changes === undefined) return;
     if (changes === null) return;
@@ -200311,13 +200332,21 @@ function HandsOnTableTemp(props) {
       Shiny.setInputValue("".concat(props.shiny_el_id_name, "_edited"), JSON.stringify(dataR), {
         priority: "event"
       });
+    },
+    afterValidate: function afterValidate(isValid, value, row, prop) {
+      if (!isValid && prop === 'Value') {
+        showToast('Only numeric values are allowed');
+      }
     }
   }, col_names.map(function (col_name, col_index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
       key: col_index,
-      settings: {
+      settings: _objectSpread({
         data: col_name
-      }
+      }, col_name === 'Value' && {
+        type: 'numeric',
+        allowInvalid: false
+      })
     });
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_handsontable_react__WEBPACK_IMPORTED_MODULE_1__["HotColumn"], {
     width: 90,

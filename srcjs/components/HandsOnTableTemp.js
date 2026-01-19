@@ -18,7 +18,33 @@ function HandsOnTableTemp(props) {
   // const col_names = Object.keys(dataR[0]);
   const col_names = props.column_headers;
 
-    const onBeforeHotChange = (changes) => {
+  // Show toast notification for validation errors
+  const showToast = (message) => {
+    // Remove existing toast if any
+    const existingToast = document.getElementById('hot-validation-toast');
+    if (existingToast) existingToast.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'hot-validation-toast';
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #c0392b;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  };
+
+  const onBeforeHotChange = (changes) => {
     if (changes === undefined) return;
     if (changes === null) return;
     if (!changes.length) return;
@@ -108,19 +134,26 @@ function HandsOnTableTemp(props) {
         // Send data to Shiny with the edited data
         Shiny.setInputValue(`${props.shiny_el_id_name}_edited`, JSON.stringify(dataR), {priority: "event"});
       }}
+      afterValidate={(isValid, value, row, prop) => {
+        if (!isValid && prop === 'Value') {
+          showToast('Only numeric values are allowed');
+        }
+      }}
     >
 
       {
-        col_names.map((col_name, col_index) => {
-          return (
-              <HotColumn
-                key={col_index}
-                settings={{
-                  data: col_name,
-                }}
-              />
-          );
-        })
+        col_names.map((col_name, col_index) => (
+          <HotColumn
+            key={col_index}
+            settings={{
+              data: col_name,
+              ...(col_name === 'Value' && {
+                type: 'numeric',
+                allowInvalid: false
+              })
+            }}
+          />
+        ))
       }
 
       {/* Action buttons column */}
